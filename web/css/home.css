@@ -14,7 +14,10 @@ and open the template in the editor.
     box-sizing: border-box;
 }
 
-body {}
+body{
+    padding: 0;
+    margin: 0;
+}
 
 .title {
     text-align: center;
@@ -140,10 +143,8 @@ h4 {
 
 .course-recent {
     width: 100%;
-    height: 100%;
     background-color: #ffffff;
     color: rgb(11, 10, 10);
-    position: relative;
     border-top: 1px dotted grey;
     text-align: center;
 }
@@ -164,4 +165,60 @@ h4 {
     font-weight: 500;
     font-size: 17px;
     color: black;
+}
+
+.carousel .carousel-item {
+  height: 300px;
+}
+.carousel-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 300px;
+}
+/*footer css*/
+footer{
+    background-color: black;
+    color: aliceblue;
+    text-align: center;
+    list-style: none;
+    padding-bottom: 100px;
+}
+footer a{
+    text-decoration: none;
+    color:aliceblue;
+    
+}
+ 
+.footer-top img{
+    height: 100px;
+}
+.footer-bottom h4{
+    padding: 10px;
+    font-size: medium;
+}
+
+    .footer-container{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: larger;
+        bottom: 0%;
+    }
+    .space{
+        margin: 10px;
+        width: 100%;
+        height: 3px;
+        background-color: aliceblue;
+    }
+.footer-top a{
+    justify-content: center;
+}    
+.icon a{
+    font-size: 30px;
+    margin-right: 10px;  
+}
+.icon{
+    margin-top: 30px;
 }

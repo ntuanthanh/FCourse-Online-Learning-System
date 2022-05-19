@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/98df298cac.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/98df298cac.js" crossorigin="anonymous"></script>
     <link href="../css/header.css" rel="stylesheet" type="text/css" />
      <link rel="stylesheet" href="../css/home.css"/>
 </head>
@@ -91,190 +92,301 @@
                     </nav>
                 </div>
             </div>
-        </div>
-        
+        </div>     
     </header>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-xs-3">
-                <h4 style="text-align: center; margin-bottom: 80px;">all course</h4>
-                <div class="subject">
-                    <a href="#">SE</a>
+    <!-- Slider side -->
+    <div class = "slider">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="../images/slider/slider1.jpg" alt="First slide">
                 </div>
-                <div class="subject">
-                    <a href="#">AI</a>
-                </div>
-                <div class="subject">
-                    <a href="#">IA</a>
-                </div>
-                <div class="subject">
-                    <a href="#">photo</a>
-                </div>
-                <div class="subject">
-                    <a href="#">math    </a>
-
-                </div>
-                <hr>
-
-                <h4 style="text-align: center;">course recent</h4>
-                <div class="course-recent">
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="img-recent">
-                                <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
-                            </div>
-                        </div>
-                        <div class="col-sm-8 recent">
-
-                            <a href="#" class="title-recent">aaaaa</a>
-                            <p>99$</p>
-                        </div>
-                    </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="../images/slider/slider2.jpg" alt="Second slide">
                 </div>
             </div>
-            <div class="col-md-9 col-xs-9">
-                <h2 class="title">course</h2>
-                <div class="row">
-                    <div class="cards col-md-4 col-xs-6">
-                        <div class="course-card">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"><a href="#">Home</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!--Content side-->
+    <div class = "content-main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 col-xs-3">
+                    <h4 style="text-align: center; margin-bottom: 80px;">All Subject Category</h4>
+                    <div class="subject">
+                        <a href="#">Software Engineering</a>
+                    </div>
+                    <div class="subject">
+                        <a href="#">Digital Marketing</a>
+                    </div>
+                    <div class="subject">
+                        <a href="#">Business</a>
+                    </div>
+                    <div class="subject">
+                        <a href="#">Your Life</a>
+                    </div>
+                    <div class="subject">
+                        <a href="#">Math</a>
+                    </div>
+                    <hr>
+                    <h4 style="text-align: center;">Course Recent</h4>
+                    <div class="course-recent">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="img-recent">
+                                    <img src="../images/courses/anh_course_temp.jpg" alt="">
                                 </div>
-
-                                <div class="card-title">
-                                    <a href="#">SWP</a>
-                                </div>
-                                <p class="card-subject">soft ware</p>
-                                <p class="card-price">$99</p>
+                            </div>
+                            <div class="col-sm-8 recent">
+                                <a href="#" class="title-recent">Course 1</a>
+                                <p>99$</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="cards col-md-4 col-xs-6">
-                        <div class="course-card">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="img-recent">
+                                    <img src="../images/courses/anh_course_temp.jpg" alt="">
                                 </div>
-                                <div class="card-title">
-                                    <a href="#">SWP</a>
-                                </div>
-                                <p class="card-subject">soft ware</p>
-                                <p class="card-price">$99</p>
+                            </div>
+                            <div class="col-sm-8 recent">
+                                <a href="#" class="title-recent">Course 2</a>
+                                <p>99$</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="cards col-md-4 col-xs-6">
-                        <div class="course-card ">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="img-recent">
+                                    <img src="../images/courses/anh_course_temp.jpg" alt="">
                                 </div>
-                                <div class="card-title">
-                                    <a href="#">SWP</a>
-                                </div>
-                                <p class="card-subject">soft ware</p>
-                                <p class="card-price">$99</p>
+                            </div>
+                            <div class="col-sm-8 recent">
+                                <a href="#" class="title-recent">Course 3</a>
+                                <p>99$</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="cards col-md-4 col-xs-6">
-                        <div class="course-card">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="img-recent">
+                                    <img src="../images/courses/anh_course_temp.jpg" alt="">
                                 </div>
-
-                                <div class="card-title">
-                                    <a href="#">SWP</a>
-                                </div>
-                                <p class="card-subject">soft ware</p>
-                                <p class="card-price">$99</p>
                             </div>
-                        </div>
-                    </div>
-                    <div class="cards col-md-4 col-xs-6">
-                        <div class="course-card">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
-                                </div>
-                                <div class="card-title">
-                                    <a href="#">SWP</a>
-                                </div>
-                                <p class="card-subject">soft ware</p>
-                                <p class="card-price">$99</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cards col-md-4 col-xs-6">
-                        <div class="course-card ">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
-                                </div>
-                                <div class="card-title">
-                                    <a href="#">SWP</a>
-                                </div>
-                                <p class="card-subject">soft ware</p>
-                                <p class="card-price">$99</p>
+                            <div class="col-sm-8 recent">
+                                <a href="#" class="title-recent">Course 4</a>
+                                <p>99$</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr>
-                <h2 class="title"> blog </h2>
-                <div class="row">
-                    <div class="cards col-md-4 col-xs-6">
-                        <div class="blog-card">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
-                                </div>
-                                <div class="card-title">
-                                    <a href="#">aaaaa</a>
-                                </div>
-                                <p class="card-subject">author</p>
+                <div class="col-md-9 col-xs-9">
+                    <h2 class="title">Featured Course</h2>
+                    <div class="row">
+                        <div class="cards col-md-4 col-xs-6">
+                            <div class="course-card">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
 
+                                    <div class="card-title">
+                                        <a href="#">SWP</a>
+                                    </div>
+                                    <p class="card-subject">Soft Ware</p>
+                                    <p class="card-price">$99</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cards col-md-4 col-xs-6">
+                            <div class="course-card">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
+                                    <div class="card-title">
+                                        <a href="#">SWP</a>
+                                    </div>
+                                    <p class="card-subject">Soft Ware</p>
+                                    <p class="card-price">$99</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cards col-md-4 col-xs-6">
+                            <div class="course-card ">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
+                                    <div class="card-title">
+                                        <a href="#">SWP</a>
+                                    </div>
+                                    <p class="card-subject">Soft Ware</p>
+                                    <p class="card-price">$99</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="cards col-md-4 col-xs-6">
-                        <div class="blog-card">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
-                                </div>
-                                <div class="card-title">
-                                    <a href="#">aaaaa</a>
-                                </div>
-                                <p class="card-subject">author</p>
+                    <div class="row">
+                        <div class="cards col-md-4 col-xs-6">
+                            <div class="course-card">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
 
+                                    <div class="card-title">
+                                        <a href="#">SWP</a>
+                                    </div>
+                                    <p class="card-subject">Soft Ware</p>
+                                    <p class="card-price">$99</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cards col-md-4 col-xs-6">
+                            <div class="course-card">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
+                                    <div class="card-title">
+                                        <a href="#">SWP</a>
+                                    </div>
+                                    <p class="card-subject">Soft Ware</p>
+                                    <p class="card-price">$99</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cards col-md-4 col-xs-6">
+                            <div class="course-card ">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
+                                    <div class="card-title">
+                                        <a href="#">SWP</a>
+                                    </div>
+                                    <p class="card-subject">Soft Ware</p>
+                                    <p class="card-price">$99</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="cards col-sm-4 col-xs-6">
-                        <div class="blog-card">
-                            <div class="card-infor">
-                                <div class="card-img">
-                                    <img src="free-online-course-on-learning-to-teach-online-1024x577.jpeg" alt="">
-                                </div>
-                                <div class="card-title">
-                                    <a href="#">aaaaa</a>
-                                </div>
-                                <p class="card-subject">author</p>
+                    <hr>
+                    <h2 class="title"> Featured Blog </h2>
+                    <div class="row">
+                        <div class="cards col-md-4 col-xs-6">
+                            <div class="blog-card">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
+                                    <div class="card-title">
+                                        <a href="#">aaaaa</a>
+                                    </div>
+                                    <p class="card-subject">author</p>
 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cards col-md-4 col-xs-6">
+                            <div class="blog-card">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
+                                    <div class="card-title">
+                                        <a href="#">aaaaa</a>
+                                    </div>
+                                    <p class="card-subject">author</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cards col-sm-4 col-xs-6">
+                            <div class="blog-card">
+                                <div class="card-infor">
+                                    <div class="card-img">
+                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    </div>
+                                    <div class="card-title">
+                                        <a href="#">aaaaa</a>
+                                    </div>
+                                    <p class="card-subject">author</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+    <!-- footer side -->
+    <div class = "footer-side" style = "margin-top: 10px;">
+        <footer>
+        <div class="footer-top">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="../images/header/logo-main.png" alt="">
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4 icon">
+                    <a href=""><i class="fa-brands fa-facebook"></i></a>
+                    <a href=""><i class="fa-brands fa-twitter"></i></a>
+                    <a href=""><i class="fa-brands fa-google"></i></a>                 
+                </div>
+            </div>         
+        </div>
+        <div class="space"></div>
+        <div class="footer-medium">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h4>introduction</h4>
+                    <div class="clearfix">
+                        <li><a href="">About Us</a></li>
+                        <li><a href="">Policy</a></li>
+                        <li><a href="">Contact</a></li>
+                        <li><a href="">Rules</a></li>
+                        
+                    </div>  
+                </div>
+                <div class="col-sm-4">
+                    <h4>Course</h4>
+                    <div class="clearfix">
+                        <li><a href="">New Course</a></li>
+                        <li><a href="">Hot Course</a></li>
+                        <li><a href="">Free Course</a></li>
+                    </div>  
+                </div>
+                <div class="col-sm-4">
+                    <h4>Contact</h4>
+                    <div class="clearfix">
+                        <li><a href="">Blog</a></li>
+                        <li><a href="">Phone</a></li>
+                        <li><a href="">Contact</a></li>
+                        
+                    </div>  
+                </div>
+            </div>    
+        </div>
+        <div class="space"></div>
+        <div class="footer-bottom">
+            <h4>@Copyright by group 4 FPT University</h4>
+        </div>
+    </footer>  
+    </div>   
 </body>
 
 </html>

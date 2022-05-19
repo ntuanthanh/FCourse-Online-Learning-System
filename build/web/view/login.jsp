@@ -227,7 +227,11 @@
                 <form method="post" action="account/create" class="form" id="register">
                     <h1 class="form__title">Register</h1>
                     <div class="form__input-group">
-                        <label for="username"> Your Name: </label>
+                        <label for="mail"> Your Mail: </label>
+                        <input type="text" class="form__input" name="mail" id="displayname" maxlength="20" required>
+                    </div>
+                    <div class="form__input-group">
+                        <label for="username"> User Name: </label>
                         <input type="text" class="form__input" name="displayname" id="displayname" maxlength="20" required>
                     </div>
                     <div class="form__input-group">
