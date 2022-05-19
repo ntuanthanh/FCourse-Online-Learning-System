@@ -1,0 +1,18 @@
+.name-banner{
+    color : green;
+    font-weight: 900;
+    text-align: center;
+    font-size: 20px;
+}
+.header-second{
+    margin-top: 5px;
+    background-color: #F57F20;
+    box-shadow: 0 0 10px 5px #DFDFDA;
+}
+.color-menu a:hover{
+    color : black !important;
+}
+.color-menu a{
+    color : white !important;
+}
+
