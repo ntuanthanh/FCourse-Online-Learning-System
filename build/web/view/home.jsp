@@ -10,8 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/98df298cac.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/98df298cac.js" crossorigin="anonymous"></script>
-    <link href="../css/header.css" rel="stylesheet" type="text/css" />
-     <link rel="stylesheet" href="../css/home.css"/>
+    <link href="css/header.css" rel="stylesheet" type="text/css" />
+     <link rel="stylesheet" href="css/home.css"/>
 </head>
 
 <body>
@@ -22,16 +22,16 @@
                     <div class="col-md-7">
                         <div class="row">
                             <div class="col-md-3">
-                                <img src="../images/header/logo-main.png" width="50px" height="50px" alt="" />
+                                <img src="images/header/logo-main.png" width="50px" height="50px" alt="" />
                                 <span class="name-banner">Edu-FCourse</span>
                             </div>
                             <div class="col-md-9">
                                 <ul class="nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Ask a Question<img src="../images/header/ask.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
+                                        <a class="nav-link" href="#">Ask a Question<img src="images/header/ask.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Course@gmail.com<img src="../images/header/email.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
+                                        <a class="nav-link" href="#">Course@gmail.com<img src="images/header/email.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
                                     </li>
                                 </ul>
                             </div>
@@ -52,7 +52,7 @@
                         </ul>-->
                         <!-- Chua login-->
                         <div style="display: flex; justify-content: flex-end">
-                            <img src="../images/header/user.png" width="20px" height="20px" style="margin-top: 10px; margin-right: 5px" alt="" />
+                            <img src="images/header/user.png" width="20px" height="20px" style="margin-top: 10px; margin-right: 5px" alt="" />
                             <a class=" btn btn-primary" href="login">Login</a>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                         <div class="collapse navbar-collapse" id="collapsibleNavbar">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item color-menu">
-                                    <a class="nav-link" href="#">Home</a>
+                                    <a class="nav-link" href="home">Home</a>
                                 </li>
                                 <li class="nav-item color-menu">
                                     <a class="nav-link" href="#">Our Courses</a>
@@ -82,6 +82,9 @@
                                 </li>
                                 <li class="nav-item color-menu">
                                     <a class="nav-link" href="#">References</a>
+                                </li>
+                                <li class="nav-item color-menu">
+                                    <a class="nav-link" href="admin/dashboard">Admin site(link tam)</a>
                                 </li>
                             </ul>
                             <form class="form-inline">
@@ -99,10 +102,10 @@
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="../images/slider/slider1.jpg" alt="First slide">
+                    <img class="d-block w-100" src="images/slider/slider1.jpg" alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="../images/slider/slider2.jpg" alt="Second slide">
+                    <img class="d-block w-100" src="images/slider/slider2.jpg" alt="Second slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -149,7 +152,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="img-recent">
-                                    <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    <img src="images/courses/anh_course_temp.jpg" alt="">
                                 </div>
                             </div>
                             <div class="col-sm-8 recent">
@@ -160,7 +163,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="img-recent">
-                                    <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    <img src="images/courses/anh_course_temp.jpg" alt="">
                                 </div>
                             </div>
                             <div class="col-sm-8 recent">
@@ -171,7 +174,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="img-recent">
-                                    <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    <img src="images/courses/anh_course_temp.jpg" alt="">
                                 </div>
                             </div>
                             <div class="col-sm-8 recent">
@@ -182,7 +185,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="img-recent">
-                                    <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                    <img src="images/courses/anh_course_temp.jpg" alt="">
                                 </div>
                             </div>
                             <div class="col-sm-8 recent">
@@ -199,11 +202,11 @@
                             <div class="course-card">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
 
                                     <div class="card-title">
-                                        <a href="#">SWP</a>
+                                        <a href="course/detail">SWP</a>
                                     </div>
                                     <p class="card-subject">Soft Ware</p>
                                     <p class="card-price">$99</p>
@@ -214,10 +217,10 @@
                             <div class="course-card">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
                                     <div class="card-title">
-                                        <a href="#">SWP</a>
+                                        <a href="course/detail">SWP</a>
                                     </div>
                                     <p class="card-subject">Soft Ware</p>
                                     <p class="card-price">$99</p>
@@ -228,10 +231,10 @@
                             <div class="course-card ">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
                                     <div class="card-title">
-                                        <a href="#">SWP</a>
+                                        <a href="course/detail">SWP</a>
                                     </div>
                                     <p class="card-subject">Soft Ware</p>
                                     <p class="card-price">$99</p>
@@ -244,11 +247,11 @@
                             <div class="course-card">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
 
                                     <div class="card-title">
-                                        <a href="#">SWP</a>
+                                        <a href="course/detail">SWP</a>
                                     </div>
                                     <p class="card-subject">Soft Ware</p>
                                     <p class="card-price">$99</p>
@@ -259,10 +262,10 @@
                             <div class="course-card">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
                                     <div class="card-title">
-                                        <a href="#">SWP</a>
+                                        <a href="course/detail">SWP</a>
                                     </div>
                                     <p class="card-subject">Soft Ware</p>
                                     <p class="card-price">$99</p>
@@ -273,10 +276,10 @@
                             <div class="course-card ">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
                                     <div class="card-title">
-                                        <a href="#">SWP</a>
+                                        <a href="course/detail">SWP</a>
                                     </div>
                                     <p class="card-subject">Soft Ware</p>
                                     <p class="card-price">$99</p>
@@ -291,10 +294,10 @@
                             <div class="blog-card">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
                                     <div class="card-title">
-                                        <a href="#">aaaaa</a>
+                                        <a href="blog/detail">aaaaa</a>
                                     </div>
                                     <p class="card-subject">author</p>
 
@@ -305,10 +308,10 @@
                             <div class="blog-card">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
                                     <div class="card-title">
-                                        <a href="#">aaaaa</a>
+                                        <a href="blog/detail">aaaaa</a>
                                     </div>
                                     <p class="card-subject">author</p>
 
@@ -319,10 +322,10 @@
                             <div class="blog-card">
                                 <div class="card-infor">
                                     <div class="card-img">
-                                        <img src="../images/courses/anh_course_temp.jpg" alt="">
+                                        <img src="images/courses/anh_course_temp.jpg" alt="">
                                     </div>
                                     <div class="card-title">
-                                        <a href="#">aaaaa</a>
+                                        <a href="blog/detail">aaaaa</a>
                                     </div>
                                     <p class="card-subject">author</p>
                                 </div>
@@ -339,7 +342,7 @@
         <div class="footer-top">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="../images/header/logo-main.png" alt="">
+                    <img src="images/header/logo-main.png" alt="">
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-4 icon">

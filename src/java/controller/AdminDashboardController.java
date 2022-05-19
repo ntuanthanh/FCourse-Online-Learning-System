@@ -16,11 +16,17 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pv
  */
-public class HomeController extends HttpServlet {
-
+public class AdminDashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/home.jsp").forward(request, response);
+        request.getRequestDispatcher("../view/admin/adminSite.jsp").forward(request, response);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    }
+
+   
 }

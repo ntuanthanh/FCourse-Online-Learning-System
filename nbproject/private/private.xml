@@ -4,6 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/pv/Desktop/Project%20SWP391/OnlineLearning/web/css/header.css</file>
+            <file>file:/C:/Users/pv/Desktop/Project%20SWP391/OnlineLearning/src/java/controller/HomeController.java</file>
+            <file>file:/C:/Users/pv/Desktop/Project%20SWP391/OnlineLearning/src/java/dal/DBContext.java</file>
+            <file>file:/C:/Users/pv/Desktop/Project%20SWP391/OnlineLearning/src/java/model/Account.java</file>
+            <file>file:/C:/Users/pv/Desktop/Project%20SWP391/OnlineLearning/web/view/login.jsp</file>
+            <file>file:/C:/Users/pv/Desktop/Project%20SWP391/OnlineLearning/web/view/home.jsp</file>
             <file>file:/C:/Users/pv/Desktop/Project%20SWP391/OnlineLearning/web/css/home.css</file>
         </group>
     </open-files>
