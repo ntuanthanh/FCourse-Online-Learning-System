@@ -13,7 +13,7 @@
     </head>
     <body>
         <div class = "user-profile">
-            <div> </div>
+            <div></div>
         </div>
     </body>
 </html>
