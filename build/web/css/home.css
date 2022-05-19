@@ -1,0 +1,167 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 19, 2022, 9:55:17 PM
+    Author     : jicon
+*/
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {}
+
+.title {
+    text-align: center;
+}
+
+.course-card {
+    margin: 50px auto;
+    width: 90%;
+    height: 80%;
+    background-color: #ffffff;
+    border-radius: 6px;
+    color: rgb(11, 10, 10);
+    position: relative;
+    border: 1px solid grey;
+    box-shadow: 5px 10px 18px #888888;
+    text-align: center;
+    transition: 0.5s;
+}
+
+.card-img {
+    width: 100%;
+}
+
+.card-img img {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    padding-bottom: 15px;
+}
+
+.card-title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.card-subject {
+    font-weight: 200;
+    font-size: 15px;
+    text-align: center;
+}
+
+.card-title a:link {
+    color: black;
+}
+
+
+/* visited link */
+
+.card-title a:visited {
+    color: black;
+}
+
+
+/* mouse over link */
+
+.card-title a:hover {
+    color: rgb(31, 0, 143);
+    text-decoration: none;
+}
+
+
+/* selected link */
+
+.card-title a:active {
+    color: blue;
+}
+
+.card-price {
+    border-top: 2px dotted grey;
+    font-weight: 300;
+    font-size: 26px;
+    text-align: center;
+    color: rgb(25, 51, 116);
+}
+
+.subject {
+    margin-top: 20px;
+    text-align: center;
+}
+
+h4 {
+    margin-bottom: 30px;
+}
+
+.img-recent img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.course-card:hover {
+    width: 100%;
+    height: 90%;
+    margin: 20px auto;
+    color: rgb(31, 0, 143);
+}
+
+.blog-card {
+    margin: 50px auto;
+    width: 90%;
+    height: 80%;
+    background-color: #ffffff;
+    border-radius: 6px;
+    color: rgb(11, 10, 10);
+    position: relative;
+    border: 1px solid grey;
+    box-shadow: 5px 10px 18px #888888;
+    text-align: center;
+    transition: 0.5s;
+}
+
+.blog-card:hover {
+    width: 100%;
+    height: 90%;
+    margin: 20px auto;
+    color: rgb(31, 0, 143);
+}
+
+.course-recent {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    color: rgb(11, 10, 10);
+    position: relative;
+    border-top: 1px dotted grey;
+    text-align: center;
+}
+
+.card-img {
+    width: 100%;
+    padding: auto;
+}
+
+.img-recent img {
+    width: 110%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.title-recent {
+    font-weight: 500;
+    font-size: 17px;
+    color: black;
+}
