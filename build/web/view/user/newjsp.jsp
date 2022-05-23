@@ -1,7 +1,7 @@
 <%-- 
-    Document   : test2
-    Created on : May 23, 2022, 9:45:27 PM
-    Author     : pv
+    Document   : newjsp
+    Created on : May 23, 2022, 9:45:15 PM
+    Author     : thand
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,8 +13,5 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <div>
-            hello dat
-        </div>
     </body>
 </html>
