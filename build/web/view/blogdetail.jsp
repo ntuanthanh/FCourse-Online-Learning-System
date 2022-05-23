@@ -16,91 +16,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/98df298cac.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/blogdetail.css"/>
-    <link rel="stylesheet" href="../css/header.css"/>
-    <link rel="stylesheet" href="../css/home.css"/>
-    <title>Blog Detail</title>
+    <title>Blog Detail|Edu-FCourse</title>
 </head>
 <body>
-    <header>
-        <div class="header-frist">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <img src="../images/header/logo-main.png" width="50px" height="50px" alt="" />
-                                <span class="name-banner">Edu-FCourse</span>
-                            </div>
-                            <div class="col-md-9">
-                                <ul class="nav">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Ask a Question<img src="../images/header/ask.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Course@gmail.com<img src="../images/header/email.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <!--  Da login -->
-                        <!--<ul class="nav">
-                           <li class="nav-item"> 
-                            <a class="nav-link" href="#">My Course<img src="../images/header/online-course.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
-                           </li>       
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">NguyÃªÌn TuÃ¢Ìn ThaÌnh<img src="../images/header/icons8-user.png" style="margin-bottom: 8px;" width="20px" height="20px" alt=""/></a> 
-                            </li>   
-                            <li class="nav-item">
-                                <a class="nav-link" href="logout">Logout<img src="../images/header/icons8-logout-16.png" width="20px" style="margin-bottom: 6px;" height="20px" alt=""/></a>
-                            </li>
-                        </ul>-->
-                        <!-- Chua login-->
-                        <div style="display: flex; justify-content: flex-end">
-                            <img src="../images/header/user.png" width="20px" height="20px" style="margin-top: 10px; margin-right: 5px" alt="" />
-                            <a class=" btn btn-primary" href="../login">Login</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row header-second">
-                <div class="col-md-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item color-menu">
-                                    <a class="nav-link" href="../home">Home</a>
-                                </li>
-                                <li class="nav-item color-menu">
-                                    <a class="nav-link" href="#">Our Courses</a>
-                                </li>
-                                <li class="nav-item color-menu">
-                                    <a class="nav-link" href="#">Blogs</a>
-                                </li>
-                                <li class="nav-item color-menu">
-                                    <a class="nav-link" href="#">About Us</a>
-                                </li>
-                                <li class="nav-item color-menu">
-                                    <a class="nav-link" href="#">References</a>
-                                </li>
-                            </ul>
-                            <form class="form-inline">
-                                <input class="form-control mr-sm-2" placeholder="Search Courses">
-                                <button class="btn btn-warning" type="submit">Search</button>
-                            </form>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        
-    </header>
+    <!-- Header side -->
+    <jsp:include page="base/header.jsp" />
+    <!-- Content side -->
     <div class="content">       
         <div class="image-detail"><img src="../images/blogdetail/blogdetail.png" alt="" style="width: 100%;"></div>
         <div class="grid">
@@ -159,65 +80,9 @@
                     </div>
                 </div>
             </div>
-
-
-
-        </div>
+      </div>
     </div>
-    
-    
-    <footer>
-        <div class="footer-top">
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="../images/header/logo-main.png" alt="">
-                </div>
-                <div class="col-md-4"></div>
-                <div class="col-md-4 icon">
-                    <a href=""><i class="fa-brands fa-facebook"></i></a>
-                    <a href=""><i class="fa-brands fa-twitter"></i></a>
-                    <a href=""><i class="fa-brands fa-google"></i></a>
-                    
-                </div>
-            </div>
-            
-        </div>
-        <div class="space"></div>
-        <div class="footer-medium">
-            <div class="row">
-                <div class="col-sm-4">
-                    <h4>introduction</h4>
-                    <div class="clearfix">
-                        <li><a href="">About Us</a></li>
-                        <li><a href="">Policy</a></li>
-                        <li><a href="">Contact</a></li>
-                        <li><a href="">Rules</a></li>
-                        
-                    </div>  
-                </div>
-                <div class="col-sm-4">
-                    <h4>Course</h4>
-                    <div class="clearfix">
-                        <li><a href="">New Course</a></li>
-                        <li><a href="">Hot Course</a></li>
-                        <li><a href="">Free Course</a></li>
-                    </div>  
-                </div>
-                <div class="col-sm-4">
-                    <h4>Contact</h4>
-                    <div class="clearfix">
-                        <li><a href="">Blog</a></li>
-                        <li><a href="">Phone</a></li>
-                        <li><a href="">Contact</a></li>
-                        
-                    </div>  
-                </div>
-            </div>    
-        </div>
-        <div class="space"></div>
-        <div class="footer-bottom">
-            <h4>@Copyright by group 4 FPT University</h4>
-        </div>
-    </footer>
+    <!-- footer side -->
+    <jsp:include page="../view/base/footer.jsp" /> 
 </body>
 </html>
