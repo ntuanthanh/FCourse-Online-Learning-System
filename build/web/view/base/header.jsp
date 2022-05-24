@@ -42,16 +42,16 @@
                         <div class="col-md-7">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img src="/OnlineLearning/images/header/logo-main.png" width="50px" height="50px" alt="" />
+                                    <img src="${pageContext.request.contextPath}/images/header/logo-main.png" width="50px" height="50px" alt="" />
                                     <span class="name-banner">Edu-FCourse</span>
                                 </div>
                                 <div class="col-md-9">
                                     <ul class="nav">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Ask a Question<img src="/OnlineLearning/images/header/ask.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
+                                            <a class="nav-link" href="#">Ask a Question<img src="${pageContext.request.contextPath}/images/header/ask.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Course@gmail.com<img src="/OnlineLearning/images/header/email.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
+                                            <a class="nav-link" href="#">Course@gmail.com<img src="${pageContext.request.contextPath}/images/header/email.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -61,19 +61,19 @@
                             <!--  Da login -->
                             <!--                        <ul class="nav">
                                                        <li class="nav-item"> 
-                                                        <a class="nav-link" href="#">My Course<img src="/OnlineLearning/images/header/online-course.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
+                                                        <a class="nav-link" href="#">My Course<img src="${pageContext.request.contextPath}/images/header/online-course.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
                                                        </li>       
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="#">Nguyen Tuan Thanh<img src="/OnlineLearning/images/header/icons8-user.png" style="margin-bottom: 8px;" width="20px" height="20px" alt=""/></a> 
+                                                            <a class="nav-link" href="#">Nguyen Tuan Thanh<img src="${pageContext.request.contextPath}/images/header/icons8-user.png" style="margin-bottom: 8px;" width="20px" height="20px" alt=""/></a> 
                                                         </li>   
                                                         <li class="nav-item">
-                                                            <a class="nav-link" href="logout">Logout<img src="/OnlineLearning/images/header/icons8-logout-16.png" width="20px" style="margin-bottom: 6px;" height="20px" alt=""/></a>
+                                                            <a class="nav-link" href="logout">Logout<img src="${pageContext.request.contextPath}/images/header/icons8-logout-16.png" width="20px" style="margin-bottom: 6px;" height="20px" alt=""/></a>
                                                         </li>
                                                     </ul>-->
                             <!-- Chua login-->
                             <div style="display: flex; justify-content: flex-end">
-                                <img src="/OnlineLearning/images/header/user.png" width="20px" height="20px" style="margin-top: 10px; margin-right: 5px" alt="" />
-                                <a class=" btn btn-primary" href="/OnlineLearning/login">Login</a>
+                                <img src="${pageContext.request.contextPath}/images/header/user.png" width="20px" height="20px" style="margin-top: 10px; margin-right: 5px" alt="" />
+                                <a class=" btn btn-primary" href="${pageContext.request.contextPath}/login">Login</a>
                             </div>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item color-menu">
-                                        <a class="nav-link" href="/OnlineLearning/home">Home</a>
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/home">Home</a>
                                     </li>
                                     <li class="nav-item color-menu">
                                         <a class="nav-link" href="#">Our Courses</a>
@@ -104,7 +104,7 @@
                                         <a class="nav-link" href="#">References</a>
                                     </li>
                                     <li class="nav-item color-menu">
-                                        <a class="nav-link" href="/OnlineLearning/admin/dashboard">Admin site(link tam)</a>
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Admin site(link tam)</a>
                                     </li>
                                 </ul>
                                 <form class="form-inline">
