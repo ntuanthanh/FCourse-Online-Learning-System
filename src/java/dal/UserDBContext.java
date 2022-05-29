@@ -19,7 +19,7 @@ import model.User;
  * @author pv
  */
 public class UserDBContext extends DBContext{
-    public void test(){
+    public void test( int n){
     }
     public User getUserById(int id){        
         try { 
