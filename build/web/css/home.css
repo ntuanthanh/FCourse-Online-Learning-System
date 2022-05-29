@@ -2,11 +2,11 @@
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
-*/
-/* 
+
+ 
     Created on : May 19, 2022, 9:55:17 PM
-    Author     : jicon
-*/
+    Author     : jicon*/
+
 
 * {
     padding: 0;
@@ -21,8 +21,14 @@ body{
 
 .title {
     text-align: center;
+    background-color: #e9ecef;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 10px;
 }
-
+.content-main{
+    margin-top: 50px;
+}
 .course-card {
     margin: 50px auto;
     width: 90%;
@@ -68,14 +74,14 @@ body{
 }
 
 
-/* visited link */
+ visited link 
 
 .card-title a:visited {
     color: black;
 }
 
 
-/* mouse over link */
+ mouse over link 
 
 .card-title a:hover {
     color: rgb(31, 0, 143);
@@ -83,7 +89,7 @@ body{
 }
 
 
-/* selected link */
+ selected link 
 
 .card-title a:active {
     color: blue;
@@ -103,7 +109,15 @@ body{
 }
 
 h4 {
-    margin-bottom: 30px;
+    margin-bottom: 10px;    
+}
+
+.category-subject{
+    background-color: #e9ecef;
+    height: 80px;
+    line-height: 80px;
+    margin-bottom: 50px;
+    border-radius: 10px;
 }
 
 .img-recent img {
@@ -148,6 +162,10 @@ h4 {
     border-top: 1px dotted grey;
     text-align: center;
 }
+.list-course-recent{
+    margin-bottom: 20px;
+}
+
 
 .card-img {
     width: 100%;

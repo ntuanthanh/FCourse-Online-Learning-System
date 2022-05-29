@@ -209,7 +209,7 @@
                    
                     <div class="form__input-group">
                         <label for="username">Username: </label>
-                        <input type="text" class="form__input" name="username" id="username" maxlength="20" required> 
+                        <input type="text" class="form__input" name="username" id="username" maxlength="300" required> 
                     </div>
                     <div class="form__input-group">
                         <label for="pass">Password: </label>
@@ -255,7 +255,6 @@
                     </div>
                     <div class="overlay-panel overlay-right">
                         <h1> Wellcome FCOURSE </h1>
-                        <p>EMPARK IN YOUR OWN ASPIRATIONS</p>
                         <button class="ghost" id="signUp">Sign Up</button>
                     </div>
                 </div>

@@ -2,31 +2,39 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>HomeController</servlet-name>
-        <servlet-class>controller.HomeController</servlet-class>
+        <servlet-class>controller.user.HomeController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginController</servlet-name>
-        <servlet-class>controller.LoginController</servlet-class>
+        <servlet-class>controller.authorization.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CourseDetailController</servlet-name>
-        <servlet-class>controller.CourseDetailController</servlet-class>
+        <servlet-class>controller.user.CourseDetailController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BlogDetailController</servlet-name>
-        <servlet-class>controller.BlogDetailController</servlet-class>
+        <servlet-class>controller.user.BlogDetailController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminDashboardController</servlet-name>
-        <servlet-class>controller.AdminDashboardController</servlet-class>
+        <servlet-class>controller.manager.AdminDashboardController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminUserListController</servlet-name>
-        <servlet-class>controller.AdminUserListController</servlet-class>
+        <servlet-class>controller.manager.AdminUserListController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UpdateUserProfileController</servlet-name>
-        <servlet-class>controller.UpdateUserProfileController</servlet-class>
+        <servlet-name>UserProfileController</servlet-name>
+        <servlet-class>controller.user.UserProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.authorization.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditProfileController</servlet-name>
+        <servlet-class>controller.user.EditProfileController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -53,7 +61,15 @@
         <url-pattern>/admin/userlist</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UpdateUserProfileController</servlet-name>
+        <servlet-name>UserProfileController</servlet-name>
+        <url-pattern>/user/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditProfileController</servlet-name>
         <url-pattern>/user/profile/update</url-pattern>
     </servlet-mapping>
     <session-config>

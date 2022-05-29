@@ -3,25 +3,21 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Home|Edu-FCourse</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="css/home.css"/>
 </head>
 
 <body>
     <!-- Header side -->
     <jsp:include page="../view/base/header.jsp" />     
-    <!-- Slider side -->
+    <!-- Slider side --> 
     <div class = "slider">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="images/slider/slider1.jpg" alt="First slide">
+                <div class="carousel-item active test">
+                    <img class="d-block w-100" src="images/slider/slider1.jpg" alt="First slide" style="height: 260px">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="images/slider/slider2.jpg" alt="Second slide">
+                    <img class="d-block w-100" src="images/slider/slider2.jpg" alt="Second slide" style="height: 260px">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -33,39 +29,34 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-        <div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active"><a href="#">Home</a></li>
-                </ol>
-            </nav>
-        </div>
     </div>
-    <!--Content side-->
+    <!-- Content side -->
     <div class = "content-main">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 col-xs-3">
-                    <h4 style="text-align: center; margin-bottom: 80px;">All Subject Category</h4>
-                    <div class="subject">
-                        <a href="#">Software Engineering</a>
-                    </div>
-                    <div class="subject">
-                        <a href="#">Digital Marketing</a>
-                    </div>
-                    <div class="subject">
-                        <a href="#">Business</a>
-                    </div>
-                    <div class="subject">
-                        <a href="#">Your Life</a>
-                    </div>
-                    <div class="subject">
-                        <a href="#">Math</a>
+                    <h4 class="category-subject" style="text-align: center; margin-bottom: 60px;">Subject Category</h4>
+                    <div class="list-category">
+                        <div class="subject">
+                            <a href="#">Software Engineering</a>
+                        </div>
+                        <div class="subject">
+                            <a href="#">Digital Marketing</a>
+                        </div>
+                        <div class="subject">
+                            <a href="#">Business</a>
+                        </div>
+                        <div class="subject">
+                            <a href="#">Your Life</a>
+                        </div>
+                        <div class="subject">
+                            <a href="#">Math</a>
+                        </div>
                     </div>
                     <hr>
-                    <h4 style="text-align: center;">Course Recent</h4>
+                    <h4 class="category-subject" style="text-align: center;">Course Recent</h4>
                     <div class="course-recent">
-                        <div class="row">
+                        <div class="row list-course-recent">
                             <div class="col-sm-4">
                                 <div class="img-recent">
                                     <img src="images/courses/anh_course_temp.jpg" alt="">
@@ -76,7 +67,7 @@
                                 <p>99$</p>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row list-course-recent">
                             <div class="col-sm-4">
                                 <div class="img-recent">
                                     <img src="images/courses/anh_course_temp.jpg" alt="">
@@ -87,7 +78,7 @@
                                 <p>99$</p>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row list-course-recent">
                             <div class="col-sm-4">
                                 <div class="img-recent">
                                     <img src="images/courses/anh_course_temp.jpg" alt="">
@@ -98,7 +89,7 @@
                                 <p>99$</p>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row list-course-recent">
                             <div class="col-sm-4">
                                 <div class="img-recent">
                                     <img src="images/courses/anh_course_temp.jpg" alt="">
@@ -252,7 +243,7 @@
             </div>
         </div>
     </div>
-    <!-- footer side -->
+    <!-- footer side --> 
     <jsp:include page="base/footer.jsp" /> 
 </body>
 
