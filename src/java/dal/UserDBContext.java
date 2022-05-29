@@ -19,6 +19,8 @@ import model.User;
  * @author pv
  */
 public class UserDBContext extends DBContext{
+    public void test( int n){
+    }
     public User getUserById(int id){        
         try { 
             String sql = "select Userid, fullname, email, gender, [password], phone, avatar_img, Statusid from [User]\n" +
