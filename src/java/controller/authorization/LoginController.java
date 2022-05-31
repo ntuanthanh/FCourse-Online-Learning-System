@@ -31,19 +31,21 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String Username = request.getParameter("username");
-        String Password = request.getParameter("pass");
+        String Username = request.getParameter("email");
+        String Password = request.getParameter("password");
         
         UserDBContext db = new UserDBContext();
         User user = db.getUser(Username, Password);
-
+      
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);      
             response.sendRedirect("home");
         } else {
-            response.sendRedirect("login");
-        } 
+            String er = "Tài khoản hoặc mật khẩu không tồn tại.";          
+            request.setAttribute("er", er);            
+            request.getRequestDispatcher("view/login.jsp").forward(request, response);
+        }  
     }
   
 }

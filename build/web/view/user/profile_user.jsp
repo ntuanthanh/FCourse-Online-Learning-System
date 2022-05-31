@@ -119,27 +119,57 @@
                 </div>          
             </div>
         </div>
-          <!--Modal of edit profile -->
-            <div class="modal fade" id="myModal-ChangePassword">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <!-- Modal body of edit profile -->
-                        <div class="modal-body">
-                           <!-- Hoa-->
-                           
-                        </div>
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+           <!--Modal of edit profile -->
+        <div class="modal fade" id="myModal-ChangePassword">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <!-- Modal body of edit profile -->
+                    <div class="modal-body">
+                        <form id ="validate-form-change-password" action = "../user/profile/changepass" method="POST">
+                            <div class = "edit-profile-form">
+                                <input type = "text" name = "id" hidden ="hidden" value = "${sessionScope.user.id}"/><br>
+
+                                <div class = "edit-profile-form-item form-group">
+                                    <label for="email" class="mr-sm-2">Email</label>
+                                    <input id = "email" class="form-control" value = "${sessionScope.user.email}" disabled> 
+                                    <input name ="email" value = "${sessionScope.user.email}" hidden = "hidden">
+                                </div>   
+
+                                <div class = "edit-profile-form-item form-group">
+                                    <label for="password" class="mr-sm-2">Old Password</label>
+                                    <input id ="password" class="form-control" name ="password" value = "" > 
+                                </div>  
+
+                                <div class = "edit-profile-form-item form-group">
+                                    <label for="" class="mr-sm-2">New Password</label>
+                                    <input id="newpass" class="form-control" name ="newpass" value ="" > 
+                                </div>  
+
+                                <div class = "edit-profile-form-item form-group">
+                                    <label for="confirm_pass" class="mr-sm-2">Confirm Password </label>
+                                    <input id="confirm_pass" class="form-control" name ="confirm_pass" value = ""> 
+                                </div>  
+                            </div>
+                            <div class = "edit-profile-submit">
+                                <button class="btn btn-success" type="submit">Change Password</button>
+                            </div>
+
+                        </form>
+
                     </div>
-                </div>          
-            </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>          
+        </div>
         </div>                              
         <!--Footer-->
         <jsp:include page="../base/footer.jsp" />
         <script>
            validateEditProfile();
+           validate_form_change_password();
            getImgPreview_profileUser(event);
         </script>           
     </body>

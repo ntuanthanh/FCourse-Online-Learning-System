@@ -38,7 +38,7 @@
                   if(!mess_header.equals("Reset Password Successfully")){ %>
                     <a style="text-decoration: none" href="../login">Login</a> 
                     <span>/</span>
-                    <a style="text-decoration: none" href="../regiter">Register</a>
+                    <a style="text-decoration: none" href="../login">Register</a>
                 <%}
                 %>
         </div>

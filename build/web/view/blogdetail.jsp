@@ -3,8 +3,10 @@
     Created on : May 19, 2022, 11:03:55 PM
     Author     : tuann
 --%>
-
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,63 +22,57 @@
 </head>
 <body>
     <!-- Header side -->
-    <jsp:include page="base/header.jsp" />
+    <jsp:include page="base/header.jsp"/>
     <!-- Content side -->
     <div class="content">       
-        <div class="image-detail"><img src="../images/blogdetail/blogdetail.png" alt="" style="width: 100%;"></div>
+        <div class="image-detail"><img src="../images/blogdetail/blogdetail.png" alt="" ></div>
         <div class="grid">
             <div class="row">
                 <div class="col-md-8 right" >
                     <div class="thurmbnail">
-                        <img src="../images/blogdetail/thurmbnail.jpg"  alt="">
+                        <img src="../images/blogdetail/${requestScope.blog.thumbnail}">
                     </div>
                     <div class="info">
-                        <div class="day"><i class="fa-solid fa-calendar-days"></i> May 14 2022</div>
-                        <div class="poster">Post by: Mr.A</div>
+                        <div class="day"><a>${requestScope.blog.category.value} | </a><i class="fa-solid fa-calendar-days"></i> ${requestScope.blog.createdate}</div>
+                        <div class="poster">Author: ${requestScope.blog.user.fullName}</div>
                     </div>
                     <div class="details">
-                        <h1>Biden visits Japan, South Korea carrying warning to China
+                        <h1>${requestScope.blog.title}
                         </h1>
-                        <p>Biden departs for the five day trip on Thursday, after spending several months organizing allies to punish Russia for its invasion of Ukraine, which Moscow calls a "special operation."</p>
-
-                        <p>He meets new South Korean President Yoon Suk-yeol in Seoul and Japanese Prime Minister Fumio Kishida in Tokyo, leaders who share anxieties about North Korea and China and are eager to build on their long alliances with Washington.</p>    
-
-                        <p>"At its core this (trip) is about building out the alliance network in East Asia," in part to counter any Chinese actions against Taiwan, said Evan Medeiros, an Asia specialist in the Barack Obama administration.</p>
+                        <p>${requestScope.blog.content}</p>
                     </div>
                     <div class="space"></div>
-                    <div class="share">
-                        <p>SHARE</p>
-                        <a href=""><i class="fa-brands fa-facebook"></i></a>
-                        <a href=""><i class="fa-brands fa-twitter"></i></a>
-                        <a href=""><i class="fa-brands fa-google-plus"></i></a>
-                    </div>
                 </div>
                 <div class="col-md-4 left" >
                     <div class="box-search">
-                        <form action="#" class="search-box">
-                            <input type="text" placeholder="Enter Searching..." style="width:80%" required>
-                            <button type="submit" class="search-icon" style="background-color: #F18121; width: 35px;"><i class="fa fa-search"></i></button>
+                        <form action="search" method="POST" class="search-box" >
+                            <input type="text" placeholder="Enter Searching..." required>
+                            <button type="submit" class="search-icon" ><i class="fa fa-search"></i></button>
                         </form>
                     </div>
-                    <div class="recent-post">
+                    <div class="sider-post">
+                        <h3>Categories Posts</h3>
+                        <div class="post-category">
+                            <c:forEach items="${requestScope.categories}" var="c">
+                                <p class="category-items"><a  href="#">${c.value}</a></p>
+                            </c:forEach>
+                            
+                        </div>
+                    </div>
+                    <div class="sider-post">
                         <h3>Recent Post</h3>
-                        <div class="post">
-                            <img src="../images/blogdetail/thurmbnail.jpg" alt="" style="height: 70px; width: 100px;">
-                            <a>WASHINGTON/SEOUL/TOKYO, May 19 (Reuters) - Joe Biden will visit Japan and South Korea on his first Asian trip as U.S. president, carrying a clear message to China, advisers and analysts say - don't try what Russia did in Ukraine anywhere in Asia, and especially not in Taiwan.</a>
-                        </div>
-                        <div class="post">
-                            <img src="../images/blogdetail/thurmbnail.jpg" alt="" style="height: 70px; width: 100px;">
-                            <a>WASHINGTON/SEOUL/TOKYO, May 19 (Reuters) - Joe Biden will visit Japan and South Korea on his first Asian trip as U.S. president, carrying a clear message to China, advisers and analysts say - don't try what Russia did in Ukraine anywhere in Asia, and especially not in Taiwan.</a>
-                        </div>
-                        <div class="post">
-                            <img src="../images/blogdetail/thurmbnail.jpg" alt="" style="height: 70px; width: 100px;">
-                            <a>WASHINGTON/SEOUL/TOKYO, May 19 (Reuters) - Joe Biden will visit Japan and South Korea on his first Asian trip as U.S. president, carrying a clear message to China, advisers and analysts say - don't try what Russia did in Ukraine anywhere in Asia, and especially not in Taiwan.</a>
-                        </div>
-                        <div class="post">
-                            <img src="../images/blogdetail/thurmbnail.jpg" alt="" style="height: 70px; width: 100px;">
-                            <a>WASHINGTON/SEOUL/TOKYO, May 19 (Reuters) - Joe Biden will visit Japan and South Korea on his first Asian trip as U.S. president, carrying a clear message to China, advisers and analysts say - don't try what Russia did in Ukraine anywhere in Asia, and especially not in Taiwan.</a>
-                        </div>
-
+                        <c:forEach items="${requestScope.blogs}" var="b">
+                            <a href="/summer2022-se1616-g4/blog/detail?bid=${b.id}">
+                                <div class="post">
+                                    <img src="../images/blogdetail/${b.thumbnail}" alt="" >
+                                    <div class="text-post">
+                                        <h5 style="margin-bottom: 0px; font-weight: bold; font-size: 15px">${b.title}</h5>
+                                        <p>${b.brief}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </c:forEach>
+                        
                     </div>
                 </div>
             </div>
