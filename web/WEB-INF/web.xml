@@ -36,6 +36,18 @@
         <servlet-name>EditProfileController</servlet-name>
         <servlet-class>controller.user.EditProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SendResetPasswordController</servlet-name>
+        <servlet-class>controller.user.SendResetPasswordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResetPasswordController</servlet-name>
+        <servlet-class>controller.user.ResetPasswordController</servlet-class>
+        <init-param>
+            <param-name>ExpirationTime</param-name>
+            <param-value>5</param-value>
+        </init-param>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -71,6 +83,14 @@
     <servlet-mapping>
         <servlet-name>EditProfileController</servlet-name>
         <url-pattern>/user/profile/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendResetPasswordController</servlet-name>
+        <url-pattern>/reset/lostpassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResetPasswordController</servlet-name>
+        <url-pattern>/reset/recoverpassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

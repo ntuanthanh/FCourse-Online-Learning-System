@@ -25,3 +25,44 @@ function validateEditProfile(){
         });
 }
 
+function validateSendResetPassword(){
+     $('#validate-form-send-reset-password').validate({
+           rules:{
+               email: {
+                   required:true, 
+                   email : true
+               }           
+           },
+           messages:{
+                email:{
+                   required:"Enter your email - Don't leave it empty", 
+                   email : "Please provide an Email address"
+                }       
+            }
+        });   
+}
+function validateResetPassword(){
+     $('#validate-form-reset-password').validate({
+           rules:{
+               password: {
+                   required:true,
+                   minlength : 4
+               },
+               confirm_password:{
+                   required:true,
+                   equalTo: "#password"
+               }
+           },
+           messages:{
+               password: {
+                   required:"Please provide a password",
+                   minlength: "Your password must be at least 4 characters"
+               },
+               confirm_password: {
+                   required:"Please provide a password",
+                   equalTo:"The passwords do not match"
+               }
+            }
+        });
+}    
+

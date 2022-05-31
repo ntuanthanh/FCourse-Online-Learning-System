@@ -19,8 +19,10 @@ import model.User;
  * @author pv
  */
 public class UserDBContext extends DBContext{
-    public void test( int n){
-    }
+    /*
+     * get user by id
+     * tuan thanh
+    */
     public User getUserById(int id){        
         try { 
             String sql = "select Userid, fullname, email, gender, [password], phone, avatar_img, Statusid from [User]\n" +
@@ -48,6 +50,112 @@ public class UserDBContext extends DBContext{
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    /*
+     * Check email exist in database
+     * tuan thanh
+    */
+    public boolean CheckEmailExist(String email){
+        try {
+            String sql = "select * from [User] where email like ?"; 
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, email);
+            ResultSet rs =  stm.executeQuery(); 
+            while(rs.next()){
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    /*
+     * Check reset_token exist in database
+     * tuan thanh
+    */
+    public boolean CheckResetToken(String tempResetToken){
+        try {
+            String sql = "select * from [User] where ResetToken like ?"; 
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, tempResetToken);
+            ResultSet rs =  stm.executeQuery(); 
+            while(rs.next()){
+               return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false; 
+    }
+    /*
+     * Update reset_token and createTime
+     * tuan thanh
+    */
+    public void CreateReset_token(String email, String resetToken){
+        try {
+            String sql = "UPDATE [User]\n" +
+                    "   SET [ResetToken] = ? \n" +
+                    "      ,[CreateTimeResetToken] = GETDATE()\n" +
+                    " WHERE email = ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, resetToken);
+            stm.setString(2, email);
+            stm.executeUpdate(); 
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    /*
+     * get User by Reset token
+     * tuan thanh
+    */
+    public User GetUserByToken(String resetToken){
+        try {
+            String sql = "select * from [User] where ResetToken = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, resetToken);
+            ResultSet rs = stm.executeQuery(); 
+            while(rs.next()){
+                //Take user by id
+                User user = new User();
+                user.setId(rs.getInt("Userid"));
+                user.setFullName(rs.getString("fullname"));
+                user.setEmail(rs.getString("email"));
+                user.setGender(rs.getBoolean("gender"));
+                user.setPassword(rs.getString("password"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatarImage(rs.getString("avatar_img"));
+                user.setResetToken(rs.getString("ResetToken"));
+                user.setCreateTimeResetToken(rs.getString("CreateTimeResetToken"));
+                // Take status of this User 
+                Status status = new Status();
+                status.setId(rs.getInt("Statusid"));
+                user.setStatus(status);
+                return user; 
+            }
+            } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    /*
+      reset password
+      tuanthanh
+     */
+    public void resetPassword(String resetToken, String newPassword){
+        try {
+            String sql = "UPDATE [User]\n" +
+                        "   SET \n" +
+                        "      [password] = CONVERT(VARCHAR(32), HashBytes('MD5', '"+newPassword+"' ), 2)\n" +
+                        "      ,[ResetToken] = null\n" +
+                        "      ,[CreateTimeResetToken] = null\n" +
+                        " WHERE [ResetToken] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, resetToken);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public User getUser(String username, String password) {
 

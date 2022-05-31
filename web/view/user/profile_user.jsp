@@ -17,6 +17,7 @@
         <script src ="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
         <link href="../css/profile_user.css" rel="stylesheet" type="text/css"/>
         <script src="../js/validationForm/validateForm.js" type="text/javascript"></script>
+        <script src="../js/ImgPreview/imgPreview.js" type="text/javascript"></script>
         <title>JSP Page</title>
     </head>
     <body>
@@ -25,9 +26,9 @@
         <!--Content -->
         <div class = "content-profile">
             <div class = row>
-                <div class = "col-md-4 text-center" style="background-color: #F28864; border-radius: 20px; padding-bottom: 10px"> 
-                    <img style="margin-top: 3px; width: 300px; height: 300px" class = "rounded-circle img-thumbnail img-fluid" src="../images/avatar/${sessionScope.user.avatarImage}" alt=""/>
-                    <h4 style="color:white" >${sessionScope.user.fullName}</h4>
+                <div class = "col-md-4 text-center main-profile"> 
+                    <img class = "rounded-circle img-thumbnail img-fluid" src="../images/avatar/${sessionScope.user.avatarImage}" alt=""/>
+                    <h4>${sessionScope.user.fullName}</h4>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                         Edit Profile
                     </button>
@@ -35,23 +36,23 @@
                         Change Password
                     </button>
                 </div>
-                <div class = "col-md-8"> 
-                    <h4 style="border-bottom: 1px solid black; margin-top: 10px">Information</h4>
-                    <table style="margin-top: 50px">
+                <div class = "col-md-8 main-information"> 
+                    <h4>Information</h4>
+                    <table>
                         <tr>
-                            <td><h5 style="width: 300; margin-right: 50px">Full Name</h5></td>
+                            <td><h5 class = "information-detail">Full Name</h5></td>
                             <td><p>${sessionScope.user.fullName}<p></td>
                         </tr>
                         <tr>
-                            <td><h5 style="width: 300; margin-right: 50px">Email</h5></td>
+                            <td><h5 class = "information-detail">Email</h5></td>
                             <td><p>${sessionScope.user.email}<p></td>
                         </tr>
                         <tr>
-                            <td><h5 style="width: 300; margin-right: 50px">Phone</h5></td>
+                            <td><h5 class = "information-detail">Phone</h5></td>
                             <td><p>${sessionScope.user.phone}<p></td>
                         </tr>
                         <tr>
-                            <td><h5 style="width: 300; margin-right: 50px">Gender</h5></td>
+                            <td><h5 class = "information-detail">Gender</h5></td>
                             <td><p>${sessionScope.user.gender==true?"Male":"Female"}<p></td>
                         </tr>
                     </table>
@@ -68,11 +69,11 @@
                                     <h3>Edit My Profile</h3>
                                 </div>
                                 <form id ="validate-form-edit-profile" action = "../user/profile/update" method="POST" enctype="multipart/form-data">
-                                    <div class = "text-center"> 
-                                        <img  id = "avatar" class = "rounded-circle img-thumbnail img-fluid" style="width: 300px; height: 300px" src="../images/avatar/${sessionScope.user.avatarImage}" alt=""/>
+                                    <div class = "text-center modal-edit-header"> 
+                                        <img  id = "avatar" class = "rounded-circle img-thumbnail img-fluid" src="../images/avatar/${sessionScope.user.avatarImage}" alt=""/>
                                         <h6>Upload a new photo</h6>
                                         <input value="${sessionScope.user.avatarImage}" type="text" hidden="hidden" name = "old_avatar_img"/>
-                                        <input type="file" onchange="getImgPreview(event)" name = "avatar_img" class="text-center center-block file-upload">
+                                        <input type="file" onchange="getImgPreview_profileUser(event)" name = "avatar_img" class="text-center center-block file-upload">
                                     </div>
                                     <div class = "edit-profile-form">
                                         <input type = "text" name = "id" hidden ="hidden" value = "${sessionScope.user.id}"/><br>
@@ -139,11 +140,7 @@
         <jsp:include page="../base/footer.jsp" />
         <script>
            validateEditProfile();
-           function getImgPreview(event){
-               var image = URL.createObjectURL(event.target.files[0]);
-               var imagediv = document.getElementById("avatar"); 
-               imagediv.setAttribute('src', image);
-           }
+           getImgPreview_profileUser(event);
         </script>           
     </body>
 </html>
