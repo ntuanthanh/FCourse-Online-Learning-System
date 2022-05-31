@@ -1,4 +1,6 @@
-/dist/
-/build/
-/nbproject/
-	.gitignore
+nbproject/
+build-impl.xml
+ant-deploy.xml
+project.xml
+genfiles.properties
+project.properties
