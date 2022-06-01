@@ -28,7 +28,7 @@
                     <div class="scroll">
                         <c:forEach items="${requestScope.Categorys}" var="Category">
                             <div class="subject">
-                                <a href="#">${Category.value}</a>
+                                <a href="course/list?cateId=${Category.categoryID}">${Category.value}</a>
                             </div>
                         </c:forEach>
                     </div>
@@ -88,54 +88,7 @@
                 </div>  
             </div>
 
-            <h1 class="text-center content-detail description">featured subjects</h1> 
-            <div class="row ">
 
-                <div class="cards col-md-4 col-xs-6">
-                    <div class="course-card">
-                        <div class="card-infor">
-                            <div class="card-img">
-                                <img src="../images/courses/anh_course_temp.jpg" alt="">
-
-                            </div>
-
-                            <div class="card-title">
-                                <a href="#">SWP</a>
-                            </div>
-                            <p class="card-subject">Soft Ware</p>
-                            <p class="card-price">$99</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="cards col-md-4 col-xs-6">
-                    <div class="course-card">
-                        <div class="card-infor">
-                            <div class="card-img">
-                                <img src="../images/courses/anh_course_temp.jpg" alt="">
-                            </div>
-                            <div class="card-title">
-                                <a href="#">SWP</a>
-                            </div>
-                            <p class="card-subject">Soft Ware</p>
-                            <p class="card-price">$99</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="cards col-md-4 col-xs-6">
-                    <div class="course-card ">
-                        <div class="card-infor">
-                            <div class="card-img">
-                                <img src="../images/courses/anh_course_temp.jpg" alt="">
-                            </div>
-                            <div class="card-title">
-                                <a href="#">SWP</a>
-                            </div>
-                            <p class="card-subject">Soft Ware</p>
-                            <p class="card-price">$99</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
         <!-- footer side -->

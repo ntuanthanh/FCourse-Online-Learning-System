@@ -9,7 +9,7 @@ package model;
  *
  * @author thand
  */
-public class PricePackage implements java.io.Serializable{
+public class PricePackage {
     private int id;
     private int duration;
     private float listPrice;

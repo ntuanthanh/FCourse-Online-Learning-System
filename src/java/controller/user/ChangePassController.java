@@ -31,6 +31,7 @@ public class ChangePassController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         String id = request.getParameter("id");
         String raw_email = request.getParameter("email");
         String password = request.getParameter("password");

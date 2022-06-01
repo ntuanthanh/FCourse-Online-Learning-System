@@ -77,10 +77,11 @@
 
             
         </div>
-        <div id="paggerbot"> </div>
+        <div id="paggerbot" class = "text-center" > </div>
         <script>
-            pagger("paggerbot",${requestScope.pageindex},${requestScope.totalpage}, 8);
+            pagger("paggerbot",${requestScope.pageindesx},${requestScope.totalpage}, 8);
         </script>
+        
     </body>
     <jsp:include page="../view/base/footer.jsp" />  
 </html>

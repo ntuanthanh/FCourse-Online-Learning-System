@@ -5,6 +5,7 @@
  */
 package controller.user;
 
+import controller.authorization.BaseAuthController;
 import dal.CourseDBContext;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,15 +20,16 @@ import model.User;
  *
  * @author thand
  */
-public class MyCourseController extends HttpServlet {
+public class MyCourseController extends BaseAuthController {
 
 
 
 
  
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         CourseDBContext cdbc1 = new CourseDBContext();
         User u = (User) request.getSession().getAttribute("user");
         int pagesize =8;
@@ -62,7 +64,7 @@ public class MyCourseController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     }
 

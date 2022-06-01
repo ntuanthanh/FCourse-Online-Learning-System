@@ -24,7 +24,7 @@ public class Course implements java.io.Serializable {
     private Category category;
     private Status status;
     
-    private ArrayList<PricePackage> pricePackage;
+    private ArrayList<PricePackage> pricePackage ;
 
     public Course() {
     }
@@ -96,6 +96,30 @@ public class Course implements java.io.Serializable {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getBriefInfo() {
+        return briefInfo;
+    }
+
+    public void setBriefInfo(String briefInfo) {
+        this.briefInfo = briefInfo;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
     }
 
     public void setStatus(Status status) {

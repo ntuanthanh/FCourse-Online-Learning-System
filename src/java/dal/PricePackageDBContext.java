@@ -135,9 +135,8 @@ public class PricePackageDBContext extends DBContext {
                 p.setName(rs.getString(4));
                 p.setSalePrice(rs.getFloat(5));
                 
-                Status s = new Status();
-                s.setId(rs.getInt(7));
-                p.setStatus(s);
+               
+                
                 coursePrices.add(p);
                 
             }

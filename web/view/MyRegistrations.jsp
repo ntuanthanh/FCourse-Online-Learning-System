@@ -29,7 +29,7 @@
                 <div class="scroll">
                     <c:forEach items="${requestScope.Categorys}" var="Category">
                         <div class="subject">
-                            <a href="#">${Category.value}</a>
+                            <a href="course/list?cateId=${Category.categoryID}">${Category.value}</a>
                         </div>
                     </c:forEach>
                 </div>

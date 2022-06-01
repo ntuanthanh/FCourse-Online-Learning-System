@@ -1,13 +1,4 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Jun 1, 2022, 12:59:28 AM
-    Author     : pv
-*/
-.course-card {
+.blog-card {
     margin: 50px auto;
     width: 90%;
     height: 78%;
@@ -21,25 +12,25 @@ and open the template in the editor.
     transition: 0.5s;
 }
 
-course-card:hover {
+.blog-card:hover {
     transform: scale(1.1);
 }
 
-course-img {
+.blog-img {
     width: 100%;
     height: 200px;
 }
 
-.course-img img {
+.blog-img img {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     width: 100%;
-    height: 150px;
+    height: 100%;
     object-fit: cover;
     object-position: center;
     padding-bottom: 15px;
 }
-.course-title{
+.blog-title{
     text-align: left;
     font-weight: 500;
     height: 55px;
@@ -52,21 +43,21 @@ course-img {
     overflow: hidden;
 }
 
-.course-title a:link {
+.blog-title a:link {
     color: black;
 }
 
 
 /* visited link */
 
-.course-title a:visited {
+.blog-title a:visited {
     color: black;
 }
 
 
 /* mouse over link */
 
-.course-title a:hover {
+.blog-title a:hover {
     color: rgb(31, 0, 143);
     text-decoration: none;
 }
@@ -74,11 +65,11 @@ course-img {
 
 /* selected link */
 
-.course-title a:active {
+.blog-title a:active {
     color: blue;
 }
 
-.course-content{
+.bief{
     text-align: left;
     height: 50px;
     font-size: 16px;
@@ -97,18 +88,11 @@ course-img {
 
 
 }
-.pagger {
-    border: 1px dotted lightslategray;
-    font-size: 30px;
-    margin: 10px;
-}
-#paggerbot{
-    text-align: center !important;
-}
+
 
 
 @media only screen and (max-width:1100px) {
-    .course-card {
+    .blog-card {
 
         width: 90%;
         height: 76%;
@@ -120,7 +104,7 @@ course-img {
         height: 50px;
 
     }
-    .course {
+    .auhor {
         margin-top: 10px;
          font-size: 10px;
         height: 20px;
@@ -128,8 +112,5 @@ course-img {
 
 
     }
-    
 
 }
-
-

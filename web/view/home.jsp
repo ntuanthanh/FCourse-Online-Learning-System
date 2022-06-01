@@ -74,7 +74,7 @@
                         <h4 class="category-subject" style="text-align: center; margin-bottom: 60px;">Subject Category</h4>
                         <div class="list-category">
                             <c:forEach items="${requestScope.cates}" var="cate">
-                                <div class="subject">
+                                <div class="subject scroll">
                                     <a href="course/list?cateId=${cate.categoryID}">${cate.value}</a>
                                 </div>
                             </c:forEach>

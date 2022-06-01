@@ -25,7 +25,8 @@ public class MyRegistrationController extends BaseAuthController {
     @Override
     protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         CategoryDBContext CDB = new CategoryDBContext();
+              response.setContentType("text/html;charset=UTF-8");
+        CategoryDBContext CDB = new CategoryDBContext();
         ArrayList<Category> Categorys = CDB.getCategorys();
         UserCourseDBContext ucdbc = new UserCourseDBContext();
         HttpSession session = request.getSession();

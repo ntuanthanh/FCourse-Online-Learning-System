@@ -9,7 +9,11 @@ and open the template in the editor.
     Created on : May 19, 2022, 9:55:17 PM
     Author     : jicon
 */
-
+.scroll {
+    position: relative;
+    overflow-y: scroll;
+    height: 500px;
+}
 * {
     padding: 0;
     margin: 0;

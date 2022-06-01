@@ -25,7 +25,7 @@ public class CategoryDBContext extends DBContext {
         PreparedStatement stm = null;
         ResultSet rs = null;
         String sql = "SELECT [Categoryid]\n"
-                + "      ,[value]\n"
+                + "      ,[value] \n"
                 + "  FROM [Category]";
         try {
             stm = connection.prepareStatement(sql);
@@ -81,7 +81,7 @@ public class CategoryDBContext extends DBContext {
         ArrayList<Category> categories = new ArrayList<>();
         try {
             
-            String sql ="select Categoryid, value from category ";
+            String sql ="select Categoryid, value from category";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
