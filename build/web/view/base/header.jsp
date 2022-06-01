@@ -62,7 +62,10 @@
                             <c:if test = "${sessionScope.user != null}">                                                         
                                 <ul class="nav">
                                    <li class="nav-item"> 
-                                    <a class="nav-link" href="#">My Course<img src="${pageContext.request.contextPath}/images/header/online-course.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/myregistration">My Registration<img src="${pageContext.request.contextPath}/images/header/online-course.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
+                                   </li>
+                                   <li class="nav-item"> 
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/mycourse">My Course<img src="${pageContext.request.contextPath}/images/header/online-course.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
                                    </li>       
                                     <li class="nav-item">
                                         <a class="nav-link" href="${pageContext.request.contextPath}/user/profile">${sessionScope.user.fullName}<img src="${pageContext.request.contextPath}/images/header/icons8-user.png" style="margin-bottom: 8px;" width="20px" height="20px" alt=""/></a> 
@@ -95,7 +98,7 @@
                                         <a class="nav-link" href="${pageContext.request.contextPath}/home">Home</a>
                                     </li>
                                     <li class="nav-item color-menu">
-                                        <a class="nav-link" href="#">Our courses</a>
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/course/list">Our courses</a>
                                     </li>
                                     <li class="nav-item color-menu">
                                         <a class="nav-link" href="#">Blogs</a>
@@ -106,9 +109,9 @@
                                     <li class="nav-item color-menu">
                                         <a class="nav-link" href="#">Contact</a>
                                     </li>
-                                    <li class="nav-item color-menu">
+<!--                                    <li class="nav-item color-menu">
                                         <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Admin site(link tam)</a>
-                                    </li>
+                                    </li>-->
                                 </ul>
                                 <form class="form-inline">
                                     <input class="form-control mr-sm-2" placeholder="Search Courses">

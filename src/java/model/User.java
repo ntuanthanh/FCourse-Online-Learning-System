@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author pv
@@ -16,9 +18,12 @@ public class User {
     private boolean gender; 
     private String password; 
     private String phone; 
-    private String avatarImage; 
+    private String avatarImage;
+    private String resetToken; 
+    private String createTimeResetToken; 
     private Status status; 
-    public User(int id, String fullName, String email, boolean gender, String password, String phone, String avatarImage, Status status) {
+    public User(int id, String fullName, String email, boolean gender, String password, String phone, String avatarImage, String resetToken
+            , String createTimeResetToken,  Status status) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -26,6 +31,8 @@ public class User {
         this.password = password;
         this.phone = phone;
         this.avatarImage = avatarImage;
+        this.resetToken = resetToken; 
+        this.createTimeResetToken = createTimeResetToken;
         this.status = status;
     }
 
@@ -88,6 +95,22 @@ public class User {
         this.avatarImage = avatarImage;
     }
 
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
+    public String getCreateTimeResetToken() {
+        return createTimeResetToken;
+    }
+
+    public void setCreateTimeResetToken(String createTimeResetToken) {
+        this.createTimeResetToken = createTimeResetToken;
+    }
+  
     public Status getStatus() {
         return status;
     }

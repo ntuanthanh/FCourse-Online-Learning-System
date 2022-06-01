@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : Feb 20, 2022, 12:12:25 AM
+    Document   : login1
+    Created on : May 29, 2022, 4:33:57 PM
     Author     : ADMIN
 --%>
 
@@ -9,270 +9,454 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>LOGIN</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src ="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 
-        <title>Login|Edu-FCourse</title>
+        <style> 
 
 
-        <style>
             * {
-                box-sizing: border-box;
-            }
-
-            body {
-                background: #9999ff;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-               
-                height: 100vh;
-                margin: -20px 0 50px;
-            }
-
-            h1 {
-                font-weight: bold;
-                margin: 1rem;
-            }
-
-            p {
-                font-size: 14px;
-                font-weight: 100;
-                line-height: 20px;
-                letter-spacing: 0.5px;
-                margin: 20px 0 30px;
-            }
-
-            button {
-                border-radius: 20px;
-                border: 1px solid #FF4B2B;
-                background-color: #0033ff;
-                color: #FFFFFF;
-                font-size: 12px;
-                font-weight: bold;
-                padding: 12px 45px;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-                transition: transform 80ms ease-in;
-            }
-
-            button:active {
-                transform: scale(0.95);
-            }
-
-            button:focus {
-                outline: none;
-            }
-
-            button.ghost {
-                background-color: transparent;
-                border-color: #FFFFFF;
-            }
-
-            form {
-                background-color: #FFFFFF;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                padding: 0 50px;
-                height: 100%;
+                margin: 0px auto;
+                padding: 0px;
                 text-align: center;
+                font-family: 'Open Sans', sans-serif;
             }
 
-            input {
-                background-color: #eee;
-                border: none;
-                padding: 12px 15px;
-                margin: 8px 0;
+            .cotn_principal {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cfd8dc+0,607d8b+100,b0bec5+100 */
+                background: #cfd8dc; /* Old browsers */
+                background: -moz-linear-gradient(-45deg,  #cfd8dc 0%, #607d8b 100%, #b0bec5 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(-45deg,  #cfd8dc 0%,#607d8b 100%,#b0bec5 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(135deg,  #cfd8dc 0%,#607d8b 100%,#b0bec5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', endColorstr='#b0bec5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+            }
+
+
+            .cont_centrar {
+                position: relative;
+                float: left;
                 width: 100%;
             }
 
-            .container {
-                background-color: #fff;
-                border-radius: 10px;
-/*                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-                    0 10px 10px rgba(0,0,0,0.22);*/
+            .cont_login {
                 position: relative;
-                overflow: hidden;
-                width: 768px;
-                max-width: 100%;
-                min-height: 480px;
-            }
-
-            .form-container {
-                position: absolute;
-                top: 0;
-                height: 100%;
-                transition: all 0.6s ease-in-out;
-            }
-
-            .sign-in-container {
-                left: 0;
-                width: 50%;
-                z-index: 2;
-            }
-
-            .container.right-panel-active .sign-in-container {
-                transform: translateX(100%);
-            }
-
-            .sign-up-container {
-                left: 0;
-                width: 50%;
-                opacity: 0;
-                z-index: 1;
-            }
-
-            .container.right-panel-active .sign-up-container {
-                transform: translateX(100%);
-                opacity: 1;
-                z-index: 5;
-                animation: show 0.6s;
-            }
-
-
-            .overlay-container {
-                position: absolute;
-                top: 0;
+                width: 640px;
                 left: 50%;
-                width: 50%;
-                height: 100%;
-                overflow: hidden;
-                transition: transform 0.6s ease-in-out;
-                z-index: 100;
+                margin-left: -320px;
+
             }
 
-            .container.right-panel-active .overlay-container{
-                transform: translateX(-100%);
-            }
-
-            .overlay {
-                background: #FF416C;
-                background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-                background: #6666ff;
-                background-repeat:f no-repeat;
-                background-size: cover;
-                background-position: 0 0;
-                color: #FFFFFF;
+            .cont_back_info {  
                 position: relative;
-                left: -100%;
-                height: 100%;
-                width: 200%;
-                transform: translateX(0);
-                transition: transform 0.6s ease-in-out;
+                float: left;
+                width: 640px;
+                height: 280px;
+                overflow: hidden;
+                background-color: #fff;
+                margin-top: 100px;
+                box-shadow: 1px 10px 30px -10px rgba(0,0,0,0.5);
             }
 
-            .container.right-panel-active .overlay {
-                transform: translateX(50%);
-            }
-
-            .overlay-panel {
+            .cont_forms {
                 position: absolute;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                padding: 0 40px;
-                text-align: center;
-                top: 0;
-                height: 100%;
+                overflow: hidden;
+                top:100px;
+                left: 0px;
+                width: 320px;
+                height: 280px;
+                background-color: #eee;
+                /*                -webkit-transition: all 0.5s;
+                                -moz-transition: all 0.5s;
+                                -ms-transition: all 0.5s;
+                                -o-transition: all 0.5s;*/
+                transition: all 0.5s;
+            }
+
+            .cont_forms_active_login {
+                box-shadow: 1px 10px 30px -10px rgba(0,0,0,0.5);
+                height: 600px;  
+                top:20px;
+                left: 0px;
+                /*                -webkit-transition: all 0.5s;
+                                -moz-transition: all 0.5s;
+                                -ms-transition: all 0.5s;
+                                -o-transition: all 0.5s;*/
+                transition: all 0.5s;
+
+            }
+
+            .cont_forms_active_sign_up {
+                box-shadow: 1px 10px 30px -10px rgba(0,0,0,0.5);
+                height: 600px;   /*kich thuoc*/
+                top:20px;
+                left:320px;
+                /*                -webkit-transition: all 0.5s;
+                                -moz-transition: all 0.5s;
+                                -ms-transition: all 0.5s;
+                                -o-transition: all 0.5s;*/
+                transition: all 0.5s;
+            }
+
+            .cont_img_back_grey {
+                position: absolute;
+                width: 950px;
+                top:-80px;
+                left: -116px;
+            }
+
+
+            .cont_info_log_sign_up {
+                position: absolute;
+                width: 640px;
+                height: 280px;
+                top: 100px;
+                z-index: 1;
+            } 
+
+            .col_md_login {
+                position: relative;
+                float: left;
                 width: 50%;
-                transform: translateX(0);
-                transition: transform 0.6s ease-in-out;
             }
 
-            .overlay-left {
-                transform: translateX(-20%);
+            .col_md_login > h2 {
+                font-weight: 400;
+                margin-top: 70px;
+                color: #757575;
             }
 
-            .container.right-panel-active .overlay-left {
-                transform: translateX(0);
+            .col_md_login > p {
+                font-weight: 400;
+                margin-top: 15px;
+                width: 80%;
+                color: #37474F;
             }
 
-            .overlay-right {
-                right: 0;
-                transform: translateX(0);
+            .btn_login { 
+                background-color: #26C6DA;
+                border: none;
+                padding: 10px;
+                width: 200px;
+                border-radius:3px;
+                box-shadow: 1px 5px 20px -5px rgba(0,0,0,0.4);
+                color: #fff;
+                margin-top: 10px;
+                cursor: pointer;
             }
 
-            .container.right-panel-active .overlay-right {
-                transform: translateX(20%);
+            .col_md_sign_up {
+                position: relative;
+                float: left;
+                width: 50%;  
             }
+
+            .cont_ba_opcitiy > h2 {
+                font-weight: 400;
+                color: #fff;
+            }
+
+            .cont_ba_opcitiy > p {
+                font-weight: 400;
+                margin-top: 15px;
+                color: #fff;
+            }
+            /* ----------------------------------
+            background text    
+            ------------------------------------
+            */
+            .cont_ba_opcitiy {
+                position: relative;
+                background-color: rgba(120, 144, 156, 0.55);
+                width: 80%;
+                border-radius:3px ;
+                margin-top: 60px;
+                padding: 15px 0px;
+            }
+
+            .btn_sign_up { 
+                background-color: #ef5350;
+                border: none;
+                padding: 10px;
+                width: 200px;
+                border-radius:3px;
+                box-shadow: 1px 5px 20px -5px rgba(0,0,0,0.4);
+                color: #fff;
+                margin-top: 10px;
+                cursor: pointer;
+            }
+            .cont_forms_active_sign_up {
+                z-index: 2;  
+            }
+
+            .cont_form_login {
+                position: absolute;
+                opacity: 0;
+                display: none;
+                width: 320px;
+                /*                -webkit-transition: all 0.5s;
+                                -moz-transition: all 0.5s;
+                                -ms-transition: all 0.5s;
+                                -o-transition: all 0.5s;*/
+                transition: all 0.5s;
+            }
+
+            .cont_forms_active_login {
+                z-index: 2;  
+            }
+            .cont_forms_active_login  >.cont_form_login {
+            }
+
+            .cont_form_sign_up {
+                position: absolute;
+                width: 320px;
+                float: left;
+                opacity: 0;
+                display: none;
+                /*                -webkit-transition: all 0.5s;
+                                -moz-transition: all 0.5s;
+                                -ms-transition: all 0.5s;
+                                -o-transition: all 0.5s;*/
+                transition: all 0.5s;
+            }
+
+
+            .cont_form_sign_up > input {
+                text-align: left;
+                padding: 15px 5px;
+                margin-left: 10px;
+                margin-top: 20px;
+                width: 260px;
+                border: none;
+                color: #757575;
+            }
+
+            .cont_form_sign_up > h2 {
+                margin-top: 50px; 
+                font-weight: 400;
+                color: #757575;
+            }
+
+
+            .cont_form_login > input {
+                padding: 15px 5px;
+                margin-left: 10px;
+                margin-top: 20px;
+                width: 260px;
+                border: none;
+                text-align: left;
+                color: #757575;
+            }
+
+            .cont_form_login > h2 {
+                margin-top: 110px; 
+                font-weight: 400;
+                color: #757575;
+            }
+            .cont_form_login > a,.cont_form_sign_up > a  {
+                color: #757575;
+                position: relative;
+                float: left;
+                margin: 10px;
+                margin-left: 30px;
+            }
+
         </style>
+        <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+        <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
     </head>
-
     <body>
-        <div class="container" id="container">
-            <!-- sign in page -->
-            <div class="form-container sign-in-container">
-                <form method="POST" action="#" class="form" id="login">
-                    <h1 class="form__title">Login</h1>
-                   
-                    <div class="form__input-group">
-                        <label for="username">Username: </label>
-                        <input type="text" class="form__input" name="username" id="username" maxlength="300" required> 
-                    </div>
-                    <div class="form__input-group">
-                        <label for="pass">Password: </label>
-                        <input type="password" class="form__input" name="pass" id="pass" maxlength="20" required> 
-                    </div>
-                    <p><input type="checkbox" value="remember" name="remember"/> Remember Me! </p>
-                    <div class="form__input-group">
-                        <button type="submit" class="form__button">Submit</button>
-                    </div>
-                </form>
-            </div>
+        <div class="cotn_principal">
+            <div class="cont_centrar">
 
-            <!--  create account page -->
-            <div class="form-container sign-up-container">
-                <form method="post" action="account/create" class="form" id="register">
-                    <h1 class="form__title">Register</h1>
-                    <div class="form__input-group">
-                        <label for="mail"> Your Mail: </label>
-                        <input type="text" class="form__input" name="mail" id="displayname" maxlength="20" required>
-                    </div>
-                    <div class="form__input-group">
-                        <label for="username"> User Name: </label>
-                        <input type="text" class="form__input" name="displayname" id="displayname" maxlength="20" required>
-                    </div>
-                    <div class="form__input-group">
-                        <label for="username"> Username: </label>
-                        <input type="text" class="form__input" name="username" id="username" maxlength="20" required>
-                    </div>
-                    <div class="form__input-group">
-                        <label for="pass">Password: </label>
-                        <input type="password" class="form__input" name="pass" id="pass" maxlength="20" required> 
-                    </div>
-                    <button class="form__button" type="submit">Submit</button>
-                </form>
-            </div> 
+                <div class="cont_login">
+                    <div class="cont_info_log_sign_up">
+                        <div class="col_md_login">
+                            <div class="cont_ba_opcitiy">
 
-            <div class="overlay-container">
-                <div class="overlay">
-                    <div class="overlay-panel overlay-left">
-                        <h1>Welcome Back!</h1>
-                        <p>Please login with your account </p>
-                        <button class="ghost" id="signIn">Sign In</button>
+                                <h2>LOGIN</h2>  
+                                <p> Enter email and password</p> 
+                                <button class="btn_login" onclick="cambiar_login()">LOGIN</button>
+                            </div>
+                        </div>
+                        <div class="col_md_sign_up">
+                            <div class="cont_ba_opcitiy">
+                                <h2>SIGN UP</h2>
+
+                                <p>Enter information to create account</p>
+
+                                <button class="btn_sign_up" onclick="cambiar_sign_up()">SIGN UP</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="overlay-panel overlay-right">
-                        <h1> Wellcome FCOURSE </h1>
-                        <button class="ghost" id="signUp">Sign Up</button>
+
+
+                    <div class="cont_back_info">
+
                     </div>
+                    <div class="cont_forms" >
+                        <form id ="validate-form-login" action="login" method="POST">
+                            <div class="cont_form_login">
+                                <a href="#" onclick="ocultar_login_sign_up()" ></a>
+                                <h2>LOGIN</h2>
+
+                                <c:if test="${requestScope.er!=null}">
+                                    ${requestScope.er}
+                                </c:if>
+                                <input id="email" type="email" placeholder="Email" name="email" />
+                                <input id="password" type="password" placeholder="Password" name="password" />
+
+                                <button class="btn_login" type="submit"  >LOGIN</button>
+                                <a href="${pageContext.request.contextPath}/reset/lostpassword">Reset Password</a>
+                            </div>
+                        </form>
+                        <form id ="validate-form-sign-up" action="user/register" method="POST" >
+                            <div class="cont_form_sign_up">
+                                <a href="#" onclick="ocultar_login_sign_up()"></a>
+                                <h2>SIGN UP</h2>
+
+                                <input id="email" type="email" placeholder="Email" name="email" />
+                                <input id="fullname" type="text" placeholder="User" name="fullname" />
+                                <input id="password" type="password" placeholder="Password" name="password"/>
+                                <input id="phone" type="tel" placeholder="Phone" name="phone" />
+                                <br/>
+                                <div style="display: flex; margin: 10px 50px;   ">
+                                    <input style="margin-left: 20px; margin-right: 5px;" type="radio" name="gender" value="male"/> Male   <br/>
+                                    <input style="margin-left: 50px; margin-right: 5px; " type="radio" name="gender" value="female"/> Female <br/>
+
+                                </div>
+
+                                <button class="btn_sign_up" >SIGN UP</button>                                
+                            </div>
+                        </form>
+
+                    </div>
+
                 </div>
             </div>
         </div>
 
+        <script>
 
-        <script >
-            const signUpButton = document.getElementById('signUp');
-            const signInButton = document.getElementById('signIn');
-            const container = document.getElementById('container');
 
-            signUpButton.addEventListener('click', () => {
-                container.classList.add("right-panel-active");
+            function cambiar_login() {
+                document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
+                document.querySelector('.cont_form_login').style.display = "block";
+                document.querySelector('.cont_form_sign_up').style.opacity = "0";
+
+                setTimeout(function () {
+                    document.querySelector('.cont_form_login').style.opacity = "1";
+                }, 400);
+
+                setTimeout(function () {
+                    document.querySelector('.cont_form_sign_up').style.display = "none";
+                }, 200);
+            }
+
+            function cambiar_sign_up(at) {
+                document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_sign_up";
+                document.querySelector('.cont_form_sign_up').style.display = "block";
+                document.querySelector('.cont_form_login').style.opacity = "0";
+
+                setTimeout(function () {
+                    document.querySelector('.cont_form_sign_up').style.opacity = "1";
+                }, 100);
+
+                setTimeout(function () {
+                    document.querySelector('.cont_form_login').style.display = "none";
+                }, 400);
+
+
+            }
+
+
+
+            function ocultar_login_sign_up() {
+
+                document.querySelector('.cont_forms').className = "cont_forms";
+                document.querySelector('.cont_form_sign_up').style.opacity = "0";
+                document.querySelector('.cont_form_login').style.opacity = "0";
+
+                setTimeout(function () {
+                    document.querySelector('.cont_form_sign_up').style.display = "none";
+                    document.querySelector('.cont_form_login').style.display = "none";
+                }, 500);
+
+            }
+
+
+            $('#validate-form-sign-up').validate({
+                rules: {
+                    fullname: {
+                        required: true
+                    },
+                    password: {
+                        required: true
+                    },
+                    email: {
+                        required: true
+                    },
+
+                    phone: {
+                        required: true
+                    }
+                },
+                messages: {
+                    fullname: {
+                        required: "Tên hiện thị tài khoản không được bỏ trống"
+                    },
+                    password: {
+                        required: "Mật khẩu không được bỏ trống"
+                    },
+                    email: {
+                        required: "Email không đúng định dạng"
+                    },
+
+                    phone: {
+                        required: "Số điện thoại không được bỏ trống"
+                    }
+                }
             });
 
-            signInButton.addEventListener('click', () => {
-                container.classList.remove("right-panel-active");
-            });</script>
+            $('#validate-form-login').validate({
+                rules: {
+                    fullname: {
+                        required: true
+                    },
+                    password: {
+                        required: true
+                    },
+                    email: {
+                        required: true
+                    },
+
+                    phone: {
+                        required: true
+                    }
+                },
+                messages: {
+                    fullname: {
+                        required: "Tên hiện thị tài khoản không được bỏ trống"
+                    },
+                    password: {
+                        required: "Mật khẩu không được bỏ trống"
+                    },
+                    email: {
+                        required: "Email không đúng định dạng"
+                    },
+
+                    phone: {
+                        required: "Số điện thoại không được bỏ trống"
+                    }
+                }
+            });
+        </script>
     </body>
 </html>
