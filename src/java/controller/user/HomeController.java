@@ -9,6 +9,7 @@ import dal.BlogDBContext;
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
 import dal.PricePackageDBContext;
+import dal.TagDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import model.Blog;
 import model.Category;
 import model.Course;
 import model.PricePackage;
+import model.Tag;
 
 /**
  *
@@ -36,19 +38,24 @@ public class HomeController extends HttpServlet {
         ArrayList<Course> courses = cdb.getThreeCourseForHome();
         
         PricePackageDBContext pdb = new PricePackageDBContext();
+         TagDBContext tdb = new TagDBContext();
         for (int i = 0; i < courses.size(); i++) {
             ArrayList<PricePackage> prices = pdb.getPricePackageByCourseList(courses.get(i).getCourseId());
             // get price by courseid
-          
+              ArrayList<Tag> tag = tdb.getTagsByCourse(courses.get(i).getCourseId());
             courses.get(i).setPricePackage(prices);
+            courses.get(i).setTags(tag);
+           
+            
         }
         ArrayList<Course> coursesProminent = cdb.getMostProminentForHome();
         
-        
+       
         for (int i = 0; i < coursesProminent.size(); i++) {
             ArrayList<PricePackage> prices = pdb.getPricePackageByCourseList(coursesProminent.get(i).getCourseId());
             // get price by courseid
           
+            ArrayList<Tag> tag = tdb.getTagsByCourse(coursesProminent.get(i).getCourseId());
             coursesProminent.get(i).setPricePackage(prices);
         }
         CategoryDBContext cadb = new CategoryDBContext();
@@ -66,5 +73,9 @@ public class HomeController extends HttpServlet {
         request.setAttribute("coursesProminent", coursesProminent);
         request.setAttribute("cates", cates);
         request.getRequestDispatcher("view/home.jsp").forward(request, response);
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException { 
+        doGet(request, response);
     }
 }

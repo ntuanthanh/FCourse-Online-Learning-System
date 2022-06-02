@@ -7,7 +7,6 @@ package controller.user;
 
 import dal.BlogDBContext;
 import dal.CategoryDBContext;
-import dal.ContentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Blog;
 import model.Category;
-import model.Content;
 
 /**
  *
@@ -34,10 +32,12 @@ public class BlogDetailController extends HttpServlet {
         BlogDBContext dbBlog = new BlogDBContext();
         CategoryDBContext dbCategory = new CategoryDBContext();
         
-        ArrayList<Blog> blogs = dbBlog.getBlogs();
+        String bid = request.getParameter("bid");
+        
+        ArrayList<Blog> blogs = dbBlog.getBlogs(bid);
         request.setAttribute("blogs", blogs);
         
-        String bid = request.getParameter("bid");
+        
         Blog blog = dbBlog.getBlog(bid);
         request.setAttribute("blog", blog);
 

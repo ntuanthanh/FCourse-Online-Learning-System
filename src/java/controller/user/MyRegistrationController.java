@@ -22,16 +22,21 @@ import model.UserCourse;
 public class MyRegistrationController extends BaseAuthController {
 
 
-    @Override
+     @Override
     protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
               response.setContentType("text/html;charset=UTF-8");
+        int categoryId=0;
+        String a = request.getParameter("categoryId");
+        if( a!=null){
+            categoryId = Integer.parseInt(a);
+        }
         CategoryDBContext CDB = new CategoryDBContext();
         ArrayList<Category> Categorys = CDB.getCategorys();
         UserCourseDBContext ucdbc = new UserCourseDBContext();
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        ArrayList<UserCourse> myCourses= ucdbc.getCoursesRegistraion(1); // test
+        ArrayList<UserCourse> myCourses= ucdbc.getCoursesRegistraion(1,categoryId,""); 
         request.setAttribute("myCourses", myCourses);
         request.setAttribute("Categorys", Categorys);
         request.getRequestDispatcher("view/MyRegistrations.jsp").forward(request, response);
@@ -41,6 +46,18 @@ public class MyRegistrationController extends BaseAuthController {
     @Override
     protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+          response.setContentType("text/html;charset=UTF-8");
+        String title = request.getParameter("title");
+        int categoryId=0;
+        CategoryDBContext CDB = new CategoryDBContext();
+        ArrayList<Category> Categorys = CDB.getCategorys();
+        UserCourseDBContext ucdbc = new UserCourseDBContext();
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        ArrayList<UserCourse> myCourses= ucdbc.getCoursesRegistraion(1,categoryId,title); 
+        request.setAttribute("myCourses", myCourses);
+        request.setAttribute("Categorys", Categorys);
+        request.getRequestDispatcher("view/MyRegistrations.jsp").forward(request, response);
     }
 
     /**

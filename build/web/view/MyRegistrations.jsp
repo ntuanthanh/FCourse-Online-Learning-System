@@ -21,20 +21,26 @@
         <link href="css/myRedistration.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <c:if test="${requestScope.myCourses.size()-1>0}">
-             
-            <div class="row text-center content-Categorys" >
+
+
+        <div class="row text-center content-Categorys" >
             <div class="col-lg-2 col-sm-12">
-                <h4 style="text-align: center; margin: 5%;">All Subject Category</h4>
+                <form action="myregistration" method="POST">
+                    <input name="title" placeholder="Search in My Registration">
+                    <button style="margin: 5%" type="submit">Search</button>
+                </form>
+                <a  href="myregistration"><h4 style="text-align: left; margin: 5%;">
+                                            All Subject Category</h4>
+                </a>
                 <div class="scroll">
                     <c:forEach items="${requestScope.Categorys}" var="Category">
-                        <div class="subject">
-                            <a href="course/list?cateId=${Category.categoryID}">${Category.value}</a>
+                        <div style="text-align: left; font-size: 20px">
+                            <a href="myregistration?categoryId=${Category.categoryID}">${Category.value}</a>
                         </div>
                     </c:forEach>
                 </div>
             </div>
-            
+
             <div class="col-lg-10 col-sm-12" >
                 <table border="1" >
                     <thead>
@@ -51,34 +57,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var = "i" begin="0" end="${requestScope.myCourses.size()-1}">
-                            <tr>
-                                <td >${requestScope.myCourses.get(i).userCourseId}</td>
-                                <td class="b">${requestScope.myCourses.get(i).course.title}</td>
-                                <td >${requestScope.myCourses.get(i).pricePackage.duration}</td>
-                                <td >${requestScope.myCourses.get(i).pricePackage.name}</td>
-                                <td >${requestScope.myCourses.get(i).pricePackage.salePrice}</td>
-                                <td >${requestScope.myCourses.get(i).registration_status}</td>
-                                <td >${requestScope.myCourses.get(i).startDate}</td>
-                                <td >${requestScope.myCourses.get(i).endDate}</td>
-                                <td >
-                                    <c:if test="${!requestScope.myCourses.get(i).registration_status}">
-                                        <a href="#" >Edit</a>
-                                    </c:if>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <c:if test="${requestScope.myCourses.size()>0}">
+                            <c:forEach var = "i" begin="0" end="${requestScope.myCourses.size()-1}">
+                                <tr>
+                                    <td >${requestScope.myCourses.get(i).userCourseId}</td>
+                                    <td class="b">${requestScope.myCourses.get(i).course.title}</td>
+                                    <td >${requestScope.myCourses.get(i).pricePackage.duration}</td>
+                                    <td >${requestScope.myCourses.get(i).pricePackage.name}</td>
+                                    <td >${requestScope.myCourses.get(i).pricePackage.salePrice}</td>
+                                    <td >${requestScope.myCourses.get(i).registration_status}</td>
+                                    <td >${requestScope.myCourses.get(i).startDate}</td>
+                                    <td >${requestScope.myCourses.get(i).endDate}</td>
+                                    <td >
+                                        <c:if test="${!requestScope.myCourses.get(i).registration_status}">
+                                            <a href="#" >Edit</a>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
                     </tbody>
                 </table>
             </div>   
 
         </div>
 
-        </c:if>
-        <c:if test="${requestScope.myCourses.size()==0}">
-            <h1> You are not have register course!</h1><br><br><br><br><br><br>
-            
-        </c:if>
+
+
     </body>
     <jsp:include page="../view/base/footer.jsp" />
 </html>

@@ -60,14 +60,15 @@ public class BlogDBContext extends DBContext {
 //        return blogs;
 //    }
     
-     public ArrayList<Blog> getBlogs()
+     public ArrayList<Blog> getBlogs(String bid)
     {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             
             String sql ="select top(6) b.id, b.brief, b.Thumbnail, b.Title, b.CategoryId, b.StatusId, b.UserId, u.fullname\n" +
-                        "from Blog b inner join [User] u on u.UserId= b.UserId";
+                        "from Blog b inner join [User] u on u.UserId= b.UserId where b.statusId=1 and b.id!=?";
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, bid);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
                 Blog b = new Blog();
@@ -94,7 +95,7 @@ public class BlogDBContext extends DBContext {
             String sql ="select b.id, b.brief, b.Thumbnail, b.content, b.Title, b.CategoryId, b.StatusId, b.UserId, u.fullname, c.value, b.createdate\n" +
 "                        from Blog b inner join [User] u on u.UserId= b.UserId\n" +
 "                        inner join Category c on b.CategoryId= c.Categoryid\n" +
-"                        where b.id = ?";
+"                        where b.id = ? and  b.StatusId=1";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, bid);
             ResultSet rs = stm.executeQuery();
@@ -158,6 +159,117 @@ public class BlogDBContext extends DBContext {
             Logger.getLogger(BlogDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return blogs;
+    }
+    public ArrayList<Blog> getBlogList(int[] cid, String name, int pageindex, int pagesize) {
+        ArrayList<Blog> blogs = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM\n"
+                    + "            (SELECT Blog.Id, Blog.Brief, Blog.Thumbnail, Blog.Title, Category.Categoryid, Category.value, Blog.UserId, [User].fullname  ,ROW_NUMBER() OVER (ORDER BY Blog.createdate DESC) as row_index  \n"
+                    + "			FROM     Blog INNER JOIN\n"
+                    + "                  Category ON Blog.CategoryId = Category.Categoryid\n"
+                    + "				  inner join [User] on [User].Userid = Blog.UserId\n"
+                    + "				  where Blog.StatusId=1 ";
+
+            if (cid != null) {
+                sql += " and Category.Categoryid in (";
+                for (int i = 0; i < cid.length; i++) {
+                    sql += cid[i] + ",";
+                }
+                if (sql.endsWith(",")) {
+                    sql = sql.substring(0, sql.length() - 1);
+                }
+                sql += ")";
+            }
+
+            if (name != null) {
+                sql += " and Category.value like ? ";
+            }
+            sql += ") tbl\n"
+                    + "            WHERE row_index >= (?-1)*? + 1 \n"
+                    + "                    AND row_index <= ?* ?";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            if (name != null) {
+                stm.setString(1, "%" + name + "%");
+                stm.setInt(2, pageindex);
+                stm.setInt(3, pagesize);
+                stm.setInt(4, pageindex);
+                stm.setInt(5, pagesize);
+            } else {
+                stm.setInt(1, pageindex);
+                stm.setInt(2, pagesize);
+                stm.setInt(3, pageindex);
+                stm.setInt(4, pagesize);
+            }
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Blog b = new Blog();
+                b.setId(rs.getInt("Id"));
+                b.setBrief(rs.getString("Brief"));
+                b.setThumbnail(rs.getString("Thumbnail"));
+
+                b.setTitle(rs.getString("Title"));
+
+                Category ca = new Category();
+                ca.setCategoryID(rs.getInt("Categoryid"));
+                ca.setValue(rs.getString("value"));
+                b.setCategory(ca);
+                User u = new User();
+                u.setId(rs.getInt("UserId"));
+                u.setFullName(rs.getString("fullname"));
+
+                b.setUser(u);
+                blogs.add(b);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return blogs;
+    }
+
+    public int CountBlogList(int[] cid, String name, int pageindex, int pagesize) {
+        ArrayList<Blog> blogs = new ArrayList<>();
+        try {
+            String sql = "SELECT Count(*) FROM\n"
+                    + "            (SELECT Blog.Id, Blog.Brief, Blog.Thumbnail, Blog.Title, Category.Categoryid, Category.value, Blog.UserId, [User].fullname  ,ROW_NUMBER() OVER (ORDER BY Blog.createdate DESC) as row_index  \n"
+                    + "			FROM     Blog INNER JOIN\n"
+                    + "                  Category ON Blog.CategoryId = Category.Categoryid\n"
+                    + "				  inner join [User] on [User].Userid = Blog.UserId\n"
+                    + "				  where Blog.StatusId=1 ";
+
+            if (cid != null) {
+                sql += " and Category.Categoryid in (";
+                for (int i = 0; i < cid.length; i++) {
+                    sql += cid[i] + ",";
+                }
+                if (sql.endsWith(",")) {
+                    sql = sql.substring(0, sql.length() - 1);
+                }
+                sql += ")";
+            }
+
+            if (name != null) {
+                sql += " and Category.value like ? ";
+            }
+            sql += ") tbl\n";
+                    
+            PreparedStatement stm = connection.prepareStatement(sql);
+            if (name != null) {
+                stm.setString(1, "%" + name + "%");
+          
+            }
+
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
     public static void main(String[] args){
         BlogDBContext a = new BlogDBContext();

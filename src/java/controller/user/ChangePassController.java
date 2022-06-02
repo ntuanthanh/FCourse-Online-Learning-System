@@ -31,12 +31,11 @@ public class ChangePassController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         String id = request.getParameter("id");
         String raw_email = request.getParameter("email");
         String password = request.getParameter("password");
         String newpass = request.getParameter("newpass");
-    
+        String cf_pass = request.getParameter("cf_pass");
 //        String phone = raw_phone;
 //        boolean gender = raw_gender.equals("male");
 //
@@ -50,16 +49,20 @@ public class ChangePassController extends HttpServlet {
         UserDBContext db = new UserDBContext();
         User user = db.getUser(raw_email, password);
 
-        if (user != null) {          
+        if (user != null && newpass != password) {          
             db.changePassword(raw_email, newpass);
-            response.sendRedirect("../profile");
+//            request.setAttribute("messss", "Đổi mật khẩu thành công");  
+//            request.setAttribute("alerterror",2 );
+            response.sendRedirect("../../user/profile");
         }
         else 
         {
-            String er = "Sai mật khẩu cũ";          
-            request.setAttribute("er", er);            
-            request.getRequestDispatcher("../profile").forward(request, response);
-       
+            String er = "Đổi mật khẩu không thành công";          
+            request.setAttribute("messss", er);          
+            request.setAttribute("alerterror",2);
+            response.sendRedirect("../../user/profile");
+
+            
         }
     }
 

@@ -35,7 +35,7 @@ public class UserProfileController extends BaseAuthController {
     protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Change information of user 
-        
+        doGet(request, response);
     }
 
 }

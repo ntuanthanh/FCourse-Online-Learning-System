@@ -1,0 +1,47 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 2, 2022, 4:34:16 PM
+    Author     : jicon
+*/
+
+.tag{
+    height: 50px;
+    display: flex;
+	flex-wrap: wrap;
+	padding: 10px;
+	margin: 20px 0;
+	 display: -webkit-box;
+    overflow: hidden;
+    
+}
+.tag-item{
+    color: #333;
+	margin: 4px 3px;
+	list-style: none;
+	border-radius: 5px;
+	background: #8cc84c;
+	padding: 5px 8px 5px 10px;
+	color: white;
+}
+.tag-item > a:link {
+  color: white;
+}
+
+/* visited link */
+.tag-item > a:visited {
+  color: white;
+}
+
+/* mouse over link */
+.tag-item > a:hover {
+  color: gray;
+}
+
+/* selected link */
+.tag-item > a:active {
+  color: white !important;
+}

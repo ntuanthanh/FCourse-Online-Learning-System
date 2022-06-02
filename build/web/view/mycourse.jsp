@@ -44,8 +44,8 @@
                                 <div class="course-title" >
                                     <a href="#"><h4>${requestScope.Courses.get(j-1).title}</h4></a>
                                 </div>
-                                <div class="tag">
-                                    <p class="card-subject">${requestScope.Courses.get(j-1).tagline}</p>
+                                <div class="briefInfo">
+                                    <p>${requestScope.Courses.get(j-1).briefInfo}</p>
                                 </div>
 
                                 <div class="progress" style="margin-top: 10px" >
@@ -75,13 +75,16 @@
                 </c:if> 
             </c:forEach>
 
-            
+
         </div>
-        <div id="paggerbot" class = "text-center" > </div>
-        <script>
-            pagger("paggerbot",${requestScope.pageindesx},${requestScope.totalpage}, 8);
-        </script>
         
+        <div id="paggerbot" class = "text-center" > </div>
+        
+        <script>
+            pagger("paggerbot",${requestScope.pageindex},${requestScope.totalpage}, 1);
+            
+        </script>
+
     </body>
     <jsp:include page="../view/base/footer.jsp" />  
 </html>

@@ -123,7 +123,7 @@
         <div class="modal fade" id="myModal-ChangePassword">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                     change password 
+                     Change password 
                     <div class="modal-body">
                         <form id ="validate-form-change-password" action = "../user/profile/changepass" method="POST">
                             <div class = "edit-profile-form">
@@ -161,14 +161,15 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-            </div>          
+            </div>   
         </div>                           
         <!--Footer-->
         <jsp:include page="../base/footer.jsp" />
         <script>
            validateEditProfile();
            validate_form_change_password();
-           getImgPreview_profileUser(event); 
+           getImgPreview_profileUser(event);
+           
         </script>
     </body>
 </html>

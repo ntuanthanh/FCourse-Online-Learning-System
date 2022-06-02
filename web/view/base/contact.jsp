@@ -9,7 +9,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Contact|Edu-FCourse</title>
-        <link rel="stylesheet" href="../../css/contact.css"/>
+        <link rel="stylesheet" href="css/contact.css"/>
         <link rel="stylesheet" href="css/blog.css"/>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -24,7 +24,7 @@
             <div class="row box">
                 <div class="col-md-3">
                     <div class="contact-info">
-                        <img src="../../images/contact/contact-image.png" alt=""/>
+                        <img src="images/contact/contact-image.png" alt=""/>
                         <h2>Contact Us</h2>
                         <h4>We would love to hear from you !</h4>
                     </div>

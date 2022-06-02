@@ -19,18 +19,25 @@
         <title>Course List</title>
         <script src="../js/pagging.js" type="text/javascript" ></script>
         <link rel="stylesheet" href="../css/courseList.css">
+        <link rel="stylesheet" href="../css/tagline.css">
         <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        
-         <%
+
+        <%
             ArrayList<Course> coursesSlider = (ArrayList<Course>) request.getAttribute("coursesSlider");
         %>
+        <script>
+            function submitSearch() {
+                document.getElementById("search").submit();
+            }
+
+        </script>
     </head>
 
     <body>
         <jsp:include page="../view/base/header.jsp" />  
-       <div class = "slider">
+        <div class = "slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -82,38 +89,62 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-3 col-sm-12">
-                        <h4 class="category-subject" style="text-align: center;">search course</h4>
+                        <h4 class="category-subject" style="text-align: center;">Search Course</h4>
                         <div class="slider-search row">
-                            <form class="form-inline" action="list" method="GET">
+                            <form class="form-inline" action="list" method="GET" id="search">
 
-
-                                <div class="search-box col-xl-12 col-sm-12 col-12">
-                                    <input  name="title" type="search" value="${requestScope.title}" placeholder="course name">
+                                <div class="search-box col-9">
+                                    <input type="text" name="title" class="search-input" value="${requestScope.title}"  />
+                                    <button type="submit" class="search-btn" >
+                                        <i class='bx bx-search'></i>
+                                    </button>
                                 </div>
+
+                                
                                 <c:set var="cates" value="${requestScope.categories}"  />
-                                <c:set var="check" value="${requestScope.cidcheck}"  />
-                                <c:forEach begin="0" end="${cates.size()-1}" var="i" >
-                                    <div class="list-box col-xl-6 col-sm-6 col-6">
-                                        <input type="checkbox" name="cateId" ${check[i]?"checked":""} 
+                                <c:set var="checkCate" value="${requestScope.cidcheck}"  />
+                                <div class=" col-xl-12 col-sm-6 col-6">
+                                    <h5 class=" col-xl-12 col-sm-12 col-12">category</h5>
+                                    <div class="list-cate col-xl-12 col-sm-6 col-6">
+                                    
+                                    <c:forEach begin="0" end="${cates.size()-1}" var="i" >
+                                    <div class=" col-12">
+                                        <input onchange="submitSearch();" type="checkbox" name="cateId" ${checkCate[i]?"checked":""} 
                                                value="${cates.get(i).getCategoryID()}">${cates.get(i).getValue()}
                                     </div>
                                 </c:forEach>
-
-
+                                </div>
+                                </div>
+                                
+                                <c:set var="tags" value="${requestScope.tags}"  />
+                                <c:set var="checkTag" value="${requestScope.tidcheck}"  />
+                                <div class=" col-xl-12 col-sm-6 col-6">
+                                     <h5 class=" col-xl-12 col-sm-12 col-12">tag</h5>
+                                    <div class="list-cate col-xl-12 col-sm-6 col-6">
+                                    
+                                    <c:forEach begin="0" end="${tags.size()-1}" var="i" >
+                                    <div class="col-12">
+                                        <input   onchange="submitSearch();" type="checkbox" name="tagId"  ${checkTag[i]?"checked":""} 
+                                                value="${tags.get(i).tagId}">${tags.get(i).tagname}
+                                    </div>
+                                </c:forEach>
+                                </div>
+                                </div>
+                                <div class="col-12"></div>
                                 <div class="col-xl-6 col-sm-6 col-6">
                                     from
                                     <br>
-                                    <input name="from" type="date" value="${requestScope.begin}">
+                                    <input  onchange="submitSearch();" name="from" type="date" value="${requestScope.begin}">
                                 </div>
                                 <div class="col-xl-6 col-sm-6 col-6">
                                     to
                                     <br>
-                                    <input name="to" type="date" value="${requestScope.end}">
+                                    <input  onchange="submitSearch();" name="to" type="date" value="${requestScope.end}">
                                 </div>
                                 <div class="col-xl-6 col-sm-6 col-6">
 
                                     sort<br>
-                                    <select name="sort">
+                                    <select  onchange="submitSearch();" name="sort">
                                         <option ${requestScope.sort == "0"?"selected = selected":""} value="0">new</option>
                                         <option ${requestScope.sort == "1"?"selected = selected":""} value="1">old</option>
                                         <option ${requestScope.sort == "2"?"selected = selected":""} value="2">a-z</option>
@@ -121,19 +152,18 @@
 
                                     </select>
                                 </div>
+
                                 <div class="col-xl-6 col-sm-6 col-6">
                                     feature
                                     <br>
-                                    <select name="feature">
+                                    <select  onchange="submitSearch();" name="feature">
 
                                         <option  ${requestScope.feature == 0?"selected = selected":""} value="0">tat ca</option>
                                         <option ${requestScope.feature == 1?"selected = selected":""} value="1">noi bat</option>
                                     </select>
                                 </div>
 
-                                <div class="button-search col-sm-12">
-                                    <button class="btn btn-success" type="submit">Search</button>
-                                </div>
+
 
 
 
@@ -168,10 +198,12 @@
                                                 <div class="list-price col-md-6  col-sm-6 col-6"><span>${course.pricePackage[0].listPrice}</span></div>
 
                                             </div>
-                                            <div class="tag">
-                                                <hr>
-                                                <p>${course.tagLine} </p>
-                                            </div>
+                                            <ul class="tag">
+
+                                                <c:forEach items="${course.getTags()}" var="tag">
+                                                    <li class="tag-item" style="margin-bottom: 20px"><a href="list?tagId=${tag.tagId}">${tag.getTagname()}</a></li>
+                                                    </c:forEach>
+                                            </ul>
                                         </div>
 
                                     </div>
@@ -191,8 +223,16 @@
             </div>  
             <script>
 
+                scrollWindow();
+
+                // scrolls the window to auto load in middle of page 
+
+                function scrollWindow() {
+                    window.scroll(0, 730);
+                }
+
                 pagging("pagger", 2,${requestScope.totalpage}, ${requestScope.pageindex}, '${requestScope.url}');
-                
+
             </script>
             <jsp:include page="base/footer.jsp" /> 
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q " crossorigin="anonymous "></script>
