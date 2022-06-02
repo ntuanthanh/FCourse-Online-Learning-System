@@ -120,7 +120,7 @@
                                             </div>
 
                                             <div class="card-title">
-                                                <a href="course/detail">${course.title}</a>
+                                                <a href="coursedetail?id=${course.courseId}">${course.title}</a>
                                             </div>
                                             <div class="card-price row">
                                                 <div class="sale-price col-md-6  col-sm-6 col-6"><span>${course.pricePackage[0].salePrice}</span></div>

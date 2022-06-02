@@ -7,6 +7,7 @@ package controller.user;
 
 import dal.BlogDBContext;
 import dal.CategoryDBContext;
+import dal.ContentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Blog;
 import model.Category;
+import model.Content;
 
 /**
  *

@@ -35,8 +35,8 @@ public class VerifyUserController extends HttpServlet {
         UserDBContext db = new UserDBContext();
    //     int id=6;
         db.updateStatus(id);
-        response.sendRedirect("../view/user/verify_user.jsp");
-    //    request.getRequestDispatcher("../view/user/verify_user.jsp").forward(request, response);
+    
+        request.getRequestDispatcher("../view/user/verify_user.jsp").forward(request, response);
 
        
     }

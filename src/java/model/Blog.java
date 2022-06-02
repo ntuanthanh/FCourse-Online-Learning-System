@@ -55,6 +55,8 @@ public class Blog {
         this.content = content;
     }
 
+    
+
     public String getThumbnail() {
         return thumbnail;
     }

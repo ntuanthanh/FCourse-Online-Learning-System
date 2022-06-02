@@ -15,6 +15,7 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src ="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
         <style>
             .name-banner{
                 color : green;
@@ -62,7 +63,7 @@
                             <c:if test = "${sessionScope.user != null}">                                                         
                                 <ul class="nav">
                                    <li class="nav-item"> 
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/myregistration">My Registration<img src="${pageContext.request.contextPath}/images/header/online-course.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/myregistration">My Registration<img src="${pageContext.request.contextPath}/images/header/shopping-cart.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>
                                    </li>
                                    <li class="nav-item"> 
                                     <a class="nav-link" href="${pageContext.request.contextPath}/mycourse">My Course<img src="${pageContext.request.contextPath}/images/header/online-course.png" style="margin-bottom: 6px; margin-left: 2px;" width="20px" height="20px" alt=""/></a>

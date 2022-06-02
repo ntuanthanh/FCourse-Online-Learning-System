@@ -65,7 +65,7 @@ public class BlogDBContext extends DBContext {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             
-            String sql ="select top(6) b.id, b.brief, b.content, b.Thumbnail, b.Title, b.CategoryId, b.StatusId, b.UserId, u.fullname\n" +
+            String sql ="select top(6) b.id, b.brief, b.Thumbnail, b.Title, b.CategoryId, b.StatusId, b.UserId, u.fullname\n" +
                         "from Blog b inner join [User] u on u.UserId= b.UserId";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
@@ -74,7 +74,6 @@ public class BlogDBContext extends DBContext {
                 User u = new User();
                 b.setId(rs.getInt("id"));
                 b.setBrief(rs.getString("brief"));
-                b.setContent(rs.getString("content"));
                 b.setThumbnail(rs.getString("Thumbnail"));
                 b.setTitle(rs.getString("title"));
                 b.setCategoryId(rs.getInt("CategoryId"));
@@ -92,7 +91,7 @@ public class BlogDBContext extends DBContext {
     public Blog getBlog(String bid)
     {
         try {
-            String sql ="select b.id, b.brief, b.content, b.Thumbnail, b.Title, b.CategoryId, b.StatusId, b.UserId, u.fullname, c.value, b.createdate\n" +
+            String sql ="select b.id, b.brief, b.Thumbnail, b.content, b.Title, b.CategoryId, b.StatusId, b.UserId, u.fullname, c.value, b.createdate\n" +
 "                        from Blog b inner join [User] u on u.UserId= b.UserId\n" +
 "                        inner join Category c on b.CategoryId= c.Categoryid\n" +
 "                        where b.id = ?";
@@ -105,8 +104,8 @@ public class BlogDBContext extends DBContext {
                 Category c = new Category();
                 b.setId(rs.getInt("id"));
                 b.setBrief(rs.getString("brief"));
-                b.setContent(rs.getString("content"));
                 b.setThumbnail(rs.getString("Thumbnail"));
+                b.setContent(rs.getString("content"));
                 b.setTitle(rs.getString("title"));
                 b.setCategoryId(rs.getInt("CategoryId"));
                 b.setStatusId(rs.getInt("StatusId"));
@@ -126,7 +125,7 @@ public class BlogDBContext extends DBContext {
     public ArrayList<Blog> getBlogForHome() {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
-            String sql = "SELECT top(3) Blog.Id, Blog.Brief, Blog.content, Blog.Thumbnail, Blog.Title, Blog.CategoryId, Blog.StatusId, Blog.UserId, Blog.createdate, Category.value, [user].fullname\n" +
+            String sql = "SELECT top(3) Blog.Id, Blog.Brief, Blog.Thumbnail, Blog.Title, Blog.CategoryId, Blog.StatusId, Blog.UserId, Blog.createdate, Category.value, [user].fullname\n" +
 "                    FROM     Blog INNER JOIN\n" +
 "                                      Category ON Blog.CategoryId = Category.Categoryid\n" +
 "                    				  inner join [User] on  [User].Userid = Blog.UserId\n" +
@@ -138,7 +137,6 @@ public class BlogDBContext extends DBContext {
                 Blog b = new Blog();
                 b.setId(rs.getInt("Id"));
                 b.setBrief(rs.getString("Brief"));
-                b.setContent(rs.getString("content"));
                 b.setThumbnail(rs.getString("Thumbnail"));
                 b.setCreatedate(rs.getDate("createdate"));
                 

@@ -52,7 +52,7 @@ public class UserRegisterController extends HttpServlet {
         s.setAvatarImage("non-avatar.png");
         UserDBContext db = new UserDBContext();
         int userid = db.insertUser(s);
-        String link = "http://localhost:8080\"+ request.getContextPath()+\"/user/verify?id="+userid;
+        String link = "http://localhost:8080"+request.getContextPath()+"/user/verify?id="+userid;
 
         SendEmail y = new SendEmail();
         y.send(raw_email, content(link), "SUB");
