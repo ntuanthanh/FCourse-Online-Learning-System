@@ -14,6 +14,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -40,6 +42,12 @@ public class EditProfileController extends BaseAuthController {
         String email = request.getParameter("email"); 
         String phone = request.getParameter("phone"); 
         String raw_gender = request.getParameter("gender"); 
+        // add dob ( fix database ) 6/7
+        String raw_dob = request.getParameter("dob"); 
+        Date dob = null; 
+        if(raw_dob != null && raw_dob.length() > 0){
+            dob = Date.valueOf(raw_dob); 
+        }
         boolean gender ;
         if(raw_gender.equals("male")){
             gender = true;
@@ -79,6 +87,7 @@ public class EditProfileController extends BaseAuthController {
         user.setPhone(phone);
         user.setGender(gender);
         user.setAvatarImage(fileName);
+        user.setDob(dob);
         // Save 
         UserDBContext userDB = new UserDBContext(); 
         userDB.UpdateUser(user);

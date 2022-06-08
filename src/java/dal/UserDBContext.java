@@ -25,7 +25,7 @@ public class UserDBContext extends DBContext{
     */
     public User getUserById(int id){        
         try { 
-            String sql = "select Userid, fullname, email, gender, [password], phone, avatar_img, Statusid from [User]\n" +
+            String sql = "select * from [User]\n" +
                           " where Userid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
@@ -40,6 +40,7 @@ public class UserDBContext extends DBContext{
                 user.setPassword(rs.getString("password"));
                 user.setPhone(rs.getString("phone"));
                 user.setAvatarImage(rs.getString("avatar_img"));
+                user.setDob(rs.getDate("dob"));
                 // Take status of this User 
                 Status status = new Status();
                 status.setId(rs.getInt("Statusid"));
@@ -177,6 +178,8 @@ public class UserDBContext extends DBContext{
                 user.setPassword(password);
                 user.setPhone(rs.getString("phone"));
                 user.setAvatarImage(rs.getString("avatar_img"));
+                // add dob in database ( fix 6/7/2022) 
+                user.setDob(rs.getDate("dob"));
                 // Take status of this User 
                 Status status = new Status();
                 status.setId(rs.getInt("Statusid"));
@@ -251,13 +254,15 @@ public class UserDBContext extends DBContext{
                     "      ,[gender] = ?\n" +
                     "      ,[phone] = ?\n" +
                     "      ,[avatar_img] = ?\n" +
+                    "      ,[dob] = ? \n" +
                     " WHERE Userid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, user.getFullName());
             stm.setBoolean(2, user.isGender());
             stm.setString(3, user.getPhone());
             stm.setString(4, user.getAvatarImage());
-            stm.setInt(5, user.getId());
+            stm.setDate(5, user.getDob());
+            stm.setInt(6, user.getId());
             stm.executeUpdate();
             } catch (SQLException ex) {
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);

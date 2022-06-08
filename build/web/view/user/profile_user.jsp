@@ -10,20 +10,21 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<!--        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-        <script src ="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+        <script src ="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>-->
         <link href="../css/profile_user.css" rel="stylesheet" type="text/css"/>
         <script src="../js/validationForm/validateForm.js" type="text/javascript"></script>
         <script src="../js/ImgPreview/imgPreview.js" type="text/javascript"></script>
         <title>JSP Page</title>
     </head>
+    
     <body>
-        <!--Header-->
-        <jsp:include page="../base/header.jsp" /> 
-        <!--Content -->
+<!--        Header-->
+        <jsp:include page="../base/header_t.jsp" /> 
+<!--        Content -->
         <div class = "content-profile">
             <div class = row>
                 <div class = "col-md-4 text-center main-profile"> 
@@ -58,11 +59,10 @@
                     </table>
                 </div>
             </div>
-            <!--Modal of edit profile -->
-            <div class="modal fade" id="myModal">
+<!--            Modal of edit profile -->
+            <div class="modal fade" id="myModal" style="margin-top: 100px">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
-                        <!-- Modal body of edit profile -->
                         <div class="modal-body">
                             <div class = "edit-profile">
                                 <div class = "edit-profile-header">
@@ -104,6 +104,10 @@
                                                     type="radio" id="female" name = "gender" value ="female"/><p for = "female" >Female</p>
                                             </div>
                                         </div>
+                                         <div class = "edit-profile-form-item form-group">
+                                            <label for="dob" class="mr-sm-2">Date of birth</label>
+                                            <input type="date" id = "dob" class="form-control" name ="dob" value = "${sessionScope.user.dob}">
+                                        </div>
                                     </div>
                                     <div class = "edit-profile-submit">
                                         <button class="btn btn-success" type="submit">Update</button>
@@ -111,7 +115,7 @@
                                 </form>   
                             </div> 
                         </div>
-                        <!-- Modal footer -->
+<!--                         Modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
@@ -119,11 +123,10 @@
                 </div>          
             </div>
         </div>
-           <!--Modal of change password -->
-        <div class="modal fade" id="myModal-ChangePassword">
+<!--           Modal of change password -->
+        <div class="modal fade" id="myModal-ChangePassword" style="margin-top: 150px">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                     Change password 
                     <div class="modal-body">
                         <form id ="validate-form-change-password" action = "../user/profile/changepass" method="POST">
                             <div class = "edit-profile-form">
@@ -163,8 +166,8 @@
                 </div>
             </div>   
         </div>                           
-        <!--Footer-->
-        <jsp:include page="../base/footer.jsp" />
+<!--        Footer-->
+        <jsp:include page="../base/footer_t.jsp" />
         <script>
            validateEditProfile();
            validate_form_change_password();

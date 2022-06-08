@@ -19,7 +19,7 @@
 
     <body>
         <!-- Header side -->
-        <jsp:include page="../view/base/header.jsp" />     
+        <jsp:include page="../view/base/header_t.jsp" />     
         <!-- Slider side --> 
         <div class = "slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -184,7 +184,7 @@
                 </div>
             </div>
             <!-- footer side --> 
-            <jsp:include page="base/footer.jsp" /> 
+            <jsp:include page="base/footer_t.jsp" /> 
     </body>
 
 </html>

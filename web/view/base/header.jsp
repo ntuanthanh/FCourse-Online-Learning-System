@@ -150,7 +150,6 @@
                      </div>
                  </div>
              </div>
-        </div>
 <!--        Modal-->
         <div class="modal fade" id="myModal-signup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -179,7 +178,7 @@
                     </div>
                 </div>
             </div>
- 
+        </div>
             <script>
             var hidden = ${requestScope.alerterror};
             if (hidden <= 1) {
