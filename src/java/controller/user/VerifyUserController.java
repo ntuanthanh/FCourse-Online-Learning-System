@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.User;
 
 /**
  *
@@ -30,15 +31,23 @@ public class VerifyUserController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id =  Integer.parseInt( request.getParameter("id")) ;
+        int id = Integer.parseInt(request.getParameter("id"));
 //        String raw_email = request.getParameter("email");
         UserDBContext db = new UserDBContext();
-   //     int id=6;
-        db.updateStatus(id);
-        response.sendRedirect("../view/user/verify_user.jsp");
-    //    request.getRequestDispatcher("../view/user/verify_user.jsp").forward(request, response);
 
-       
+        User userById = db.getUserById(id);
+        if (userById.getStatus().getId() == 1) {
+            String mess = "Account already confirm";
+            request.setAttribute("mess", mess);
+            //  request.setAttribute("alerterror",1 );    
+            String name = userById.getFullName();
+            request.setAttribute("name", name);
+        }
+        //     int id=6;
+        db.updateStatus(id);
+        request.getRequestDispatcher("../view/user/verify_user.jsp").forward(request, response);
+        //    request.getRequestDispatcher("../view/user/verify_user.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

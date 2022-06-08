@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import model.Category;
 import model.Course;
 import model.Status;
+import model.Tag;
 
 /**
  *
@@ -24,7 +25,7 @@ import model.Status;
  */
 public class CourseDBContext extends DBContext {
 
-    public Course getCourseDetail(int CourseId) {
+   public Course getCourseDetail(int CourseId) {
         PreparedStatement stm = null;
         ResultSet rs = null;
         String sql = "SELECT [CourseId]\n"
@@ -32,11 +33,10 @@ public class CourseDBContext extends DBContext {
                 + "      ,[briefinfo]\n"
                 + "      ,[thumnaiURL]\n"
                 + "      ,[title]\n"
+                +",[description]"
                 + "      ,[featured]\n"
                 + "      ,[Categoryid]\n"
-                + ",[tagline]\n"
                 + "      ,[statusid]\n"
-                + ",[tagline]"
                 + "  FROM [Courses] c\n"
                 + "  where c.CourseId = ?";
         try {
@@ -51,8 +51,11 @@ public class CourseDBContext extends DBContext {
                 Course.setBriefinfo(rs.getString("briefinfo"));
                 Course.setThumnailURL(rs.getString("thumnaiURL"));
                 Course.setTitle(rs.getString("title"));
+                Course.setDescription(rs.getString("description"));
                 Course.setFeature(rs.getBoolean("featured"));
-                Course.setTagLine(rs.getString("tagline"));
+                TagDBContext tdbc = new TagDBContext();
+                ArrayList<Tag> tags = tdbc.getTags(CourseId);
+                Course.setTags(tags);
                 Category category = new Category();
                 category.setCategoryID(rs.getInt("Categoryid"));
                 Course.setCategory(category);
@@ -89,8 +92,8 @@ public class CourseDBContext extends DBContext {
                 + "     c.createdate,\n"
                 + "     c.Categoryid,\n"
                 + "     c.featured,\n"
+                +"c.[description],"
                 + "     c.statusid,\n"
-                + "     c.tagline,\n"
                 + "     c.thumnaiURL,\n"
                 + "	u.Userid,uc.registration_status,\n"
                 + "	ROW_NUMBER() over (order by c.CourseId asc ) as row_index\n"
@@ -113,11 +116,14 @@ public class CourseDBContext extends DBContext {
                 Course Course = new Course();
                 Course.setCourseId(rs.getInt("CourseId"));
                 Course.setCreatedate(rs.getDate("createdate"));
+                Course.setDescription(rs.getString("description"));
                 Course.setBriefinfo(rs.getString("briefinfo"));
                 Course.setThumnailURL(rs.getString("thumnaiURL"));
                 Course.setTitle(rs.getString("title"));
                 Course.setFeature(rs.getBoolean("featured"));
-                Course.setTagLine(rs.getString("tagline"));
+                TagDBContext tdbc = new TagDBContext();
+                ArrayList<Tag> tags = tdbc.getTags(rs.getInt("CourseId"));
+                Course.setTags(tags);
                 Category category = new Category();
                 category.setCategoryID(rs.getInt("Categoryid"));
                 Course.setCategory(category);
@@ -158,7 +164,6 @@ public class CourseDBContext extends DBContext {
 "                                c.Categoryid,\n" +
 "                               c.featured,\n" +
 "                               c.statusid,\n" +
-"                               c.tagline,\n" +
 "                               c.thumnaiURL,\n" +
 "                   			   u.Userid,\n" +
 "							   uc.registration_status,\n" +
@@ -190,6 +195,7 @@ public class CourseDBContext extends DBContext {
         }
         return -1;
     }
+    
     public int getCourseRate(int courseId, int userId){
             PreparedStatement stm = null;
         ResultSet rs = null;
@@ -221,12 +227,14 @@ public class CourseDBContext extends DBContext {
         }
         return 0;
     }
-public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end, int feature, String name, int pageIndex, int pageSize) {
+    
+
+    public ArrayList<Course> searchCourse(int sort, int[] cid, int[] tid, Date begin, Date end, int feature, String name, int pageIndex, int pageSize) {
         //page size is  number of element in page
         ArrayList<Course> courses = new ArrayList<>();
         try {
             String sql = "  SELECT * FROM\n"
-                    + "                        (SELECT Courses.CourseId, thumnaiURL,title, Courses.featured, Category.Categoryid, Category.value, tagline, "; // last element in pageindex
+                    + "                        (SELECT Courses.CourseId, thumnaiURL,title, Courses.featured, Category.Categoryid, Category.value, "; // last element in pageindex
             switch (sort) {
                 case 0:
                     sql += " ROW_NUMBER() OVER (ORDER BY Courses.createdate DESC) ";
@@ -246,8 +254,24 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
             sql += " as row_index \n"
                     + "FROM Courses \n"
                     + " inner join Status on Status.Sid = Courses.statusid \n"
-                    + " inner join Category on Category.Categoryid = Courses.Categoryid\n"
-                    + " where statusid =1 ";
+                    + " inner join Category on Category.Categoryid = Courses.Categoryid\n";
+            if (tid != null) {
+                sql += "   inner join\n"
+                        + "	(SELECT distinct Courses.CourseId\n"
+                        + "	FROM     courseTag INNER JOIN\n"
+                        + "            Tag ON courseTag.tagId = Tag.tagId INNER JOIN\n"
+                        + "            Courses ON courseTag.courseId = Courses.CourseId where (1=1) and Tag.tagId in (";
+                for (int i = 0; i < tid.length; i++) {
+                    sql += tid[i] + ",";
+                }
+                if (sql.endsWith(",")) {
+                    sql = sql.substring(0, sql.length() - 1);
+                }
+                sql += ")) as tb on tb.CourseId=Courses.CourseId";
+            }
+            sql += "                    where statusid =1 ";
+            
+                  
 
             //add cid
             if (cid != null) {
@@ -260,6 +284,7 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
                 }
                 sql += ")";
             }
+           
 
             HashMap<Integer, Object[]> parameters = new HashMap<>();
             int paramIndex = 0;
@@ -349,7 +374,7 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
                 ca.setCategoryID(rs.getInt(5));
                 ca.setValue(rs.getString(6));
                 c.setCategory(ca);
-                c.setTagLine(rs.getString(7));
+
                 courses.add(c);
 
             }
@@ -359,7 +384,7 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
         return courses;
     }
 
-    public int coutCouse(int[] cid, Date begin, Date end, int feature, String name) {
+    public int coutCouse(int[] cid, int[] tid, Date begin, Date end, int feature, String name) {
         try {
             String sql = "SELECT COUNT(*) as total from\n"
                     + "(SELECT\n"
@@ -367,8 +392,25 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
                     + "as row_index \n"
                     + "                    FROM Courses \n"
                     + "                     inner join Status on Status.Sid = Courses.statusid \n"
-                    + "                    inner join Category on Category.Categoryid = Courses.Categoryid\n"
-                    + "                    where statusid =1 ";
+                    + "                    inner join Category on Category.Categoryid = Courses.Categoryid";
+
+            if (tid != null) {
+                sql += "   inner join\n"
+                        + "	(SELECT distinct Courses.CourseId\n"
+                        + "	FROM     courseTag INNER JOIN\n"
+                        + "            Tag ON courseTag.tagId = Tag.tagId INNER JOIN\n"
+                        + "            Courses ON courseTag.courseId = Courses.CourseId where (1=1) and Tag.tagId in (";
+                for (int i = 0; i < tid.length; i++) {
+                    sql += tid[i] + ",";
+                }
+                if (sql.endsWith(",")) {
+                    sql = sql.substring(0, sql.length() - 1);
+                }
+                sql += ")) as tb on tb.CourseId=Courses.CourseId";
+            }
+            sql += "                    where statusid =1 ";
+            
+            
             if (cid != null) {
                 sql += " and Category.Categoryid in (";
                 for (int i = 0; i < cid.length; i++) {
@@ -446,7 +488,7 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
     public ArrayList<Course> getThreeCourseForHome() {
         ArrayList<Course> courses = new ArrayList<>();
         try {
-            String sql = "SELECT top(3) Courses.CourseId, Courses.thumnaiURL, Courses.title, Courses.tagline, Courses.featured ,Category.Categoryid,Category.value\n"
+            String sql = "SELECT top(3) Courses.CourseId, Courses.thumnaiURL, Courses.title, Courses.featured ,Category.Categoryid,Category.value\n"
                     + "FROM     Courses INNER JOIN\n"
                     + "                  Status ON Courses.statusid = Status.Sid INNER JOIN\n"
                     + "                  Category ON Courses.Categoryid = Category.Categoryid\n"
@@ -459,12 +501,12 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
                 c.setCourseId(rs.getInt(1));
                 c.setThumnailURL(rs.getString(2));
                 c.setTitle(rs.getString(3));
-                c.setTagLine(rs.getString(4));
+                
                 c.setFeature(rs.getBoolean(5));
 
                 Category ca = new Category();
-                ca.setCategoryID(rs.getInt(6));
-                ca.setValue(rs.getString(7));
+                ca.setCategoryID(rs.getInt(5));
+                ca.setValue(rs.getString(6));
                 c.setCategory(ca);
 
                 courses.add(c);
@@ -479,7 +521,7 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
     public ArrayList<Course> getMostProminentForHome() {
         ArrayList<Course> courses = new ArrayList<>();
         try {
-            String sql = "SELECT top(4) Courses.CourseId, Courses.thumnaiURL, Courses.title, Courses.tagline, Courses.featured ,Category.Categoryid,Category.value\n"
+            String sql = "SELECT top(4) Courses.CourseId, Courses.thumnaiURL, Courses.title, Courses.featured ,Category.Categoryid,Category.value\n"
                     + "                    FROM     Courses INNER JOIN\n"
                     + "                                     Status ON Courses.statusid = Status.Sid INNER JOIN\n"
                     + "                                      Category ON Courses.Categoryid = Category.Categoryid\n"
@@ -492,12 +534,12 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
                 c.setCourseId(rs.getInt(1));
                 c.setThumnailURL(rs.getString(2));
                 c.setTitle(rs.getString(3));
-                c.setTagLine(rs.getString(4));
+               
                 c.setFeature(rs.getBoolean(5));
 
                 Category ca = new Category();
-                ca.setCategoryID(rs.getInt(6));
-                ca.setValue(rs.getString(7));
+                ca.setCategoryID(rs.getInt(5));
+                ca.setValue(rs.getString(6));
                 c.setCategory(ca);
 
                 courses.add(c);
@@ -508,10 +550,11 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
         }
         return courses;
     }
+
     public ArrayList<Course> getCourseForSlider() {
         ArrayList<Course> courses = new ArrayList<>();
         try {
-            String sql = "SELECT top(3) Courses.CourseId, Courses.thumnaiURL, Courses.title, Courses.tagline, Courses.featured ,Category.Categoryid,Category.value\n"
+            String sql = "SELECT top(3) Courses.CourseId, Courses.thumnaiURL, Courses.title, Courses.featured ,Category.Categoryid,Category.value\n"
                     + "                    FROM     Courses INNER JOIN\n"
                     + "                                     Status ON Courses.statusid = Status.Sid INNER JOIN\n"
                     + "                                      Category ON Courses.Categoryid = Category.Categoryid\n"
@@ -524,12 +567,45 @@ public ArrayList<Course> searchCourse(int sort, int[] cid, Date begin, Date end,
                 c.setCourseId(rs.getInt(1));
                 c.setThumnailURL(rs.getString(2));
                 c.setTitle(rs.getString(3));
-                c.setTagLine(rs.getString(4));
+              
                 c.setFeature(rs.getBoolean(5));
 
                 Category ca = new Category();
-                ca.setCategoryID(rs.getInt(6));
-                ca.setValue(rs.getString(7));
+              
+                ca.setValue(rs.getString(6));
+                c.setCategory(ca);
+
+                courses.add(c);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return courses;
+    }
+    public ArrayList<Course> getThreeCourseForCourse(String id) {
+        ArrayList<Course> courses = new ArrayList<>();
+        try {
+            String sql = "SELECT top(3) Courses.CourseId, Courses.thumnaiURL, Courses.title, Courses.featured ,Category.Categoryid,Category.value\n"
+                    + "FROM     Courses INNER JOIN\n"
+                    + "                  Status ON Courses.statusid = Status.Sid INNER JOIN\n"
+                    + "                  Category ON Courses.Categoryid = Category.Categoryid\n"
+                    + "				  where Status.Sid = 1 and Courses.CourseId!=?\n"
+                    + "				  order by createdate desc";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Course c = new Course();
+                c.setCourseId(rs.getInt(1));
+                c.setThumnailURL(rs.getString(2));
+                c.setTitle(rs.getString(3));
+                
+                c.setFeature(rs.getBoolean(5));
+
+                Category ca = new Category();
+                ca.setCategoryID(rs.getInt(5));
+                ca.setValue(rs.getString(6));
                 c.setCategory(ca);
 
                 courses.add(c);

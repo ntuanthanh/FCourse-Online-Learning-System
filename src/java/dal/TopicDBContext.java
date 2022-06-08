@@ -19,7 +19,7 @@ import model.Topic;
  */
 public class TopicDBContext extends DBContext {
 
-    public ArrayList<Topic> getTopics(int CourseId) {
+   public ArrayList<Topic> getTopics(int CourseId) {
         PreparedStatement stm = null;
         ResultSet rs = null;
         String sql = "SELECT [Id]\n"

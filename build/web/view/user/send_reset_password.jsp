@@ -26,7 +26,7 @@
                 <h2>Reset Password?</h2>
                 <p>You can reset your password here.</p>
             </div>
-            <form id = "validate-form-send-reset-password" action = "../reset/lostpassword" method="Post">
+            <form id = "validate-form-send-reset-password" style="text-align: center" action = "../reset/lostpassword" method="Post">
                 <div class = "form-send-reset-password">
                     <div class = "form-group form-send-reset-password-item">
                         <input type="text" id = "email" class="form-control" name ="email" placeholder="Enter your email">

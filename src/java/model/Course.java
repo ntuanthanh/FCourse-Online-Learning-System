@@ -19,22 +19,30 @@ public class Course implements java.io.Serializable {
     private String briefInfo;
     private String thumnailURL;
     private String title;
-    private String tagline;
+    private String description;
     private boolean feature;
     private Category category;
     private Status status;
-    
+    private ArrayList<Tag> tags;
     private ArrayList<PricePackage> pricePackage ;
 
     public Course() {
     }
 
-    public String getTagLine() {
-        return tagline;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTagLine(String tagline) {
-        this.tagline = tagline;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getCourseId() {
@@ -60,6 +68,14 @@ public class Course implements java.io.Serializable {
         this.briefInfo = briefinfo;
     }
 
+    public ArrayList<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<Tag> tags) {
+        this.tags = tags;
+    }
+
 
 
     public String getThumnailURL() {
@@ -68,14 +84,6 @@ public class Course implements java.io.Serializable {
 
     public void setThumnailURL(String thumnailURL) {
         this.thumnailURL = thumnailURL;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public boolean isFeature() {
@@ -112,14 +120,6 @@ public class Course implements java.io.Serializable {
 
     public void setBriefInfo(String briefInfo) {
         this.briefInfo = briefInfo;
-    }
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
     }
 
     public void setStatus(Status status) {

@@ -32,10 +32,12 @@ public class BlogDetailController extends HttpServlet {
         BlogDBContext dbBlog = new BlogDBContext();
         CategoryDBContext dbCategory = new CategoryDBContext();
         
-        ArrayList<Blog> blogs = dbBlog.getBlogs();
+        String bid = request.getParameter("bid");
+        
+        ArrayList<Blog> blogs = dbBlog.getBlogs(bid);
         request.setAttribute("blogs", blogs);
         
-        String bid = request.getParameter("bid");
+        
         Blog blog = dbBlog.getBlog(bid);
         request.setAttribute("blog", blog);
 

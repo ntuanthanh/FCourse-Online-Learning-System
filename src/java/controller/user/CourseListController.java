@@ -8,6 +8,7 @@ package controller.user;
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
 import dal.PricePackageDBContext;
+import dal.TagDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.Category;
 import model.Course;
 import model.PricePackage;
+import model.Tag;
 
 /**
  *
@@ -81,6 +83,16 @@ public class CourseListController extends HttpServlet {
                    cid[i] = Integer.parseInt(cid_raw[i]);
             }
         }
+        
+        String []tid_raw = request.getParameterValues("tagId");
+        int[] tid = null;
+        if(tid_raw!=null){
+            tid = new int[tid_raw.length];
+            for (int i = 0; i < tid_raw.length; i++) {
+                   tid[i] = Integer.parseInt(tid_raw[i]);
+            }
+        }
+        
         String begin_raw = request.getParameter("from") ;
         
         String end_raw = request.getParameter("to") ;
@@ -117,16 +129,17 @@ public class CourseListController extends HttpServlet {
         }
         int pageIndex = Integer.parseInt(page);
         
-        ArrayList<Course> courses = cdb.searchCourse(sort,cid,begin,end,feature,title,pageIndex,pageSize);
-        int count = cdb.coutCouse(cid, begin, end, feature, title);
+        ArrayList<Course> courses = cdb.searchCourse(sort,cid, tid,begin,end,feature,title,pageIndex,pageSize);
+        int count = cdb.coutCouse(cid, tid,begin, end, feature, title);
         int totalPage = (count % pageSize == 0) ? (count / pageSize) : (count / pageSize) + 1;
         PricePackageDBContext pdb  = new PricePackageDBContext();
-        
+         TagDBContext tdb = new TagDBContext();
         for (int i = 0; i < courses.size(); i++) {
             ArrayList<PricePackage> prices = pdb.getPricePackageByCourseList(courses.get(i).getCourseId());
             // get price by courseid
-          
+           ArrayList<Tag> tag = tdb.getTagsByCourse(courses.get(i).getCourseId());
             courses.get(i).setPricePackage(prices);
+            courses.get(i).setTags(tag);
         }
         CategoryDBContext cadb = new CategoryDBContext();
         
@@ -140,9 +153,8 @@ public class CourseListController extends HttpServlet {
         }
         
         
-//        for (int i = 0; i < courses.get(0).getPricePackage().size() ; i++) {
-//            response.getWriter().write("<br> a: "+courses.get(0).getPricePackage().get(i).getName()+"</br>");
-//        }
+        
+        
        String url = "list?";
        String url_param=request.getQueryString(); //get parametter 
        if(url_param!=null && url.length()>0){
@@ -156,13 +168,27 @@ public class CourseListController extends HttpServlet {
             url += (url_param);
        }
         ArrayList<Course> coursesSlider = cdb.getCourseForSlider();
-        request.setAttribute("coursesSlider", coursesSlider);
+       
+        ArrayList<Tag> tags = tdb.getListTags();
+        boolean []tidCheck = new boolean[tags.size()];
+        
+        
+        for (int i = 0; i < tidCheck.length; i++) {
+            tidCheck[i] = ischeck(tags.get(i).getTagId(), tid); //finding tag having check
+        }
+//        response.getWriter().write("<br> a: "+courses.get(0).getTitle()+"</br>");
+//        for (int i = 0; i < courses.get(0).getTags().size() ; i++) {
+//            response.getWriter().write("<br> a: "+courses.get(0).getTags().get(i).getTagname()+"</br>" );
+//        }
+       request.setAttribute("coursesSlider", coursesSlider);
       request.setAttribute("sort",sort);
       request.setAttribute("cidcheck",cidCheck);
+      request.setAttribute("tidcheck",tidCheck);
       request.setAttribute("begin",begin);
       request.setAttribute("end",end);
       request.setAttribute("feature",feature);
       request.setAttribute("title",title);
+      request.setAttribute("tags",tags);
       
       request.setAttribute("url", url);
       request.setAttribute("totalpage", totalPage);
@@ -195,11 +221,11 @@ public class CourseListController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    boolean ischeck(int id, int []cids){
+    boolean ischeck(int id, int []x){
         //is id in cids?  
-        if (cids == null) return false;
-        for (int i = 0; i < cids.length; i++) {
-            if (id==cids[i]){
+        if (x == null) return false;
+        for (int i = 0; i < x.length; i++) {
+            if (id==x[i]){
                 return true;
             }
         }

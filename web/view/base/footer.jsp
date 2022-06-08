@@ -90,8 +90,8 @@
                         <div class="col-sm-4">
                             <h4>Course</h4>
                             <div class="clearfix">
-                                <li><a href="">New Course</a></li>
-                                <li><a href="">Hot Course</a></li>
+                                <li><a href="">About Use</a></li>
+                                <li><a href="">About Us</a></li>
                                 <li><a href="">Free Course</a></li>
                             </div>  
                         </div>

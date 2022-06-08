@@ -11,6 +11,13 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/controller/user/EditProfileController.java</file>
+            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/dal/UserDBContext.java</file>
+            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/controller/authorization/LoginController.java</file>
+            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/controller/user/HomeController.java</file>
+            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/controller/user/UserProfileController.java</file>
+            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/web/view/user/profile_user.jsp</file>
+        </group>
     </open-files>
 </project-private>

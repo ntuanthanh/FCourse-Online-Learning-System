@@ -45,8 +45,8 @@
                 </div>
                 <div class="col-md-4 left" >
                     <div class="box-search">
-                        <form action="search" method="POST" class="search-box" >
-                            <input type="text" placeholder="Enter Searching..." required>
+                        <form action="list" method="GET" class="search-box" >
+                            <input name="title" type="text" placeholder="Enter Searching..." required>
                             <button type="submit" class="search-icon" ><i class="fa fa-search"></i></button>
                         </form>
                     </div>
@@ -54,7 +54,7 @@
                         <h3>Categories Posts</h3>
                         <div class="post-category">
                             <c:forEach items="${requestScope.categories}" var="c">
-                                <p class="category-items"><a  href="#">${c.value}</a></p>
+                                <p class="category-items"><a  href="list?cateId=${c.categoryID}">${c.value}</a></p>
                             </c:forEach>
                             
                         </div>

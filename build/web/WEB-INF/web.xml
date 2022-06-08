@@ -8,7 +8,7 @@
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.authorization.LoginController</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>VerifyUserController</servlet-name>
         <servlet-class>controller.user.VerifyUserController</servlet-class>
     </servlet>
@@ -71,6 +71,14 @@
     <servlet>
         <servlet-name>CourseListController</servlet-name>
         <servlet-class>controller.user.CourseListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ContactController</servlet-name>
+        <servlet-class>controller.user.ContactController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogListController</servlet-name>
+        <servlet-class>controller.user.BlogListController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -139,6 +147,14 @@
     <servlet-mapping>
         <servlet-name>VerifyUserController</servlet-name>
         <url-pattern>/user/verify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ContactController</servlet-name>
+        <url-pattern>/contact</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogListController</servlet-name>
+        <url-pattern>/blog/list</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

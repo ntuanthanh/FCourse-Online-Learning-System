@@ -20,7 +20,7 @@ import model.Status;
  */
 public class PricePackageDBContext extends DBContext {
 
-    public ArrayList<PricePackage> PricePackes(int CourseId) {
+   public ArrayList<PricePackage> PricePackes(int CourseId) {
         PreparedStatement stm = null;
         ResultSet rs = null;
         String sql = "SELECT  p.id,p.duration,\n"

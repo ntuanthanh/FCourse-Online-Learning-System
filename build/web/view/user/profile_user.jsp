@@ -10,20 +10,21 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<!--        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-        <script src ="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+        <script src ="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>-->
         <link href="../css/profile_user.css" rel="stylesheet" type="text/css"/>
         <script src="../js/validationForm/validateForm.js" type="text/javascript"></script>
         <script src="../js/ImgPreview/imgPreview.js" type="text/javascript"></script>
         <title>JSP Page</title>
     </head>
+    
     <body>
-        <!--Header-->
-        <jsp:include page="../base/header.jsp" />
-        <!--Content -->
+<!--        Header-->
+        <jsp:include page="../base/header_t.jsp" /> 
+<!--        Content -->
         <div class = "content-profile">
             <div class = row>
                 <div class = "col-md-4 text-center main-profile"> 
@@ -58,11 +59,10 @@
                     </table>
                 </div>
             </div>
-            <!--Modal of edit profile -->
-            <div class="modal fade" id="myModal">
+<!--            Modal of edit profile -->
+            <div class="modal fade" id="myModal" style="margin-top: 100px">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
-                        <!-- Modal body of edit profile -->
                         <div class="modal-body">
                             <div class = "edit-profile">
                                 <div class = "edit-profile-header">
@@ -78,7 +78,7 @@
                                     <div class = "edit-profile-form">
                                         <input type = "text" name = "id" hidden ="hidden" value = "${sessionScope.user.id}"/><br>
                                         <div class = "edit-profile-form-item form-group">
-                                            <label for="ename" class="mr-sm-2">Full Name</label>
+                                            <label for="fullname" class="mr-sm-2">Full Name</label>
                                             <input type="text" id = "fullname" class="form-control" name ="fullname" placeholder="Nhập vào họ tên" value = "${sessionScope.user.fullName}">
                                         </div>
                                         <div class = "edit-profile-form-item form-group">
@@ -86,7 +86,7 @@
                                             <input id = "email" class="form-control" name ="email" value = "${sessionScope.user.email}" disabled> 
                                         </div>   
                                         <div class = "edit-profile-form-item form-group">
-                                            <label for="email" class="mr-sm-2">Phone</label>
+                                            <label for="phone" class="mr-sm-2">Phone</label>
                                             <input type="text" id = "phone" class="form-control" name ="phone" value = "${sessionScope.user.phone}">
                                         </div>   
                                         <div class = "edit-profile-form-item form-group">
@@ -104,6 +104,10 @@
                                                     type="radio" id="female" name = "gender" value ="female"/><p for = "female" >Female</p>
                                             </div>
                                         </div>
+                                         <div class = "edit-profile-form-item form-group">
+                                            <label for="dob" class="mr-sm-2">Date of birth</label>
+                                            <input type="date" id = "dob" class="form-control" name ="dob" value = "${sessionScope.user.dob}">
+                                        </div>
                                     </div>
                                     <div class = "edit-profile-submit">
                                         <button class="btn btn-success" type="submit">Update</button>
@@ -111,7 +115,7 @@
                                 </form>   
                             </div> 
                         </div>
-                        <!-- Modal footer -->
+<!--                         Modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
@@ -119,11 +123,10 @@
                 </div>          
             </div>
         </div>
-           <!--Modal of edit profile -->
-        <div class="modal fade" id="myModal-ChangePassword">
+<!--           Modal of change password -->
+        <div class="modal fade" id="myModal-ChangePassword" style="margin-top: 150px">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <!-- Modal body of edit profile -->
                     <div class="modal-body">
                         <form id ="validate-form-change-password" action = "../user/profile/changepass" method="POST">
                             <div class = "edit-profile-form">
@@ -131,23 +134,23 @@
 
                                 <div class = "edit-profile-form-item form-group">
                                     <label for="email" class="mr-sm-2">Email</label>
-                                    <input id = "email" class="form-control" value = "${sessionScope.user.email}" disabled> 
+                                    <input id = "email_change_password" class="form-control" value = "${sessionScope.user.email}" disabled> 
                                     <input name ="email" value = "${sessionScope.user.email}" hidden = "hidden">
                                 </div>   
 
                                 <div class = "edit-profile-form-item form-group">
                                     <label for="password" class="mr-sm-2">Old Password</label>
-                                    <input id ="password" class="form-control" name ="password" value = "" > 
+                                    <input type = "password" id ="password" class="form-control" name ="password" value = "" > 
                                 </div>  
 
                                 <div class = "edit-profile-form-item form-group">
                                     <label for="" class="mr-sm-2">New Password</label>
-                                    <input id="newpass" class="form-control" name ="newpass" value ="" > 
+                                    <input type = "password" id="newpass" class="form-control" name ="newpass" value ="" > 
                                 </div>  
 
                                 <div class = "edit-profile-form-item form-group">
                                     <label for="confirm_pass" class="mr-sm-2">Confirm Password </label>
-                                    <input id="confirm_pass" class="form-control" name ="confirm_pass" value = ""> 
+                                    <input type = "password" id="confirm_pass" class="form-control" name ="confirm_pass" value = ""> 
                                 </div>  
                             </div>
                             <div class = "edit-profile-submit">
@@ -157,20 +160,19 @@
                         </form>
 
                     </div>
-                    <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-            </div>          
-        </div>
-        </div>                              
-        <!--Footer-->
-        <jsp:include page="../base/footer.jsp" />
+            </div>   
+        </div>                           
+<!--        Footer-->
+        <jsp:include page="../base/footer_t.jsp" />
         <script>
            validateEditProfile();
            validate_form_change_password();
            getImgPreview_profileUser(event);
-        </script>           
+           
+        </script>
     </body>
 </html>

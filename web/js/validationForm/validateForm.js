@@ -25,6 +25,32 @@ function validateEditProfile(){
         });
 }
 
+function validate_form_change_password(){ 
+        $('#validate-form-change-password').validate({
+            rules: {
+                password: {
+                    required: true
+                },
+                newpass: {
+                    required: true
+                },
+                confirm_pass: {
+                    equalTo: "#newpass"
+                }
+            },
+            messages: {
+                password: {
+                    required: "Enter your password - Don't leave it empty"
+                },
+                newpass: {
+                    required: "Enter your new password - Don't leave it empty"
+                },
+                confirm_pass: {
+                    equalTo: "The passwords do not match"
+                }
+            }
+        });
+}
 function validateSendResetPassword(){
      $('#validate-form-send-reset-password').validate({
            rules:{
@@ -65,45 +91,5 @@ function validateResetPassword(){
             }
         });
 }  
-function validate_form_change_password(){ 
-        $('#validate-form-change-password').validate({
-            rules: {
-                fullname: {
-                    required: true
-                },
-                password: {
-                    required: true
-                },
-                newpass: {
-                    required: true
-                },
-                confirm_password: {
-                    equalTo: "#password"
-                },
-                group: {
-                    required: true
-                }
-            },
-            messages: {
-                fullname: {
-                    required: "Tên hiện thị tài khoản không được bỏ trống"
-                },
-                password: {
-                    required: "Mật khẩu không được bỏ trống"
-                },
-                newpass: {
-                    required: "Mật khẩu mới không được bỏ trống"
-                },
-                confirm_password: {
-                    equalTo: "Mật khẩu không khớp với mật khẩu mới bạn vừa nhập"
-                },
-                group: {
-                    required: "Phải chọn quyền cho tài khoản"
-                },
-                username: {
-                    required: "Tên đăng nhập không được bỏ trống"
-                }
-            }
-        });
-}
+
 

@@ -20,10 +20,11 @@ public class User {
     private String phone; 
     private String avatarImage;
     private String resetToken; 
-    private String createTimeResetToken; 
+    private String createTimeResetToken;
+    private Date dob; 
     private Status status; 
     public User(int id, String fullName, String email, boolean gender, String password, String phone, String avatarImage, String resetToken
-            , String createTimeResetToken,  Status status) {
+            , String createTimeResetToken,  Status status,Date dob) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -34,6 +35,7 @@ public class User {
         this.resetToken = resetToken; 
         this.createTimeResetToken = createTimeResetToken;
         this.status = status;
+        this.dob = dob; 
     }
 
     public User() {
@@ -117,6 +119,14 @@ public class User {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
     
 }

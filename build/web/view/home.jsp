@@ -11,6 +11,7 @@
         <title>Home|Edu-FCourse</title>
         <link rel="stylesheet" href="css/home.css"/>
         <link rel="stylesheet" href="css/blog.css"/>
+        <link rel="stylesheet" href="css/tagline.css"/>
         <%
             ArrayList<Course> coursesSlider = (ArrayList<Course>) request.getAttribute("coursesSlider");
         %>
@@ -18,7 +19,7 @@
 
     <body>
         <!-- Header side -->
-        <jsp:include page="../view/base/header.jsp" />     
+        <jsp:include page="../view/base/header_t.jsp" />     
         <!-- Slider side --> 
         <div class = "slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -74,7 +75,7 @@
                         <h4 class="category-subject" style="text-align: center; margin-bottom: 60px;">Subject Category</h4>
                         <div class="list-category">
                             <c:forEach items="${requestScope.cates}" var="cate">
-                                <div class="subject scroll">
+                                <div >
                                     <a href="course/list?cateId=${cate.categoryID}">${cate.value}</a>
                                 </div>
                             </c:forEach>
@@ -84,10 +85,11 @@
                         <hr>
                         <h4 class="category-subject" style="text-align: center;">most prominent</h4>
                         <div class="course-recent">
-                            <div class="row list-course-recent">
+                            
 
                                 <c:forEach items="${requestScope.coursesProminent}" var="c">
-                                    <div class="col-md-4 col-3">
+                                    <div class="row list-course-recent">
+                                    <div class="col-md-4 col-3 recent">
                                         <div class="img-recent">
                                             <img src="images/courses/${c.thumnailURL}" alt="">
                                         </div>
@@ -96,9 +98,10 @@
                                         <div class="title-recent"><a href="#">${c.title}</a></div>
                                         <p>$${c.pricePackage[0].salePrice}</p>
                                     </div>
-                                </c:forEach>
-                            </div>
+                                    </div>
 
+                                </c:forEach>
+                            
                         </div>
                     </div>
                     <div class="col-md-9 col-12">
@@ -120,17 +123,19 @@
                                             </div>
 
                                             <div class="card-title">
-                                                <a href="course/detail">${course.title}</a>
+                                                <a href="coursedetail?id=${course.courseId}">${course.title}</a>
                                             </div>
                                             <div class="card-price row">
                                                 <div class="sale-price col-md-6  col-sm-6 col-6"><span>${course.pricePackage[0].salePrice}</span></div>
                                                 <div class="list-price col-md-6  col-sm-6 col-6"><span>${course.pricePackage[0].listPrice}</span></div>
 
                                             </div>
-                                            <div class="tag">
-
-                                                <p>${course.tagLine} </p>
-                                            </div>
+                                            <ul class="tag">
+                                              
+                                                <c:forEach items="${course.getTags()}" var="tag">
+                                                    <li class="tag-item" style="margin-bottom: 20px"><a href="course/list?tagId=${tag.tagId}">${tag.getTagname()}</a></li>
+                                                </c:forEach>
+                                            </ul>
                                         </div>
 
                                     </div>
@@ -179,7 +184,7 @@
                 </div>
             </div>
             <!-- footer side --> 
-            <jsp:include page="base/footer.jsp" /> 
+            <jsp:include page="base/footer_t.jsp" /> 
     </body>
 
 </html>
