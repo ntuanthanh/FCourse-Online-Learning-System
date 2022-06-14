@@ -158,6 +158,42 @@ public class UserDBContext extends DBContext{
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    /*
+      13/6/2022
+      search user by email and name 
+    */
+    public ArrayList<User> seachUserByEmailName(String txtSearch){
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            if(txtSearch.trim().equals("")){
+                txtSearch = "-1";
+            }
+            String sql = "select * from [User] where email like '%' + ? + '%' or fullname like '%' + ? + '%' ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, txtSearch);
+            stm.setString(2, txtSearch);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+               //Take user by id
+                User user = new User();
+                user.setId(rs.getInt("Userid"));
+                user.setFullName(rs.getString("fullname"));
+                user.setEmail(rs.getString("email"));
+                user.setGender(rs.getBoolean("gender"));
+                user.setPassword(rs.getString("password"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatarImage(rs.getString("avatar_img"));
+                // Take status of this User 
+                Status status = new Status();
+                status.setId(rs.getInt("Statusid"));
+                user.setStatus(status);
+                users.add(user); 
+            }          
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+    }
     
     public User getUser(String username, String password) {
 

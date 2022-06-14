@@ -11,13 +11,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Category;
 import model.Course;
+import model.PricePackage;
 import model.Status;
 import model.Tag;
+import model.User;
 
 /**
  *
@@ -615,5 +618,189 @@ public class CourseDBContext extends DBContext {
             Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return courses;
+    }
+    /*
+       tuanthanh
+       14/06/2022
+    */
+    public Course getSubjectById(int id){
+        Course course = new Course();
+       try {       
+           String sql_course = "select * from Courses as c INNER JOIN Category as cat on c.Categoryid = cat.Categoryid\n" +
+                   " INNER JOIN [Status] as s on c.statusid = s.[Sid] where courseid = ? ";
+           PreparedStatement stm_sql_course = connection.prepareStatement(sql_course);
+           stm_sql_course.setInt(1, id);
+           ResultSet rs_sql_course = stm_sql_course.executeQuery();
+           while(rs_sql_course.next()){
+               // take Course
+               course.setCourseId(rs_sql_course.getInt("CourseId"));
+               course.setCreateDate(rs_sql_course.getDate("createdate"));
+               course.setBriefInfo(rs_sql_course.getString("briefinfo"));
+               course.setThumnailURL(rs_sql_course.getString("thumnaiURL"));
+               course.setTitle(rs_sql_course.getString("title"));
+               course.setFeature(rs_sql_course.getBoolean("featured"));
+               course.setDescription(rs_sql_course.getString("description"));
+               // get category for this course
+               Category category = new Category(); 
+               category.setCategoryID(rs_sql_course.getInt("categoryId"));
+               category.setValue(rs_sql_course.getString("value"));
+               course.setCategory(category);
+               // get status for this course 
+               Status status = new Status();
+               status.setId(rs_sql_course.getInt("sid"));
+               status.setName(rs_sql_course.getString("Sname"));
+               course.setStatus(status);
+               // get list packages for this course 
+               String sql_Packages = "select * from Course_package as cp INNER JOIN Price_Package as p on cp.packageid = p.id \n" +
+              " INNER JOIN [Status] as s on p.Status_id = s.Sid  where courseid = ? ";
+               stm_sql_course = connection.prepareStatement(sql_Packages);
+               stm_sql_course.setInt(1, id);
+               ResultSet rs_sql_Packages = stm_sql_course.executeQuery();
+               ArrayList<PricePackage> pricepackages = new ArrayList<>();
+               while(rs_sql_Packages.next()){
+                   PricePackage pricepackage = new PricePackage();
+                   pricepackage.setId(rs_sql_Packages.getInt("id"));
+                   pricepackage.setDuration(rs_sql_Packages.getInt("duration"));
+                   pricepackage.setListPrice(rs_sql_Packages.getFloat("list_price"));
+                   pricepackage.setName(rs_sql_Packages.getString("name"));
+                   pricepackage.setSalePrice(rs_sql_Packages.getFloat("sale_price"));
+                   // add status for this pricePackage 
+                   Status status_pricePackage = new Status();
+                   status_pricePackage.setId(rs_sql_Packages.getInt("Sid"));
+                   status_pricePackage.setName(rs_sql_Packages.getString("Sname"));
+                   pricepackage.setStatus(status_pricePackage);
+                   pricepackages.add(pricepackage);
+               }
+               course.setPricePackage(pricepackages);
+               // get list Owns for this course 
+               String sql_Owners = "select * from [Owner] as o INNER JOIN [User] as p on o.UserId = p.Userid \n" +
+                                   " INNER JoIn [Status] as s on p.Statusid = s.Sid \n" +
+                                   " where courseid = ?";
+               stm_sql_course = connection.prepareStatement(sql_Owners);
+               stm_sql_course.setInt(1, id);
+               ResultSet rs_sql_Owners = stm_sql_course.executeQuery(); 
+               ArrayList<User> owners = new ArrayList<>();
+               while(rs_sql_Owners.next()){
+                    User user = new User();
+                    user.setId(rs_sql_Owners.getInt("Userid"));
+                    user.setFullName(rs_sql_Owners.getString("fullname"));
+                    user.setEmail(rs_sql_Owners.getString("email"));
+                    user.setGender(rs_sql_Owners.getBoolean("gender"));
+                    user.setPassword(rs_sql_Owners.getString("password"));
+                    user.setPhone(rs_sql_Owners.getString("phone"));
+                    user.setAvatarImage(rs_sql_Owners.getString("avatar_img"));
+                    user.setDob(rs_sql_Owners.getDate("dob"));
+                    // get status for this user 
+                    Status status_user = new Status();
+                    status_user.setId(rs_sql_Owners.getInt("Sid"));
+                    status_user.setName(rs_sql_Owners.getString("Sname"));
+                    user.setStatus(status_user);
+                    owners.add(user);
+               } 
+               course.setOwners(owners);
+               // get list Tags for this course
+               String sql_Tags = "select * from courseTag as c INNER JOIN tag as t on c.tagId = t.tagId  where courseid = ? ";
+               stm_sql_course = connection.prepareStatement(sql_Tags);
+               stm_sql_course.setInt(1, id);
+               ResultSet rs_sql_Tags = stm_sql_course.executeQuery();
+               ArrayList<Tag> tags = new ArrayList<>();
+               while(rs_sql_Tags.next()){
+                  Tag tag = new Tag();
+                  tag.setTagId(rs_sql_Tags.getInt("tagId"));
+                  tag.setTagname(rs_sql_Tags.getString("tagname"));
+                  tags.add(tag);
+               }
+               course.setTags(tags);
+           }
+       } catch (SQLException ex) {
+           Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       return course;
+    }
+    /*
+       tuanthanh
+       check name img exist
+    */
+    public boolean doesExistImgNameCourse(String name){
+       try {
+           String sql = "select * from Courses where thumnaiURL like ?";
+           PreparedStatement stm = connection.prepareStatement(sql);
+           ResultSet rs = stm.executeQuery();
+           while(rs.next()){
+               return true;
+            }
+           } catch (SQLException ex) {
+           Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       return false;
+    }
+    /*
+      Update Course
+      tuanthanh
+    */
+    public void UpdateCourse(Course c){
+       try {
+           String sql_course = "UPDATE [Courses]\n" +
+                   "   SET [briefinfo] = ?\n" +
+                   "      ,[thumnaiURL] = ?\n" +
+                   "      ,[title] = ?\n" +
+                   "      ,[featured] = ?\n" +
+                   "      ,[Categoryid] = ?\n" +
+                   "      ,[statusid] = ?\n" +
+                   "      ,[description] = ?\n" +
+                   " WHERE CourseId = ? ";
+           connection.setAutoCommit(false);
+           PreparedStatement stm_sql_course = connection.prepareStatement(sql_course);
+           stm_sql_course.setString(1, c.getBriefInfo());
+           stm_sql_course.setString(2, c.getThumnailURL());
+           stm_sql_course.setString(3, c.getTitle());
+           stm_sql_course.setBoolean(4, c.isFeature());
+           stm_sql_course.setInt(5, c.getCategory().getCategoryID());
+           stm_sql_course.setInt(6, c.getStatus().getId());
+           stm_sql_course.setString(7, c.getDescription());
+           stm_sql_course.setInt(8, c.getCourseId());
+           stm_sql_course.executeUpdate();
+           // update Owner
+            // first delete Owner where id : 
+           String sql_delete_Owner = "DELETE FROM [Owner] WHERE CourseId = ? ";
+           PreparedStatement stm_delete_Owner = connection.prepareStatement(sql_delete_Owner);
+           stm_delete_Owner.setInt(1, c.getCourseId());
+           stm_delete_Owner.executeUpdate();
+           // update Owner
+           String sql_update_Owner = "INSERT INTO [Owner]\n" +
+                                    "           ([UserId]\n" +
+                                    "           ,[CourseId])\n" +
+                                    "     VALUES\n" +
+                                    "           (? \n" +
+                                    "           ,? )";         
+           for (User user : c.getOwners()) {
+                PreparedStatement stm_update_Owner = connection.prepareStatement(sql_update_Owner);
+                stm_update_Owner.setInt(1, user.getId());
+                stm_update_Owner.setInt(2, c.getCourseId());
+                stm_update_Owner.executeUpdate();
+           }
+           // Update tag
+           // frist delete tag where id course :
+           String sql_delete_tag = "DELETE FROM [courseTag] WHERE courseId = ? ";
+           PreparedStatement stm_delete_tag = connection.prepareStatement(sql_delete_tag);
+           stm_delete_tag.setInt(1, c.getCourseId());
+           stm_delete_tag.executeUpdate();
+           // Update tag
+           String sql_update_tag = "INSERT INTO [courseTag]\n" +
+                                    "           ([courseId]\n" +
+                                    "           ,[tagId])\n" +
+                                    "     VALUES\n" +
+                                    "           (? \n" +
+                                    "           ,? ) ";
+           for (Tag tag : c.getTags()) {
+               PreparedStatement stm_update_tag = connection.prepareStatement(sql_update_tag);
+               stm_update_tag.setInt(1, c.getCourseId());
+               stm_update_tag.setInt(2, tag.getTagId());
+               stm_update_tag.executeUpdate();
+           }
+          connection.commit(); 
+       } catch (SQLException ex) {
+           Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }
 }

@@ -80,6 +80,18 @@
         <servlet-name>BlogListController</servlet-name>
         <servlet-class>controller.user.BlogListController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminSubjectDetailController</servlet-name>
+        <servlet-class>controller.manager.AdminSubjectDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxSearchExpert_SubjectDetailController</servlet-name>
+        <servlet-class>controller.manager.AjaxSearchExpert_SubjectDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxSearchTag_SubjectDetailController</servlet-name>
+        <servlet-class>controller.manager.AjaxSearchTag_SubjectDetailController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -155,6 +167,18 @@
     <servlet-mapping>
         <servlet-name>BlogListController</servlet-name>
         <url-pattern>/blog/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminSubjectDetailController</servlet-name>
+        <url-pattern>/admin/subject/details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxSearchExpert_SubjectDetailController</servlet-name>
+        <url-pattern>/searchExpertAjax</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxSearchTag_SubjectDetailController</servlet-name>
+        <url-pattern>/searchAjaxTag</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

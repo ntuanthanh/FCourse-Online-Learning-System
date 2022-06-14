@@ -94,8 +94,29 @@ public class TagDBContext extends DBContext {
         }
         return tags;
     }
-    public static void main(String[] args) {
-        TagDBContext t = new TagDBContext();
-        System.out.println(t.getTags(1).get(0).getTagname());
+    /*
+    tuanthanh 
+    14/06/2022
+    **/
+    public ArrayList<Tag> SearchTag(String txtSearch){
+        ArrayList<Tag> tags = new ArrayList<>();
+        try {
+            if(txtSearch.trim().equals("")){
+               txtSearch = "-1";
+            }
+            String sql = "select * from Tag where tagName like '%' + ? + '%' ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, txtSearch);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                Tag t = new Tag();
+                t.setTagId(rs.getInt("tagId"));
+                t.setTagname(rs.getString("tagName"));
+                tags.add(t);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TagDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return tags;
     }
 }
