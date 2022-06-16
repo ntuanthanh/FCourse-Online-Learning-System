@@ -21,7 +21,7 @@ public class AdminDashboardController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("../view/admin/adminSite.jsp").forward(request, response);
+        request.getRequestDispatcher("../view/admin/demoDashboard.jsp").forward(request, response);
     }
 
     @Override

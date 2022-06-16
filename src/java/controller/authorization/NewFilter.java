@@ -154,7 +154,7 @@ public class NewFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String url = req.getServletPath();
-        if(url.endsWith(".jsp") && !url.endsWith("404page.jsp") ){
+        if(url.endsWith(".jsps") && !url.endsWith("404page.jsp") ){
             res.sendRedirect("/summer2022-se1616-g4/error404");
         }
         Throwable problem = null;

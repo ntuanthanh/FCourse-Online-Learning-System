@@ -42,16 +42,16 @@ public class AjaxUpdateActionPricePackageController extends HttpServlet {
             response.getWriter().println("<tr>\n" +
                     " <th scope=\"row\">"+pricePackage.getId()+"</th>\n" +
                     " <td>"+pricePackage.getName()+"</td>\n" +
-                    " <td>"+pricePackage.getDuration()+" (Month)</td>\n" +
+                    " <td>"+(pricePackage.getDuration() != -1 ? pricePackage.getDuration() : "Unlimited")+" (Month)</td>\n" +
                     " <td>"+pricePackage.getListPrice()+" ($)</td>\n" +
                     " <td>$"+pricePackage.getSalePrice()+" ($)</td>\n" +
                     " <td>"+pricePackage.getStatus().getName()+"</td>\n" +
                     " <td>\n" +
                     "   <a style=\"margin-right: 5px; text-decoration: none \" href = \"#\">Edit</a>\n" +
-                    "   <a style=\"text-decoration: none \" href = \"#\" onclick = \"ActionPricePackage("+pricePackage.getId()+","+pricePackage.getStatus().getId()+","+course.getCourseId()+")\">"+ ( pricePackage.getStatus().getId() == 1 ? "Deactive" : "Active" ) +"</a>\n" +
+                    "   <a style=\"text-decoration: none \" href = \"#\" onclick = \"ActionPricePackage("+pricePackage.getId()+","+pricePackage.getStatus().getId()+","+course.getCourseId()+")\">"+ ( pricePackage.getStatus().getId() == 1 ? "Deactivate" : "Active" ) +"</a>\n" +
                     " </td>\n" +
                     " </tr>");
-        }
+        }          
     }
 
     @Override

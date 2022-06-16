@@ -285,7 +285,7 @@
                                     <td>${p.status.name}</td>
                                     <td>
                                         <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
-                                        <a style="text-decoration: none " href = "#" onclick = "ActionPricePackage(${p.id},${p.status.id},${requestScope.course.courseId})">${p.status.id == 1?"Deactivate":"Active"}</a>
+                                        <a style="text-decoration: none" href = "#" onclick = "ActionPricePackage(${p.id},${p.status.id},${requestScope.course.courseId})">${p.status.id == 1?"Deactivate":"Active"}</a>
                                     </td>
                                 </tr>
                             </c:forEach>  
