@@ -49,20 +49,22 @@
                                 </div>
 
                                 <div class="progress" style="margin-top: 10px" >
-                                    <c:if test="${requestScope.courserates.get(j-1)==0 }">
-                                        <span style="margin-top: 8px; font-size: 20px">Start</span> 
-                                    </c:if>
-
 
                                     <div class="progress-bar"  style="width: ${requestScope.courserates.get(j-1)}%; ">
-
                                         <c:if test="${requestScope.courserates.get(j-1)>0 }">
-                                            ${requestScope.courserates.get(j-1)}%
-                                        </c:if>
 
+                                        </c:if>
                                     </div>
 
-                                </div> 
+                                </div>
+                                <div>
+                                    <c:if test="${requestScope.courserates.get(j-1)>0 }">
+                                        ${requestScope.courserates.get(j-1)}% complete
+                                    </c:if>
+                                    <c:if test="${requestScope.courserates.get(j-1)==0 }">
+                                        <span style="margin-top: 8px; font-size: 20px">Start Course</span> 
+                                    </c:if>
+                                </div>
                             </div>
 
 

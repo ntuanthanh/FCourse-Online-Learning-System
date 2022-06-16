@@ -5,6 +5,7 @@
  */
 package controller.manager;
 
+import controller.authorization.BaseAuthController;
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
 import dal.StatusDBContext;
@@ -34,11 +35,11 @@ import utility.Generate;
  * @author pv
  */
 @MultipartConfig()
-public class AdminSubjectDetailController extends HttpServlet {
+public class AdminSubjectDetailController extends BaseAuthController {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
@@ -71,7 +72,7 @@ public class AdminSubjectDetailController extends HttpServlet {
 
    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");         

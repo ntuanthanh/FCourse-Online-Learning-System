@@ -95,4 +95,26 @@ public class CategoryDBContext extends DBContext {
         }
         return categories;
     }
+    /*1:50*/
+    public ArrayList<Category> getCategoryByParent(int parentId) {
+        ArrayList<Category> cates = new ArrayList<>();
+        try {
+            String sql = "select * from Category \n"
+                    + "	inner join ParentCategory on ParentCategory.id = Category.parentId\n"
+                    + "	where parentId = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, parentId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Category c = new Category();
+                c.setCategoryID(rs.getInt(1));
+                c.setValue(rs.getString(2));
+                cates.add(c);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cates;
+    }
 }

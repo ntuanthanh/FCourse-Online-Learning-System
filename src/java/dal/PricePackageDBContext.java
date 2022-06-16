@@ -145,4 +145,43 @@ public class PricePackageDBContext extends DBContext {
         }
         return coursePrices;
     }
+    public PricePackage getPriceByPriceId(int id) {
+            try {
+
+            String sql = "select * from Price_Package where id = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                PricePackage p = new PricePackage();
+                p.setId(rs.getInt(1));
+                p.setDuration(rs.getInt(2));
+                p.setListPrice(rs.getFloat(3));
+                p.setName(rs.getString(4));
+                p.setSalePrice(rs.getFloat(5));
+                
+                return p;
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PricePackageDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    /*tuan thanh
+    16/06
+    */
+    public void updateStatusPricePackage(int id, int sid){
+       try {
+           String sql = "UPDATE [Price_Package]\n" +
+                   " SET [Status_id] = ? \n" +
+                   " WHERE id = ? ";
+           PreparedStatement stm = connection.prepareStatement(sql);
+           stm.setInt(1, sid);
+           stm.setInt(2, id);
+           stm.executeUpdate();
+       } catch (SQLException ex) {
+           Logger.getLogger(PricePackageDBContext.class.getName()).log(Level.SEVERE, null, ex);
+       }
+    }
 }

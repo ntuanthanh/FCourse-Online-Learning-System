@@ -7,6 +7,7 @@ package controller.user;
 
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
+import dal.ParentCategoryDBContext;
 import dal.PricePackageDBContext;
 import dal.TagDBContext;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Category;
 import model.Course;
+import model.ParentCategory;
 import model.PricePackage;
 import model.Tag;
 
@@ -76,6 +78,7 @@ public class CourseListController extends HttpServlet {
         String title = request.getParameter("title");
         
         String []cid_raw = request.getParameterValues("cateId");
+            
         int[] cid = null;
         if(cid_raw!=null){
             cid = new int[cid_raw.length];
@@ -141,15 +144,17 @@ public class CourseListController extends HttpServlet {
             courses.get(i).setPricePackage(prices);
             courses.get(i).setTags(tag);
         }
+        //get parent cate
+        ParentCategoryDBContext padb = new ParentCategoryDBContext();
+        ArrayList<ParentCategory> pCates = padb.getParentCategory();
+        
+        //get categories
         CategoryDBContext cadb = new CategoryDBContext();
+        ArrayList<Category> cates = cadb.getCategorys();
         
-        ArrayList<Category> cates = cadb.getAllCategory();//get categories
-        
-        boolean []cidCheck = new boolean[cates.size()];
-        
-        
+        int []cidCheck = new int[cates.size()];
         for (int i = 0; i < cidCheck.length; i++) {
-            cidCheck[i] = ischeck(cates.get(i).getCategoryID(), cid); //finding category having check
+            cidCheck[i] = findcid(cates.get(i).getCategoryID(), cid); //finding category having check
         }
         
         
@@ -167,7 +172,7 @@ public class CourseListController extends HttpServlet {
             }
             url += (url_param);
        }
-        ArrayList<Course> coursesSlider = cdb.getCourseForSlider();
+       
        
         ArrayList<Tag> tags = tdb.getListTags();
         boolean []tidCheck = new boolean[tags.size()];
@@ -180,7 +185,12 @@ public class CourseListController extends HttpServlet {
 //        for (int i = 0; i < courses.get(0).getTags().size() ; i++) {
 //            response.getWriter().write("<br> a: "+courses.get(0).getTags().get(i).getTagname()+"</br>" );
 //        }
-       request.setAttribute("coursesSlider", coursesSlider);
+
+//        for (int i = 0; i < cid.length; i++) {
+//            response.getWriter().write("<br>:a "+cid[i]);
+//        }
+     
+      
       request.setAttribute("sort",sort);
       request.setAttribute("cidcheck",cidCheck);
       request.setAttribute("tidcheck",tidCheck);
@@ -189,13 +199,15 @@ public class CourseListController extends HttpServlet {
       request.setAttribute("feature",feature);
       request.setAttribute("title",title);
       request.setAttribute("tags",tags);
+      request.setAttribute("cates", cates);
       
+      request.setAttribute("pCates", pCates);
       request.setAttribute("url", url);
       request.setAttribute("totalpage", totalPage);
       request.setAttribute("pageindex", pageIndex);
-      request.setAttribute("categories", cates);
+      
       request.setAttribute("courses", courses);
-      request.getRequestDispatcher("../view/courseList.jsp").forward(request, response);
+      request.getRequestDispatcher("../view/courses.jsp").forward(request, response);
     }
 
     /**
@@ -230,5 +242,16 @@ public class CourseListController extends HttpServlet {
             }
         }
         return false;
+    }
+    
+    int findcid(int id, int []x){
+        //is id in cids?  
+        if (x == null) return -1;
+        for (int i = 0; i < x.length; i++) {
+            if (id==x[i]){
+                return x[i];
+            }
+        }
+        return -1;
     }
 }

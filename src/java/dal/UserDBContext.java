@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Status;
 import model.User;
+import model.UserRole;
 
 /**
  *
@@ -168,7 +169,8 @@ public class UserDBContext extends DBContext{
             if(txtSearch.trim().equals("")){
                 txtSearch = "-1";
             }
-            String sql = "select * from [User] where email like '%' + ? + '%' or fullname like '%' + ? + '%' ";
+            String sql = "select * from [User] as u INNER JOIN User_Role as ur on u.Userid = ur.Userid where rid = 2 \n" +
+                         "and ( email like '%' + ? + '%' or fullname like '%' + ? + '%' ) ";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, txtSearch);
             stm.setString(2, txtSearch);
@@ -405,5 +407,159 @@ public class UserDBContext extends DBContext{
             }
         }
     }
-     
+     /*
+       Dat
+     */
+      public int getPermission(String email, String Url) {
+        String sql = " select COUNT(*)as total from \n"
+                + " [User] u inner join User_Role ur on u.Userid=ur.Userid\n"
+                + "		inner join Role r on ur.Rid = r.Rid \n"
+                + "		inner join Role_Feature rf on r.Rid= rf.Rid\n"
+                + "		inner join Feature f on f.Fid=rf.Fid\n"
+                + " where u.email = ? and f.url= ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, email);
+            stm.setString(2, Url);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return -1;
+    }
+
+      public int getRoleId(int UserId) {
+        String sql = "SELECT ur.Userid\n"
+                + "	   ,r.[Rid]\n"
+                + "      ,[Rname]\n"
+                + "  FROM [Role] r inner join User_Role ur on r.Rid=ur.Rid\n"
+                + "  where ur.Userid=?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, UserId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Rid");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+    
+      /* 
+      
+      */
+    public boolean isAdmin(int userId) {
+        try {
+            String sql = "SELECT [User].Userid, [User].fullname\n"
+                    + "FROM     [User] INNER JOIN\n"
+                    + "                  User_Role ON [User].Userid = User_Role.Userid\n"
+                    + "				  inner join [Role] on [Role].Rid = [User_Role].Rid \n"
+                    + "				  where [Role].Rid = 1 and [User].Userid= ? ";
+            PreparedStatement stm = connection.prepareCall(sql);
+            stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean isExpert(int userId) {
+        try {
+            String sql = "SELECT [User].Userid, [User].fullname\n"
+                    + "FROM     [User] INNER JOIN\n"
+                    + "                  User_Role ON [User].Userid = User_Role.Userid\n"
+                    + "				  inner join [Role] on [Role].Rid = [User_Role].Rid \n"
+                    + "				  where [Role].Rid = 2 and [User].Userid= ? ";
+            PreparedStatement stm = connection.prepareCall(sql);
+            stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public ArrayList<User> getOwnerByCourse(int courseid) {
+        ArrayList<User> owners = new ArrayList<>();
+        try {
+            String sql = "select [User].fullname from [User] \n"
+                    + "		inner join [Owner] on [Owner].UserId = [User].Userid\n"
+                    + "		where [Owner].CourseId = ? ";
+            PreparedStatement stm = connection.prepareCall(sql);
+            stm.setInt(1, courseid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setFullName(rs.getString(1));
+                owners.add(u);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return owners;
+    }
+    
+//    public static void main(String[] args) {
+//        UserDBContext udb = new  UserDBContext();
+//        ArrayList<User> us = udb.getOwnerByCourse(2);
+//        System.out.println("size "+  us.size());
+//    }
+      public ArrayList<User> getUserByRole(String role) {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            String sql = "SELECT u.Userid ,u.Rid, r.Rname\n"
+                    + "  FROM [dbo].[User_Role] as u inner join Role as r\n"
+                    + "  on u.rid = r.rid \n"
+                    + "  where r.Rname = ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, role);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                //Take user by id
+            //    User user = new User();
+                //  user.setId(rs.getInt("Userid"));
+                User user = getUserById(rs.getInt("Userid"));
+                users.add(user);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+    }
+      public int getRoleUser(int userid) {
+
+        try {
+            String sql = "select Rid from User_Role where Userid = ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userid);
+          //  stm.setString(2, password);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                UserRole u = new UserRole();
+                u.setUserid(userid);
+                u.setRoleid(rs.getInt("Rid"));
+                return u.getRoleid();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }  
 }

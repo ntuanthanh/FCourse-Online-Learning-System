@@ -25,7 +25,8 @@ public class Course implements java.io.Serializable {
     private Status status;
     private ArrayList<Tag> tags = new ArrayList<>();
     private ArrayList<PricePackage> pricePackage = new ArrayList<>(); ;
-    private ArrayList<User> owners = new ArrayList<>();;
+    private ArrayList<User> owners = new ArrayList<>();
+    private ArrayList<Dimension> dimensions = new ArrayList<>();
     public Course() {
     }
 
@@ -140,4 +141,13 @@ public class Course implements java.io.Serializable {
     public void setOwners(ArrayList<User> owners) {
         this.owners = owners;
     }
+
+    public ArrayList<Dimension> getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(ArrayList<Dimension> dimensions) {
+        this.dimensions = dimensions;
+    }
+    
 }

@@ -17,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Category;
 import model.Course;
+import model.Dimension;
+import model.DimensionType;
 import model.PricePackage;
 import model.Status;
 import model.Tag;
@@ -711,6 +713,26 @@ public class CourseDBContext extends DBContext {
                   tags.add(tag);
                }
                course.setTags(tags);
+               // get list Dimension for this course
+               String sql_dimension = " select * from Course_dimension as cd INNER JOIN Dimension as d on cd.dimensionid = d.Did \n" +
+                                     " INNER JOIN DimensionType as dt on dt.TypeId = d.typeID\n" +
+                                        " where Courseid = ? ";
+               stm_sql_course = connection.prepareStatement(sql_dimension);
+               stm_sql_course.setInt(1, id);
+               ResultSet rs_sql_dimension = stm_sql_course.executeQuery();
+               ArrayList<Dimension> dimensions = new ArrayList<>();
+               while(rs_sql_dimension.next()){
+                   Dimension dimension = new Dimension();
+                   dimension.setId(rs_sql_dimension.getInt("Did"));
+                   dimension.setName(rs_sql_dimension.getString("name"));
+                   dimension.setDescription(rs_sql_dimension.getString("dicription"));
+                   DimensionType dimensionType = new DimensionType();
+                   dimensionType.setId(rs_sql_dimension.getInt("TypeId"));
+                   dimensionType.setName(rs_sql_dimension.getString("name"));
+                   dimension.setDimensionType(dimensionType);
+                   dimensions.add(dimension);
+               }
+               course.setDimensions(dimensions);
            }
        } catch (SQLException ex) {
            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -803,4 +825,373 @@ public class CourseDBContext extends DBContext {
            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
        }
     }
+    /*
+    1 : 50   
+    */
+    public ArrayList<Course> searchSubject(int sort, int[] cid, Date begin, Date end, String name, int statusid, int userid, int pageIndex, int pageSize) {
+        //page size is  number of element in page
+        ArrayList<Course> courses = new ArrayList<>();
+        try {
+            String sql = "  SELECT * FROM\n"
+                    + "                        (SELECT Courses.CourseId, thumnaiURL,title, Courses.featured, Category.Categoryid, Category.value,createdate ,"
+                    + "[Status].Sid,[Status].Sname , "; // last element in pageindex
+            switch (sort) {
+                case 0:
+                    sql += " ROW_NUMBER() OVER (ORDER BY Courses.createdate DESC) ";
+                    break;
+                case 1:
+                    sql += " ROW_NUMBER() OVER (ORDER BY Courses.createdate ASC) ";
+                    break;
+                case 2:
+                    sql += " ROW_NUMBER() OVER (ORDER BY Courses.title ASC) ";
+                    break;
+                case 3:
+                    sql += " ROW_NUMBER() OVER (ORDER BY Courses.title DESC) ";
+                    break;
+                default:
+                    break;
+            }
+            sql += "as row_index  \n"
+                    + "			FROM Courses\n"
+                    + "			inner join Status on Status.Sid = Courses.statusid\n"
+                    + "			inner join Category on Category.Categoryid = Courses.Categoryid \n"
+                    + "                 inner join [Owner] on [Owner].CourseId = Courses.CourseId \n "
+                    + "                 inner join [User] on [Owner].UserId = [user].Userid";
+            
+              
+            
+            sql += " where (1=1) ";
+            
+            //add cid
+            if (cid != null) {
+                sql += " and Category.Categoryid in (";
+                for (int i = 0; i < cid.length; i++) {
+                    sql += cid[i] + ",";
+                }
+                if (sql.endsWith(",")) {
+                    sql = sql.substring(0, sql.length() - 1);
+                }
+                sql += ")";
+            }
+
+            HashMap<Integer, Object[]> parameters = new HashMap<>();
+            int paramIndex = 0;
+            
+            if (begin != null) {
+                sql += " And Courses.createdate >= ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Date.class.getTypeName();
+                param[1] = begin;
+                parameters.put(paramIndex, param);
+            }
+            if (end != null) {
+                sql += " And Courses.createdate <= ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Date.class.getTypeName();
+                param[1] = end;
+                parameters.put(paramIndex, param);
+            }
+            
+            if (name != null) {
+                sql += " And Courses.title like ?  ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = String.class.getTypeName();
+                param[1] = name;
+                parameters.put(paramIndex, param);
+            }
+            if (statusid != 0) {
+                sql += " And [Status].Sid = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = statusid;
+                parameters.put(paramIndex, param);
+            }
+            if (userid != 0) {
+                sql += " and [User].Userid  = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = userid;
+                parameters.put(paramIndex, param);
+            }
+            sql += " ) tbl\n"
+                    + "WHERE row_index >= (? -1)*? + 1\n"
+                    + "AND row_index <= ? *?   ";
+            // dấu hỏi số 1 của where row_index >= ....
+            paramIndex++;
+            Object[] param = new Object[2];
+            param[0] = Integer.class.getTypeName();
+            param[1] = pageIndex;
+            parameters.put(paramIndex, param);
+            // dấu hỏi số 2 của where row_index >= ....
+            paramIndex++;
+            param = new Object[2];
+            param[0] = Integer.class.getTypeName();
+            param[1] = pageSize;
+            parameters.put(paramIndex, param);
+            // dấu hỏi số 3 của where row_index >= ....
+            paramIndex++;
+            param = new Object[2];
+            param[0] = Integer.class.getTypeName();
+            param[1] = pageSize;
+            parameters.put(paramIndex, param);
+            // dấu hỏi số 4 của where row_index >= ....
+            paramIndex++;
+            param = new Object[2];
+            param[0] = Integer.class.getTypeName();
+            param[1] = pageIndex;
+            parameters.put(paramIndex, param);
+            PreparedStatement stm = connection.prepareStatement(sql);
+            for (Map.Entry<Integer, Object[]> entry : parameters.entrySet()) {
+                Integer index = entry.getKey();
+                Object[] value = entry.getValue();
+                String type = value[0].toString();
+                if (type.equals(Integer.class.getName())) {
+                    stm.setInt(index, Integer.parseInt(value[1].toString()));
+                } else if (type.equals(String.class.getName())) {
+                    stm.setString(index, "%" + value[1].toString() + "%");
+                } else if (type.equals(Date.class.getName())) {
+                    stm.setDate(index, Date.valueOf(value[1].toString()));
+                }
+            }
+
+//            
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Course c = new Course();
+                c.setCourseId(rs.getInt(1));
+                c.setThumnailURL(rs.getString(2));
+                c.setTitle(rs.getString(3));
+                c.setFeature(rs.getBoolean(4));
+                Category ca = new Category();
+                ca.setCategoryID(rs.getInt(5));
+                ca.setValue(rs.getString(6));
+                c.setCreateDate(rs.getDate(7));
+
+                Status s = new Status();
+                s.setId(rs.getInt(8));
+                s.setName(rs.getString(9));
+
+                c.setCategory(ca);
+                c.setStatus(s);
+                courses.add(c);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return courses;
+    }
+
+    public int countSubject(int sort, int[] cid, Date begin, Date end, String name, int statusid, int userid) {
+        //page size is  number of element in page
+
+        try {
+            String sql = "  SELECT count(*) FROM\n"
+                    + "                       (SELECT Courses.CourseId as courseId, "
+                    + "thumnaiURL,title, Courses.featured, Category.Categoryid ,Category.value, createdate ,[Status].Sid, [Status].Sname,   "; // last element in pageindex
+            
+                
+                    sql += " ROW_NUMBER() OVER (ORDER BY Courses.createdate DESC) ";
+                  
+           
+            sql += "as row_index  \n"
+                    + "			FROM Courses\n"
+                    + "			inner join Status on Status.Sid = Courses.statusid\n"
+                    + "			inner join Category on Category.Categoryid = Courses.Categoryid ";
+            
+                sql += "inner join [Owner] on [Owner].CourseId = Courses.CourseId  ";
+           
+            sql += " where (1=1)";
+
+            //add cid
+            if (cid != null) {
+                sql += " and Category.Categoryid in (";
+                for (int i = 0; i < cid.length; i++) {
+                    sql += cid[i] + ",";
+                }
+                if (sql.endsWith(",")) {
+                    sql = sql.substring(0, sql.length() - 1);
+                }
+                sql += ")";
+            }
+
+            HashMap<Integer, Object[]> parameters = new HashMap<>();
+            int paramIndex = 0;
+            if (begin != null) {
+                sql += " And Courses.createdate >= ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Date.class.getTypeName();
+                param[1] = begin;
+                parameters.put(paramIndex, param);
+            }
+
+            if (end != null) {
+                sql += " And Courses.createdate <= ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Date.class.getTypeName();
+                param[1] = end;
+                parameters.put(paramIndex, param);
+            }
+            
+            if (name != null) {
+                sql += " And Courses.title like ?  ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = String.class.getTypeName();
+                param[1] = name;
+                parameters.put(paramIndex, param);
+            }
+            if (statusid != 0) {
+                sql += " And [Status].Sid = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = statusid;
+                parameters.put(paramIndex, param);
+            }
+            if (userid != 0) {
+                sql += " and [Owner].UserId = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = userid;
+                parameters.put(paramIndex, param);
+            }
+            sql += " ) tbl\n";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            for (Map.Entry<Integer, Object[]> entry : parameters.entrySet()) {
+                Integer index = entry.getKey();
+                Object[] value = entry.getValue();
+                String type = value[0].toString();
+                if (type.equals(Integer.class.getName())) {
+                    stm.setInt(index, Integer.parseInt(value[1].toString()));
+                } else if (type.equals(String.class.getName())) {
+                    stm.setString(index, "%" + value[1].toString() + "%");
+                } else if (type.equals(Date.class.getName())) {
+                    stm.setDate(index, Date.valueOf(value[1].toString()));
+                }
+            }
+
+//            
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+    public int insertCourse(Course s) {
+        int cid = 0;
+        try {
+            String sql = "INSERT INTO [dbo].[Courses]\n"
+                    + "           ([createdate]\n"
+                    + "           ,[briefinfo]\n"
+                    + "           ,[thumnaiURL]\n"
+                    + "           ,[title]\n"
+                    + "           ,[featured]\n"
+                    + "           ,[Categoryid]\n"
+                    + "           ,[statusid]\n"
+                    + "           ,[description])\n"
+                    + "     VALUES\n"
+                    + "           (GETDATE() \n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,? )";
+            connection.setAutoCommit(false);
+            PreparedStatement stm = connection.prepareStatement(sql);
+            //   stm.setInt(1, s.getCid());
+            stm.setString(1, s.getBriefInfo());
+            stm.setString(2, s.getThumnailURL());
+            stm.setNString(3, s.getTitle());
+            stm.setBoolean(4, s.isFeature());
+            stm.setInt(5, s.getCategory().getCategoryID());
+            stm.setInt(6, s.getStatus().getId());
+            stm.setString(7, s.getDescription());
+
+            stm.executeUpdate();
+
+            String sql_get_id = "select @@IDENTITY as id";
+            PreparedStatement stm_get_id = connection.prepareStatement(sql_get_id);
+
+            ResultSet rs = stm_get_id.executeQuery();
+            if (rs.next()) {
+                cid = rs.getInt("id");
+            }
+            connection.commit();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+                return cid;
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
+    }
+
+    public void insertCourseTag(int cid, ArrayList<Tag> certs) {
+        String sql = "INSERT INTO [dbo].[courseTag]\n"
+                + "           ([courseId]\n"
+                + "           ,[tagId])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?)";
+
+        try {
+            PreparedStatement stm_insert_cert = connection.prepareStatement(sql);
+            for (Tag cert : certs) {
+
+                stm_insert_cert.setInt(1, cid);
+                stm_insert_cert.setInt(2, cert.getTagId());
+                stm_insert_cert.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void insertOwner(int cid, ArrayList<User> owner) {
+        String sql = "INSERT INTO [dbo].[Owner]\n"
+                + "           ([UserId]\n"
+                + "           ,[CourseId])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,? )";
+
+        try {
+            PreparedStatement stm_insert_cert = connection.prepareStatement(sql);
+            for (User cert : owner) {
+
+                stm_insert_cert.setInt(2, cid);
+                stm_insert_cert.setInt(1, cert.getId());
+                stm_insert_cert.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

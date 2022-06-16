@@ -60,14 +60,16 @@ public class HomeController extends HttpServlet {
         }
         CategoryDBContext cadb = new CategoryDBContext();
         
-        ArrayList<Category> cates = cadb.getAllCategory();//get categories
+        ArrayList<Category> cates = cadb.getCategories();//get categories
         
 //        response.getWriter().write(""+courses.get(0).getCategory().getValue());
         
         BlogDBContext bdb = new BlogDBContext();
         ArrayList<Blog> blogs = bdb.getBlogForHome();
+        ArrayList<Blog> blognews = bdb.getLatestBlogForHome();
         ArrayList<Course> coursesSlider = cdb.getCourseForSlider();
         request.setAttribute("coursesSlider", coursesSlider);
+        request.setAttribute("blognews", blognews);
         request.setAttribute("blogs", blogs);
         request.setAttribute("courses", courses);
         request.setAttribute("coursesProminent", coursesProminent);

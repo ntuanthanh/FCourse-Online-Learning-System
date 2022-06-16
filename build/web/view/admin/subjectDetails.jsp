@@ -104,7 +104,9 @@
                 background: #e00;
                 
             }
-            
+            td{
+                text-transform: capitalize;
+            }
         </style>
     </head>
     <body>
@@ -258,8 +260,8 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <c:forEach var = "i" begin = "1" end = "5"> 
+                        <tbody id = "table-price">
+<!--                            <c:forEach var = "i" begin = "1" end = "5"> 
                                 <tr>
                                     <th scope="row">${i}</th>
                                     <td>Gói truy cập 3 tháng</td>
@@ -272,7 +274,21 @@
                                         <a style="text-decoration: none "href = "#">Deactivate</a>
                                     </td>
                                 </tr>
-                            </c:forEach>                               
+                            </c:forEach>    -->
+                            <c:forEach items="${requestScope.course.pricePackage}" var = "p"> 
+                                <tr>
+                                    <th scope="row">${p.id}</th>
+                                    <td>${p.name}</td>
+                                    <td>${p.duration != -1 ? p.duration : "Unlimited"} (Month)</td>
+                                    <td>${p.listPrice} ($)</td>
+                                    <td>${p.salePrice} ($)</td>
+                                    <td>${p.status.name}</td>
+                                    <td>
+                                        <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
+                                        <a style="text-decoration: none " href = "#" onclick = "ActionPricePackage(${p.id},${p.status.id},${requestScope.course.courseId})">${p.status.id == 1?"Deactivate":"Active"}</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>  
                         </tbody>
                     </table>
                 </div>
@@ -288,17 +304,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var = "i" begin = "1" end = "5"> 
+                            
+                            <c:forEach items = "${requestScope.course.dimensions}" var = "d"> 
                                 <tr>
-                                    <th scope="row">${i}</th>
-                                    <td>Domain</td>
-                                    <td>Business</td>
+                                    <th scope="row">${d.id}</th>
+                                    <td>${d.dimensionType.name}</td>
+                                    <td>${d.name}</td>
                                     <td>
                                         <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
                                         <a style="text-decoration: none "href = "#">Delete</a>
                                     </td>
                                 </tr>
-                            </c:forEach>                               
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -475,6 +492,29 @@
                             }, 500);
                         });
                     }
+            }
+            // Price Package : Action ( Ajax ) 
+            function ActionPricePackage(id,statusId,courseId){
+                var pricePackageId = id;
+                var status = statusId; 
+                var course = courseId;
+                $.ajax({
+                        url: '/summer2022-se1616-g4/updateStatusPricePackage',
+                        type: 'get',
+                        data: {
+                            pid: pricePackageId,
+                            sid: status,
+                            cid: course
+                        } ,
+                        success: function (response) {
+                            var content = document.querySelector('#table-price');
+                            content.innerHTML = response;
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                });    
+                
             }
         </script>
     </body>

@@ -23,7 +23,15 @@ public abstract class BaseAuthController extends HttpServlet {
     
     private boolean isAuthenticated(HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("user"); 
-        return user != null; 
+         if(user == null)
+            return false;
+        else
+        {
+            String url = request.getServletPath();
+            UserDBContext udbc = new UserDBContext();
+            int permission = udbc.getPermission(user.getEmail(), url);
+            return permission > 0;
+        }
     }
             
     @Override
@@ -34,7 +42,7 @@ public abstract class BaseAuthController extends HttpServlet {
             // bussiness logic
             processGet(request, response);           
         }else{
-           response.sendRedirect(request.getContextPath()+"/login");
+           response.sendRedirect(request.getContextPath()+"/error404");
         }
     }
     protected abstract void processGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,7 +55,7 @@ public abstract class BaseAuthController extends HttpServlet {
             // bussiness logic
             processPost(request, response);
         }else{
-           response.sendRedirect(request.getContextPath()+"/login");
+           response.sendRedirect(request.getContextPath()+"/error404");
         }
     }
     protected abstract void processPost(HttpServletRequest request, HttpServletResponse response)

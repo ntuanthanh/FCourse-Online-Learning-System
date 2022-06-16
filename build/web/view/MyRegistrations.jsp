@@ -62,9 +62,9 @@
                                 <tr>
                                     <td >${requestScope.myCourses.get(i).userCourseId}</td>
                                     <td class="b">${requestScope.myCourses.get(i).course.title}</td>
-                                    <td >${requestScope.myCourses.get(i).pricePackage.duration}</td>
-                                    <td >${requestScope.myCourses.get(i).pricePackage.name}</td>
-                                    <td >${requestScope.myCourses.get(i).pricePackage.salePrice}</td>
+                                    <td >${requestScope.myCourses.get(i).pricePackage.duration} month</td>
+                                    <td >&emsp;${requestScope.myCourses.get(i).pricePackage.name}&emsp;</td>
+                                    <td >${requestScope.myCourses.get(i).pricePackage.salePrice} $</td>
                                     <td >${requestScope.myCourses.get(i).registration_status}</td>
                                     <td >${requestScope.myCourses.get(i).startDate}</td>
                                     <td >${requestScope.myCourses.get(i).endDate}</td>

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>NewFilter</filter-name>
+        <filter-class>controller.authorization.NewFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>NewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>HomeController</servlet-name>
         <servlet-class>controller.user.HomeController</servlet-class>
@@ -92,6 +100,42 @@
         <servlet-name>AjaxSearchTag_SubjectDetailController</servlet-name>
         <servlet-class>controller.manager.AjaxSearchTag_SubjectDetailController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>error404</servlet-name>
+        <servlet-class>controller.authorization.error404</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostDetailController</servlet-name>
+        <servlet-class>controller.manager.PostDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatusLessonController</servlet-name>
+        <servlet-class>controller.manager.StatusLessonController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SubjectLessonController</servlet-name>
+        <servlet-class>controller.manager.SubjectLessonController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegisterCourseController</servlet-name>
+        <servlet-class>controller.user.RegisterCourseController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QuestionListController</servlet-name>
+        <servlet-class>controller.user.QuestionListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewCourseController</servlet-name>
+        <servlet-class>controller.user.NewCourseController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SubjectListController</servlet-name>
+        <servlet-class>controller.manager.SubjectListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxUpdateActionPricePackageController</servlet-name>
+        <servlet-class>controller.manager.AjaxUpdateActionPricePackageController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -179,6 +223,42 @@
     <servlet-mapping>
         <servlet-name>AjaxSearchTag_SubjectDetailController</servlet-name>
         <url-pattern>/searchAjaxTag</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>error404</servlet-name>
+        <url-pattern>/error404</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostDetailController</servlet-name>
+        <url-pattern>/post/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatusLessonController</servlet-name>
+        <url-pattern>/lesson/updatestatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubjectLessonController</servlet-name>
+        <url-pattern>/subject/lesson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterCourseController</servlet-name>
+        <url-pattern>/course/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuestionListController</servlet-name>
+        <url-pattern>/question/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewCourseController</servlet-name>
+        <url-pattern>/course/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubjectListController</servlet-name>
+        <url-pattern>/subject/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxUpdateActionPricePackageController</servlet-name>
+        <url-pattern>/updateStatusPricePackage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
