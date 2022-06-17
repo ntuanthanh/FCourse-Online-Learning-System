@@ -44,7 +44,7 @@ public class AjaxUpdateActionPricePackageController extends HttpServlet {
                     " <td>"+pricePackage.getName()+"</td>\n" +
                     " <td>"+(pricePackage.getDuration() != -1 ? pricePackage.getDuration() : "Unlimited")+" (Month)</td>\n" +
                     " <td>"+pricePackage.getListPrice()+" ($)</td>\n" +
-                    " <td>$"+pricePackage.getSalePrice()+" ($)</td>\n" +
+                    " <td>"+pricePackage.getSalePrice()+" ($)</td>\n" +
                     " <td>"+pricePackage.getStatus().getName()+"</td>\n" +
                     " <td>\n" +
                     "   <a style=\"margin-right: 5px; text-decoration: none \" href = \"#\">Edit</a>\n" +

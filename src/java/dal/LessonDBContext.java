@@ -74,7 +74,7 @@ public class LessonDBContext extends DBContext {
                 sql += " and TopicId = " + tid;
             }
             if( name!= null){
-                sql += "and LessonsName like ?";
+                sql += " and LessonsName like ?";
             }
 
             

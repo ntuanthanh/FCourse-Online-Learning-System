@@ -588,7 +588,7 @@ public class CourseDBContext extends DBContext {
         }
         return courses;
     }
-    public ArrayList<Course> getThreeCourseForCourse(String id) {
+    public ArrayList<Course> getThreeCourseForCourse(int id) {
         ArrayList<Course> courses = new ArrayList<>();
         try {
             String sql = "SELECT top(3) Courses.CourseId, Courses.thumnaiURL, Courses.title, Courses.featured ,Category.Categoryid,Category.value\n"
@@ -598,7 +598,7 @@ public class CourseDBContext extends DBContext {
                     + "				  where Status.Sid = 1 and Courses.CourseId!=?\n"
                     + "				  order by createdate desc";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, id);
+            stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Course c = new Course();
@@ -607,7 +607,8 @@ public class CourseDBContext extends DBContext {
                 c.setTitle(rs.getString(3));
                 
                 c.setFeature(rs.getBoolean(5));
-
+                TagDBContext tdb = new TagDBContext();
+               ArrayList<Tag> tag = tdb.getTagsByCourse(id);
                 Category ca = new Category();
                 ca.setCategoryID(rs.getInt(5));
                 ca.setValue(rs.getString(6));
@@ -828,6 +829,9 @@ public class CourseDBContext extends DBContext {
     /*
     1 : 50   
     */
+   /*
+    1 : 50   
+     */
     public ArrayList<Course> searchSubject(int sort, int[] cid, Date begin, Date end, String name, int statusid, int userid, int pageIndex, int pageSize) {
         //page size is  number of element in page
         ArrayList<Course> courses = new ArrayList<>();
@@ -854,14 +858,22 @@ public class CourseDBContext extends DBContext {
             sql += "as row_index  \n"
                     + "			FROM Courses\n"
                     + "			inner join Status on Status.Sid = Courses.statusid\n"
-                    + "			inner join Category on Category.Categoryid = Courses.Categoryid \n"
-                    + "                 inner join [Owner] on [Owner].CourseId = Courses.CourseId \n "
-                    + "                 inner join [User] on [Owner].UserId = [user].Userid";
-            
-              
-            
+                    + "			inner join Category on Category.Categoryid = Courses.Categoryid \n";
+
+            HashMap<Integer, Object[]> parameters = new HashMap<>();
+            int paramIndex = 0;
+            if (userid != 0) {
+                sql += " inner join (select distinct Courses . CourseId  from Courses \n"
+                        + "			inner join  [Owner]  on [Owner].CourseId = Courses.CourseId where (1=1) and [Owner].UserId = ? ) tb"
+                        + " on Courses.CourseId = tb.CourseId ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = userid;
+                parameters.put(paramIndex, param);
+            }
             sql += " where (1=1) ";
-            
+
             //add cid
             if (cid != null) {
                 sql += " and Category.Categoryid in (";
@@ -873,10 +885,6 @@ public class CourseDBContext extends DBContext {
                 }
                 sql += ")";
             }
-
-            HashMap<Integer, Object[]> parameters = new HashMap<>();
-            int paramIndex = 0;
-            
             if (begin != null) {
                 sql += " And Courses.createdate >= ? ";
                 paramIndex++;
@@ -893,7 +901,7 @@ public class CourseDBContext extends DBContext {
                 param[1] = end;
                 parameters.put(paramIndex, param);
             }
-            
+
             if (name != null) {
                 sql += " And Courses.title like ?  ";
                 paramIndex++;
@@ -910,14 +918,7 @@ public class CourseDBContext extends DBContext {
                 param[1] = statusid;
                 parameters.put(paramIndex, param);
             }
-            if (userid != 0) {
-                sql += " and [User].Userid  = ? ";
-                paramIndex++;
-                Object[] param = new Object[2];
-                param[0] = Integer.class.getTypeName();
-                param[1] = userid;
-                parameters.put(paramIndex, param);
-            }
+            
             sql += " ) tbl\n"
                     + "WHERE row_index >= (? -1)*? + 1\n"
                     + "AND row_index <= ? *?   ";
@@ -993,20 +994,26 @@ public class CourseDBContext extends DBContext {
         try {
             String sql = "  SELECT count(*) FROM\n"
                     + "                       (SELECT Courses.CourseId as courseId, "
-                    + "thumnaiURL,title, Courses.featured, Category.Categoryid ,Category.value, createdate ,[Status].Sid, [Status].Sname,   "; // last element in pageindex
-            
-                
-                    sql += " ROW_NUMBER() OVER (ORDER BY Courses.createdate DESC) ";
-                  
-           
-            sql += "as row_index  \n"
+                    + " ROW_NUMBER() OVER (ORDER BY Courses.createdate DESC) "
+                    + " as row_index  \n"
                     + "			FROM Courses\n"
                     + "			inner join Status on Status.Sid = Courses.statusid\n"
                     + "			inner join Category on Category.Categoryid = Courses.Categoryid ";
-            
-                sql += "inner join [Owner] on [Owner].CourseId = Courses.CourseId  ";
-           
-            sql += " where (1=1)";
+
+            HashMap<Integer, Object[]> parameters = new HashMap<>();
+            int paramIndex = 0;
+
+            if (userid != 0) {
+                sql += "inner join (select distinct Courses . CourseId  from Courses \n"
+                        + "			inner join  [Owner]  on [Owner].CourseId = Courses.CourseId where (1=1) and [Owner].UserId = ? ) tb"
+                        + " on Courses.CourseId = tb.CourseId ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = userid;
+                parameters.put(paramIndex, param);
+            }
+            sql += " where (1=1) ";
 
             //add cid
             if (cid != null) {
@@ -1020,8 +1027,6 @@ public class CourseDBContext extends DBContext {
                 sql += ")";
             }
 
-            HashMap<Integer, Object[]> parameters = new HashMap<>();
-            int paramIndex = 0;
             if (begin != null) {
                 sql += " And Courses.createdate >= ? ";
                 paramIndex++;
@@ -1039,7 +1044,7 @@ public class CourseDBContext extends DBContext {
                 param[1] = end;
                 parameters.put(paramIndex, param);
             }
-            
+
             if (name != null) {
                 sql += " And Courses.title like ?  ";
                 paramIndex++;
@@ -1056,16 +1061,7 @@ public class CourseDBContext extends DBContext {
                 param[1] = statusid;
                 parameters.put(paramIndex, param);
             }
-            if (userid != 0) {
-                sql += " and [Owner].UserId = ? ";
-                paramIndex++;
-                Object[] param = new Object[2];
-                param[0] = Integer.class.getTypeName();
-                param[1] = userid;
-                parameters.put(paramIndex, param);
-            }
-            sql += " ) tbl\n";
-
+            sql += " ) tb1" ;
             PreparedStatement stm = connection.prepareStatement(sql);
             for (Map.Entry<Integer, Object[]> entry : parameters.entrySet()) {
                 Integer index = entry.getKey();

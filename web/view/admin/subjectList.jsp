@@ -370,6 +370,7 @@
                         <li>Courses</li>
                     </ul>
                 </div>
+                <button ><a href="../course/add">add new course  </a></button>
                 <div class="row">
                     <div class="col-sm-12 m-b30">
 

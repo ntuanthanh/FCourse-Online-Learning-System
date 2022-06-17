@@ -52,20 +52,8 @@ public class PricePackageDBContext extends DBContext {
             return PricePackages;
         } catch (SQLException ex) {
             Logger.getLogger(PricePackageDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-            }
-        }
+        } 
+        
         return null;
     }
 
@@ -98,20 +86,8 @@ public class PricePackageDBContext extends DBContext {
 
         } catch (SQLException ex) {
             Logger.getLogger(PricePackageDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-            }
-        }
+        } 
+        
         return null;
     }
 

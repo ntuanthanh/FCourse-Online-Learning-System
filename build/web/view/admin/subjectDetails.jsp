@@ -11,6 +11,55 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+       <!-- META ============================================= -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="" />
+
+        <!-- DESCRIPTION -->
+        <meta name="description" content="EduChamp : Education HTML Template" />
+
+        <!-- OG -->
+        <meta property="og:title" content="EduChamp : Education HTML Template" />
+        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:image" content="" />
+        <meta name="format-detection" content="telephone=no">
+
+        <!-- FAVICONS ICON ============================================= -->
+        <link rel="icon" href="../error-404.html" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+
+        <!-- PAGE TITLE HERE ============================================= -->
+        <title>EduChamp : Education HTML Template </title>
+
+        <!-- MOBILE SPECIFIC ============================================= -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- All PLUGINS CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/assets.css">
+        <link rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/vendors/calendar/fullcalendar.css">
+
+        <!-- TYPOGRAPHY ============================================= -->
+        <link rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/typography.css">
+
+        <!-- SHORTCODES ============================================= -->
+<!--        <link rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/shortcodes/shortcodes.css">-->
+
+        <!-- STYLESHEETS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/dashboard.css">
+        <link class="skin" rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/color/color-1.css">
+        
+        
+        
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -109,7 +158,10 @@
             }
         </style>
     </head>
-    <body>
+    <body class="ttr-opened-sidebar ttr-pinned-sidebar">
+        <jsp:include page="../../view/admin/header_admin.jsp" /> 
+        <!--Main container start -->
+        <main class="ttr-wrapper">
         <div class="container mt-3">
             <h2>Subject Details</h2>
             <br>
@@ -169,7 +221,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div class = "status-subject">
-                                            <span class = "font-weight-subject-overview">Status : </span>   <select id="status" name = "status_id">
+                                            <c:if test = "${requestScope.isAdmin == false}">
+                                                <input type ="text" hidden ="hidden" name ="status_id" value = "${requestScope.course.status.id}"/>
+                                            </c:if>
+                                            <span class = "font-weight-subject-overview">Status : </span>   <select ${requestScope.isAdmin == false?"disabled":"" } id="status" name = "status_id">
                                                 <c:forEach items="${requestScope.statuses}" var ="s">
                                                       <option value ="${s.id}" ${s.id == requestScope.course.status.id?"selected = selected":""} >${s.id == 1?"Published":"UnPublished"}</option>
                                                 </c:forEach>
@@ -191,30 +246,38 @@
                                 </div>
                             </div>
                             <!--Search user expert by ajax-->
-                            <div class = "col-12 col-md-6"> 
-                                <div class="form-group col-12">
-                                    <label for = "search_expert" class="col-form-label font-weight-subject-overview" style="color : #6A747C">Search expert you want to assign </label>
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                    <div>
-                                        <input id = "search_expert" name ="search_expert" class="form-control" type="text" placeholder ="You can search by email or name expert" oninput="searchExpert(this)">
-                                    </div>
-                                    <!--result search expert-->
-                                    <div id = "result_search_expert" class= "style-list-subject">
-                                        <ul id = "my_list_result_search_expert">
-                                            
-                                        </ul>
-                                    </div>
-                                    <!--Chọn ông Expert nào cho code -->
-                                    <label class="col-form-label font-weight-subject-overview" style="color : #6A747C">Experts you assigned : </label>
-                                    <div id = "assigned_expert" class = "assigned_list_style">
-                                        <ul>
-                                            <c:forEach items="${requestScope.course.owners}" var = "o">
-                                                <li><input class ="input-expert" type="text" hidden="hidden"  name = "expert" value = "${o.id}">${o.fullName}( ${o.email} )<span class ="delete-expert">x</span></li>
-                                            </c:forEach> 
-                                        </ul>
-                                    </div>
-                                 </div>
-                            </div>
+                            <c:if test = "${requestScope.isAdmin == true}">
+                                <div class = "col-12 col-md-6"> 
+                                    <div class="form-group col-12">
+                                        <label for = "search_expert" class="col-form-label font-weight-subject-overview" style="color : #6A747C">Search expert you want to assign </label>
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                        <div>
+                                            <input id = "search_expert" name ="search_expert" class="form-control" type="text" placeholder ="You can search by email or name expert" oninput="searchExpert(this)">
+                                        </div>
+                                        <!--result search expert-->
+                                        <div id = "result_search_expert" class= "style-list-subject">
+                                            <ul id = "my_list_result_search_expert">
+
+                                            </ul>
+                                        </div>
+                                        <!--Chọn ông Expert nào cho code -->
+                                        <label class="col-form-label font-weight-subject-overview" style="color : #6A747C">Experts you assigned : </label>
+                                        <div id = "assigned_expert" class = "assigned_list_style">
+                                            <ul>
+                                                <c:forEach items="${requestScope.course.owners}" var = "o">
+                                                    <li><input class ="input-expert" type="text" hidden="hidden"  name = "expert" value = "${o.id}">${o.fullName}( ${o.email} )<span class ="delete-expert">x</span></li>
+                                                </c:forEach> 
+                                            </ul>
+                                        </div>
+                                     </div>
+                                </div>
+                            </c:if>
+                            <c:if test = "${requestScope.isAdmin == false}">
+                                <c:forEach items="${requestScope.course.owners}" var = "o">
+                                        <input class ="input-expert" type="text" hidden="hidden"  name = "expert" value = "${o.id}">
+                                 </c:forEach> 
+                            </c:if>
+                            
                             <!--Search tag by ajax-->
                             <div class = "col-12 col-md-6"> 
                                 <div class="form-group col-12">
@@ -247,7 +310,9 @@
                     </form>
                 </div>
                 <div id="Price_Package" class="container tab-pane fade"><br>
-                    <a style="text-decoration: none; float : right" href="#">Add New</a>
+                    <c:if test = "${requestScope.isAdmin == true}">
+                        <a style="text-decoration: none; float : right" href="#">Add New</a>
+                    </c:if>
                     <table class="table table-hover">
                         <thead>
                             <tr class = "bg-warning">
@@ -257,7 +322,9 @@
                                 <th scope="col">List Price</th>
                                 <th scope="col">Sale Price</th>
                                 <th scope="col">Status</th>
+                                <c:if test = "${requestScope.isAdmin == true}">
                                 <th scope="col">Action</th>
+                                </c:if>
                             </tr>
                         </thead>
                         <tbody id = "table-price">
@@ -283,10 +350,12 @@
                                     <td>${p.listPrice} ($)</td>
                                     <td>${p.salePrice} ($)</td>
                                     <td>${p.status.name}</td>
+                                    <c:if test = "${requestScope.isAdmin}">
                                     <td>
                                         <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
                                         <a style="text-decoration: none" href = "#" onclick = "ActionPricePackage(${p.id},${p.status.id},${requestScope.course.courseId})">${p.status.id == 1?"Deactivate":"Active"}</a>
                                     </td>
+                                    </c:if>
                                 </tr>
                             </c:forEach>  
                         </tbody>
@@ -321,6 +390,8 @@
                 </div>
             </div>
         </div>
+        </main>
+        <div class="ttr-overlay"></div>
         <script>
            // Xử lí bên tìm kiếm expert và gán expert
            var close = document.querySelectorAll('.delete-expert');
@@ -509,6 +580,11 @@
                         success: function (response) {
                             var content = document.querySelector('#table-price');
                             content.innerHTML = response;
+                            Swal.fire(
+                    'Change status successfully',
+                    'Change status successfully ',
+                    'success'
+                )
                         },
                         error: function () {
                             alert("error");
@@ -517,5 +593,26 @@
                 
             }
         </script>
+        
+        
+        <script src="/summer2022-se1616-g4/view/admin/assets/js/jquery.min.js"></script>
+<!--        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/bootstrap/js/popper.min.js"></script>
+       <script src="/summer2022-se1616-g4/view/admin/assets/vendors/bootstrap/js/bootstrap.min.js"></script>-->
+<!--        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>-->
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/magnific-popup/magnific-popup.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/counter/waypoints-min.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/counter/counterup.min.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/imagesloaded/imagesloaded.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/masonry/masonry.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/masonry/filter.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/owl-carousel/owl.carousel.js"></script>
+        <script src='/summer2022-se1616-g4/view/admin/assets/vendors/scroll/scrollbar.min.js'></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/js/functions.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/vendors/chart/chart.min.js"></script>
+        <script src="/summer2022-se1616-g4/view/admin/assets/js/admin.js"></script>
+        <script src='/summer2022-se1616-g4/view/admin/assets/vendors/calendar/moment.min.js'></script>
+        <script src='/summer2022-se1616-g4/view/admin/assets/vendors/calendar/fullcalendar.js'></script>
+<!--        <script src='/summer2022-se1616-g4/view/admin/assets/vendors/switcher/switcher.js'></script>-->
     </body>
 </html>

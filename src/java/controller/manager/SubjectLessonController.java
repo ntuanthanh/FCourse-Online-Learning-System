@@ -5,6 +5,7 @@
  */
 package controller.manager;
 
+import controller.authorization.BaseAuthController;
 import dal.CourseDBContext;
 import dal.LessonDBContext;
 import dal.StatusDBContext;
@@ -25,7 +26,7 @@ import model.Topic;
  *
  * @author tuann
  */
-public class SubjectLessonController extends HttpServlet {
+public class SubjectLessonController extends BaseAuthController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -72,10 +73,11 @@ public class SubjectLessonController extends HttpServlet {
         request.setAttribute("cid", cid);
         request.setAttribute("name", name);
         
+        request.setAttribute("course", course);
         request.setAttribute("statuses", statuses);
         request.setAttribute("topics", topics);
         System.out.println(searchsubjectlesson);
-        request.getRequestDispatcher("../view/admin/subjectlesson.jsp").forward(request, response);
+        request.getRequestDispatcher("../view/admin/lessonsubject.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -88,7 +90,7 @@ public class SubjectLessonController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -102,7 +104,7 @@ public class SubjectLessonController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
     }

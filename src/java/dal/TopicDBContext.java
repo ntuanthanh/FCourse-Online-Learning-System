@@ -47,20 +47,7 @@ public class TopicDBContext extends DBContext {
             return Topics;
         } catch (SQLException ex) {
             Logger.getLogger(TopicDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-            }
-        }
+        } 
         return null;
     }
     public static void main(String[] args) {

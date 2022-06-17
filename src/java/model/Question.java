@@ -20,7 +20,7 @@ public class Question {
     private String option3;
     private String option4;
     private Course course;
-
+    private Dimension dimension;
     private QuizLevel quizlevel;
     private Status status;
 
@@ -39,6 +39,14 @@ public class Question {
         this.course = course;
         this.quizlevel = quizlevel;
         this.status = status;
+    }
+
+    public Dimension getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
     }
 
     public int getId() {

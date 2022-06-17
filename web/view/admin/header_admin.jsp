@@ -24,10 +24,10 @@
                 <!--logo start -->
                 <div class="ttr-logo-box">
                     <div>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard" class="ttr-logo" style ="padding: 0 !important" >
+<!--                        <a href="${pageContext.request.contextPath}/admin/dashboard" class="ttr-logo" style ="padding: 0 !important" >
                             <img class="ttr-logo-mobile" alt="" src="${pageContext.request.contextPath}/images/header/logo-main2_1.png" width="30" height="30">
                             <img class="ttr-logo-desktop" alt="" src="${pageContext.request.contextPath}/images/header/logo-main2_1.png" width="160" height="27">
-                        </a>
+                        </a>-->
                     </div>
                 </div>
                 <!--logo end -->
@@ -42,7 +42,7 @@
                             <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="${pageContext.request.contextPath}/subject/list"">Our Courses</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/subject/list">Our Courses</a></li>
                                     <li><a href="#">New Event</a></li>
                                     <li><a href="#">Membership</a></li>
                                 </ul>
@@ -137,7 +137,7 @@
                                     <li><a href="${pageContext.request.contextPath}/user/profile">My profile</a></li>
                                     <li><a href="#">Activity</a></li>
                                     <li><a href="#">Messages</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/admin/logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -253,15 +253,15 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button">
+                            <a href="${pageContext.request.contextPath}/add/post" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-bookmark-alt"></i></span>
-                                <span class="ttr-label">Bookmarks</span>
+                                <span class="ttr-label">Add Post</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button">
+                            <a href="${pageContext.request.contextPath}/question/list" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-comments"></i></span>
-                                <span class="ttr-label">Review</span>
+                                <span class="ttr-label">Question List</span>
                             </a>
                         </li>
                         <li>

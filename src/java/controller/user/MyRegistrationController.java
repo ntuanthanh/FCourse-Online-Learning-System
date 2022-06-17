@@ -7,6 +7,7 @@ package controller.user;
 
 import controller.authorization.BaseAuthController;
 import dal.CategoryDBContext;
+import dal.ParentCategoryDBContext;
 import dal.UserCourseDBContext;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,45 +17,54 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Category;
+import model.ParentCategory;
 import model.User;
 import model.UserCourse;
 
 public class MyRegistrationController extends BaseAuthController {
 
-
-     @Override
+    @Override
     protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-              response.setContentType("text/html;charset=UTF-8");
-        int categoryId=0;
+        response.setContentType("text/html;charset=UTF-8");
+        int categoryId = 0;
         String a = request.getParameter("categoryId");
-        if( a!=null){
+        if (a != null) {
             categoryId = Integer.parseInt(a);
         }
+        ParentCategoryDBContext padb = new ParentCategoryDBContext();
+        ArrayList<ParentCategory> pCates = padb.getParentCategory();
+
+        //get categories
+        CategoryDBContext cadb = new CategoryDBContext();
+        ArrayList<Category> cates = cadb.getCategorys();
+
+        request.setAttribute("cates", cates);
+
+        request.setAttribute("pCates", pCates);
         CategoryDBContext CDB = new CategoryDBContext();
         ArrayList<Category> Categorys = CDB.getCategorys();
         UserCourseDBContext ucdbc = new UserCourseDBContext();
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        ArrayList<UserCourse> myCourses= ucdbc.getCoursesRegistraion(1,categoryId,""); 
+        User user = (User) session.getAttribute("user");
+        ArrayList<UserCourse> myCourses = ucdbc.getCoursesRegistraion(user.getId(), categoryId, "");
         request.setAttribute("myCourses", myCourses);
         request.setAttribute("Categorys", Categorys);
         request.getRequestDispatcher("view/MyRegistrations.jsp").forward(request, response);
     }
 
-
     @Override
     protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         String title = request.getParameter("title");
-        int categoryId=0;
+        int categoryId = 0;
         CategoryDBContext CDB = new CategoryDBContext();
         ArrayList<Category> Categorys = CDB.getCategorys();
         UserCourseDBContext ucdbc = new UserCourseDBContext();
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        ArrayList<UserCourse> myCourses= ucdbc.getCoursesRegistraion(1,categoryId,title); 
+        User user = (User) session.getAttribute("user");
+        ArrayList<UserCourse> myCourses = ucdbc.getCoursesRegistraion(1, categoryId, title);
         request.setAttribute("myCourses", myCourses);
         request.setAttribute("Categorys", Categorys);
         request.getRequestDispatcher("view/MyRegistrations.jsp").forward(request, response);

@@ -32,7 +32,7 @@ public class MyCourseController extends BaseAuthController {
         response.setContentType("text/html;charset=UTF-8");
         CourseDBContext cdbc1 = new CourseDBContext();
         User u = (User) request.getSession().getAttribute("user");
-        int pagesize =8;
+        int pagesize =4;
         String page = request.getParameter("page");
         if(page == null || page.trim().length()==0){
             page = "1";

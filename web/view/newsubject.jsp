@@ -13,7 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <!-- FAVICONS ICON ============================================= -->
-        <link rel="icon" href="../error-404.html" type="image/x-icon" />
+        <link rel="icon" href="../view/error-404.html" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="../view/admin/assets/images/favicon.png" />
         <!--[if lt IE 9]>
 <script src="assets/js/html5shiv.min.js"></script>
@@ -25,7 +25,7 @@
         <link rel="stylesheet" type="text/css" href="../view/admin/assets/vendors/calendar/fullcalendar.css">
 
         <!-- TYPOGRAPHY ============================================= -->
-        <link rel="stylesheet" type="text/css" href="assets/css/typography.css">
+        <link rel="stylesheet" type="text/css" href="../view/admin/assets/css/typography.css">
 
         <!-- SHORTCODES ============================================= -->
         <link rel="stylesheet" type="text/css" href="../view/admin/assets/css/shortcodes/shortcodes.css">
@@ -35,10 +35,11 @@
         <link rel="stylesheet" type="text/css" href="../view/admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="../view/admin/assets/css/color/color-1.css">
         <script src="../js/ImgPreview/imgPreview.js" type="text/javascript"></script>
+        <script src="../js/validationForm/validateForm.js" type="text/javascript"></script>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
-        <!-- header start -->
+         <!-- header start -->
         <header class="ttr-header">
             <div class="ttr-header-wrapper">
                 <!--sidebar menu toggler start -->
@@ -50,10 +51,10 @@
                 <!--logo start -->
                 <div class="ttr-logo-box">
                     <div>
-                        <a href="index.html" class="ttr-logo">
-                            <img alt="" class="ttr-logo-mobile" src="../view/admin/assets/images/logo-mobile.png" width="30" height="30">
-                            <img alt="" class="ttr-logo-desktop" src="../view/admin/assets/images/logo-white.png" width="160" height="27">
-                        </a>
+<!--                        <a href="${pageContext.request.contextPath}/admin/dashboard" class="ttr-logo" style ="padding: 0 !important" >
+                            <img class="ttr-logo-mobile" alt="" src="${pageContext.request.contextPath}/images/header/logo-main2_1.png" width="30" height="30">
+                            <img class="ttr-logo-desktop" alt="" src="${pageContext.request.contextPath}/images/header/logo-main2_1.png" width="160" height="27">
+                        </a>-->
                     </div>
                 </div>
                 <!--logo end -->
@@ -61,15 +62,16 @@
                     <!-- header left menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+                            <a href="${pageContext.request.contextPath}/admin/dashboard" class="ttr-material-button ttr-submenu-toggle">HOME Dashboard</a>
+                            <a href="${pageContext.request.contextPath}/home" class="ttr-material-button ttr-submenu-toggle">HOME FCourse</a>
                         </li>
                         <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="../courses.html">Our Courses</a></li>
-                                    <li><a href="../event.html">New Event</a></li>
-                                    <li><a href="../membership.html">Membership</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/subject/list">Our Courses</a></li>
+                                    <li><a href="#">New Event</a></li>
+                                    <li><a href="#">Membership</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -156,20 +158,27 @@
                             </div>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="../view/admin/assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${pageContext.request.contextPath}/images/avatar/${sessionScope.user.avatarImage}" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="user-profile.html">My profile</a></li>
-                                    <li><a href="list-view-calendar.html">Activity</a></li>
-                                    <li><a href="mailbox.html">Messages</a></li>
-                                    <li><a href="../login.html">Logout</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/user/profile">My profile</a></li>
+                                    <li><a href="#">Activity</a></li>
+                                    <li><a href="#">Messages</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="ttr-hide-on-mobile">
                             <a href="#" class="ttr-material-button"><i class="ti-layout-grid3-alt"></i></a>
                             <div class="ttr-header-submenu ttr-extra-menu">
-
+                                <a href="#">
+                                    <i class="fa fa-music"></i>
+                                    <span>Musics</span>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-youtube-play"></i>
+                                    <span>Videos</span>
+                                </a>
                                 <a href="#">
                                     <i class="fa fa-envelope"></i>
                                     <span>Emails</span>
@@ -212,8 +221,8 @@
             <div class="ttr-sidebar-wrapper content-scroll">
                 <!-- side menu logo start -->
                 <div class="ttr-sidebar-logo">
-                    <a href="#"><img alt="" src="../view/admin/assets/images/logo.png" width="122" height="27"></a>
-                    <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
+<!--                    <a href="#"><img alt="" src="${pageContext.request.contextPath}/images/header/logo-main2_1.png" width="122" height="27"></a>
+                     <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
                             <i class="material-icons ttr-fixed-icon">gps_fixed</i>
                             <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
                     </div> -->
@@ -226,46 +235,83 @@
                 <nav class="ttr-sidebar-navi">
                     <ul>
                         <li>
-                            <a href="index.html" class="ttr-material-button">
+                            <a href="${pageContext.request.contextPath}/admin/dashboard" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-home"></i></span>
                                 <span class="ttr-label">Dashborad</span>
                             </a>
                         </li>
                         <li>
-                            <a href="courses.html" class="ttr-material-button">
+                            <a href="${pageContext.request.contextPath}/subject/list" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
-                                <span class="ttr-label">Add Courses</span>
+                                <span class="ttr-label">Courses</span>
                             </a>
                         </li>
-
-
-                        <!--                        <li>
-                                                    <a href="review.html" class="ttr-material-button">
-                                                        <span class="ttr-icon"><i class="ti-comments"></i></span>
-                                                        <span class="ttr-label">Review</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="add-listing.html" class="ttr-material-button">
-                                                        <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
-                                                        <span class="ttr-label">Add listing</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="ttr-material-button">
-                                                        <span class="ttr-icon"><i class="ti-user"></i></span>
-                                                        <span class="ttr-label">My Profile</span>
-                                                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                                                    </a>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="user-profile.html" class="ttr-material-button"><span class="ttr-label">User Profile</span></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="teacher-profile.html" class="ttr-material-button"><span class="ttr-label">Teacher Profile</span></a>
-                                                        </li>
-                                                    </ul>
-                                                </li>-->
+                        <li>
+                            <a href="#" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-email"></i></span>
+                                <span class="ttr-label">Mailbox</span>
+                                <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="#" class="ttr-material-button"><span class="ttr-label">Mail Box</span></a>
+                                </li>
+                                <li>
+                                    <a href="#" class="ttr-material-button"><span class="ttr-label">Compose</span></a>
+                                </li>
+                                <li>
+                                    <a href="#" class="ttr-material-button"><span class="ttr-label">Mail Read</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-calendar"></i></span>
+                                <span class="ttr-label">Calendar</span>
+                                <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="#" class="ttr-material-button"><span class="ttr-label">Basic Calendar</span></a>
+                                </li>
+                                <li>
+                                    <a href="#" class="ttr-material-button"><span class="ttr-label">List View</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/add/post" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-bookmark-alt"></i></span>
+                                <span class="ttr-label">Add Post</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/question/list" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-comments"></i></span>
+                                <span class="ttr-label">Question List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
+                                <span class="ttr-label">Add listing</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-user"></i></span>
+                                <span class="ttr-label">My Profile</span>
+                                <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="#" class="ttr-material-button"><span class="ttr-label">User Profile</span></a>
+                                </li>
+                                <li>
+                                    <a href="#" class="ttr-material-button"><span class="ttr-label">Teacher Profile</span></a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="ttr-seperate"></li>
                     </ul>
                     <!-- sidebar menu end -->
@@ -279,10 +325,10 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Add Course</h4>
+                    <h4 class="breadcrumb-title">New Subject</h4>
                     <ul class="db-breadcrumb-list">
                         <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
-                        <li>Add Course</li>
+                        <li>New Subject</li>
                     </ul>
                 </div>	
                 <div class="row">
@@ -290,18 +336,18 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Add Course</h4>
+                                <h4>New Subject</h4>
                             </div>
                             <div class="widget-inner">
-                                <form id ="validate-form-new-subject" action = "../course/add" method="POST" enctype="multipart/form-data">
+                                <form id ="validate-form-new-subject" action = "../course/add" method="POST" enctype="multipart/form-data" >
 
                                     <div class="row">
                                         <div class="col-12">
                                             <div class = "text-center modal-edit-header"> 
-                                                <img  id = "avatar" class = "img-thumbnail img-fluid" src="#" alt=""/>
+                                                <img style="Object-fit : cover; width: 200px;height: 200px;" id = "thumnail" class = "img-thumbnail img-fluid" src="../images/blogdetail/noimage.jpg" alt=""/>
                                                 <h6>Upload a thumbnail image</h6>
                                                 <!--<input value="{sessionScope.user.avatarImage}" type="text" hidden="hidden" name = "old_avatar_img"/>-->
-                                                <input type="file" onchange="getImgPreview_profileUser(event)" name = "thumnail_img" class="text-center center-block file-upload">
+                                                <input id="thumnail" type="file" onchange="getImgPreview_ThumnailCourse(event)" name = "img_course" class="text-center center-block file-upload" style="margin-left: 120px;">
                                             </div> 
 
                                         </div>
@@ -311,32 +357,34 @@
                                                 <h3>1. Basic info</h3>
                                             </div>
                                         </div>
-                                        <div class="form-group col-6">
+                                        <div class="form-group col-8">
                                             <label class="col-form-label">Course title</label>
                                             <div>
-                                                <input name="title" class="form-control" type="text" value="">
+                                                <input id="title" name="title" class="form-control" type="text" >
                                             </div>
-                                        </div>                                      
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Brief Info</label>
-                                            <div>
-                                                <input name="brief_info" class="form-control" type="text" value="">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-6">
+                                        </div>      
+                                        <div class="form-group col-4">
                                             <label class="col-form-label">Status</label>
                                             <div>
-                                                <select name="status" class="chosen" style="width:17.6rem;" >
+                                                <select id="status" name="status" style="width:17.6rem;" >
                                                     <!--<option value="allcategory">All</option>-->
-                                                    <c:set var="status" value="${requestScope.statuss}"  />
-                                                    <c:forEach begin="0" end="${status.size()-1}" var="i" >
+                                                    <c:set var="status" value="${requestScope.status}"  />
+                                                    <c:forEach begin="0" end="${status.size()-1}" var="i">
                                                         <option value="${status.get(i).id}">${status.get(i).name}</option>
-                                                    </c:forEach> 
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group col-6">
+
+                                        <div class="form-group col-8">
+                                            <label class="col-form-label">Brief Info</label>
+                                            <div>
+                                                <input id="brief_info" name="brief_info" class="form-control" type="text">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group col-4">
                                             <label class="col-form-label">Course Featured</label>
                                             <div>
                                                 <input style="width: 30px; height: 30px;" name="feature" type="checkbox" value="checked">
@@ -352,77 +400,72 @@
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Course description</label>
                                             <div>
-                                                <textarea name="description" class="form-control"> </textarea>
+                                                <textarea id="description" name="description" class="form-control"> </textarea>
                                             </div>
                                         </div>
-
-                                        <div class="seperator"></div>
-                                        <div class="col-12 m-t20">                                                               
-                                            <div class="ml-auto m-b5" >
-                                                <h3 >3. Add Category</h3>
-                                                <select name="category" class="chosen" style="width:17.6rem;" >
+                                        
+                                        <div class="col-12">
+                                            <div class="ml-auto">
+                                                <h3>3. SubCategory</h3>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label class="col-form-label">SubCategory</label>
+                                            <div>
+                                                <select name="cate" style="width:17.6rem;" >
                                                     <!--<option value="allcategory">All</option>-->
-                                                    <c:forEach begin="0" end="${categories.size()-1}" var="o" items="${categories}">
-                                                        <option value="${categories.get(i).categoryID}">${o.value}</option>
+                                                    <c:set var="cate" value="${requestScope.categories}"  />
+                                                    <c:forEach begin="0" end="${categories.size()-1}" var="i">
+                                                        <option value="${categories.get(i).categoryID}">${categories.get(i).value}</option>
                                                     </c:forEach>
                                                 </select>
                                             </div>
                                         </div>
+
+                                       
                                         <div class="seperator"></div>
 
 
                                         <div class="col-12" style="margin-top: 30px;">
                                             <button type="submit" class="btn">Create Course</button>
                                         </div>
+
+                                    </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
+                    <!-- Your Profile Views Chart END-->
                 </div>
-                <!-- Your Profile Views Chart END-->
             </div>
-        </div>
-    </main>
-    <div class="ttr-overlay"></div>
+        </main>
+        <div class="ttr-overlay"></div>
 
-    <!-- External JavaScripts -->
-    <script src="../view/admin/assets/js/jquery.min.js"></script>
-    <script src="../view/admin/assets/vendors/bootstrap/js/popper.min.js"></script>
-    <script src="../view/admin/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../view/admin/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-    <script src="../view/admin/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-    <script src="../view/admin/assets/vendors/magnific-popup/magnific-popup.js"></script>
-    <script src="../view/admin/assets/vendors/counter/waypoints-min.js"></script>
-    <script src="../view/admin/assets/vendors/counter/counterup.min.js"></script>
-    <script src="../view/admin/assets/vendors/imagesloaded/imagesloaded.js"></script>
-    <script src="../view/admin/assets/vendors/masonry/masonry.js"></script>
-    <script src="../view/admin/assets/vendors/masonry/filter.js"></script>
-    <script src="../view/admin/assets/vendors/owl-carousel/owl.carousel.js"></script>
-    <script src='../view/admin/assets/vendors/scroll/scrollbar.min.js'></script>
-    <script src="../view/admin/assets/js/functions.js"></script>
-    <script src="../view/admin/assets/vendors/chart/chart.min.js"></script>
-    <script src="../view/admin/assets/js/admin.js"></script>
-    <script src='../view/admin/assets/vendors/switcher/switcher.js'></script>
-    <script>
-                                                    // Pricing add
-                                                    function newMenuItem() {
-                                                        var newElem = $('tr.list-item').first().clone();
-                                                        newElem.find('input').val('');
-                                                        newElem.appendTo('table#item-add');
-                                                    }
-                                                    if ($("table#item-add").is('*')) {
-                                                        $('.add-item').on('click', function (e) {
-                                                            e.preventDefault();
-                                                            newMenuItem();
-                                                        });
-                                                        $(document).on("click", "#item-add .delete", function (e) {
-                                                            e.preventDefault();
-                                                            $(this).parent().parent().parent().parent().remove();
-                                                        });
-                                                    }
-
-                                                    getImgPreview_profileUser(event);
-    </script>
-</body>
+        <!-- External JavaScripts -->
+        <script src="../view/admin/assets/js/jquery.min.js"></script>
+        <script src="../view/admin/assets/vendors/bootstrap/js/popper.min.js"></script>
+        <script src="../view/admin/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../view/admin/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+        <script src="../view/admin/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+        <script src="../view/admin/assets/vendors/magnific-popup/magnific-popup.js"></script>
+        <script src="../view/admin/assets/vendors/counter/waypoints-min.js"></script>
+        <script src="../view/admin/assets/vendors/counter/counterup.min.js"></script>
+        <script src="../view/admin/assets/vendors/imagesloaded/imagesloaded.js"></script>
+        <script src="../view/admin/assets/vendors/masonry/masonry.js"></script>
+        <script src="../view/admin/assets/vendors/masonry/filter.js"></script>
+        <script src="../view/admin/assets/vendors/owl-carousel/owl.carousel.js"></script>
+        <script src='../view/admin/assets/vendors/scroll/scrollbar.min.js'></script>
+        <script src="../view/admin/assets/js/functions.js"></script>
+        <script src="../view/admin/assets/vendors/chart/chart.min.js"></script>
+        <script src="../view/admin/assets/js/admin.js"></script>
+        <script src='../view/admin/assets/vendors/switcher/switcher.js'></script>
+        <script>
+            validateNewSubject();
+             function getImgPreview_ThumnailCourse(event) {
+            var image = URL.createObjectURL(event.target.files[0]);
+            var imagediv = document.getElementById("thumnail");
+            imagediv.setAttribute('src', image);
+}
+        </script>
+    </body>
 </html>

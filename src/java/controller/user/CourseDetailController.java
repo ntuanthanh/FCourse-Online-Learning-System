@@ -7,6 +7,7 @@ package controller.user;
 
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
+import dal.ParentCategoryDBContext;
 import dal.PricePackageDBContext;
 import dal.TagDBContext;
 import dal.TopicDBContext;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Category;
 import model.Course;
+import model.ParentCategory;
 import model.PricePackage;
 import model.Tag;
 import model.Topic;
@@ -40,19 +42,19 @@ public class CourseDetailController extends HttpServlet {
             a = Integer.parseInt(id);
         }
          CourseDBContext cdb = new CourseDBContext();
-         ArrayList<Course> courses = cdb.getThreeCourseForCourse(id);
+         ArrayList<Course> courses = cdb.getThreeCourseForCourse(a);
         
-        PricePackageDBContext pdb = new PricePackageDBContext();
-        TagDBContext tdb = new TagDBContext();
-        for (int i = 0; i < courses.size(); i++) {
-            ArrayList<PricePackage> prices = pdb.getPricePackageByCourseList(courses.get(i).getCourseId());
-            // get price by courseid
-              ArrayList<Tag> tag = tdb.getTagsByCourse(courses.get(i).getCourseId());
-            courses.get(i).setPricePackage(prices);
-            courses.get(i).setTags(tag);
-           
-            
-        }
+//        PricePackageDBContext pdb = new PricePackageDBContext();
+//        TagDBContext tdb = new TagDBContext();
+//        for (int i = 0; i < courses.size(); i++) {
+//            ArrayList<PricePackage> prices = pdb.getPricePackageByCourseList(courses.get(i).getCourseId());
+//            // get price by courseid
+//              ArrayList<Tag> tag = tdb.getTagsByCourse(courses.get(i).getCourseId());
+//            courses.get(i).setPricePackage(prices);
+//            courses.get(i).setTags(tag);
+//            System.out.println("xxxx");
+//            
+//        }
        
         Course Course = cdb.getCourseDetail(a);
         CategoryDBContext CDB = new CategoryDBContext();
@@ -62,7 +64,17 @@ public class CourseDetailController extends HttpServlet {
         TopicDBContext tdbc = new TopicDBContext();
         ArrayList<Topic> Topics = tdbc.getTopics(a);
         
-       
+        //get parrent
+        ParentCategoryDBContext padb = new ParentCategoryDBContext();
+        ArrayList<ParentCategory> pCates = padb.getParentCategory();
+        
+        //get categories
+        CategoryDBContext cadb = new CategoryDBContext();
+        ArrayList<Category> cates = cadb.getCategorys();
+        
+        request.setAttribute("cates", cates);
+      
+      request.setAttribute("pCates", pCates);
         request.setAttribute("courses", courses);
         request.setAttribute("Topics", Topics);
         request.setAttribute("PricePackes", PricePackes);
@@ -77,5 +89,5 @@ public class CourseDetailController extends HttpServlet {
             throws ServletException, IOException {
 
     }
-
+    
 }

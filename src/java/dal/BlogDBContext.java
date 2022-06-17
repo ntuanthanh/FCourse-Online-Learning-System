@@ -451,6 +451,79 @@ public class BlogDBContext extends DBContext {
             }
         }
     }
+    public void addBlog(Blog b)
+    {
+        String sql = "INSERT INTO [dbo].[Blog]\n" +
+                    "           ([Brief]\n" +
+                    "           ,[Thumbnail]\n" +
+                    "           ,[Title]\n" +
+                    "           ,[CategoryId]\n" +
+                    "           ,[StatusId]\n" +
+                    "           ,[UserId]\n" +
+                    "           ,[createdate]\n" +
+                    "           ,[content]\n" +
+                    "           ,[featured])\n" +
+                    "     VALUES\n" +
+                    "           (?\n" +
+                    "           ,?\n" +
+                    "           ,?\n" +
+                    "           ,?\n" +
+                    "           ,?\n" +
+                    "           ,?\n" +
+                    "           ,?\n" +
+                    "           ,?\n" +
+                    "           ,?)";
+        PreparedStatement stm = null;
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, b.getBrief());
+            stm.setString(2, b.getThumbnail());
+            stm.setString(3, b.getTitle());
+            stm.setInt(4, b.getCategoryId());
+            stm.setInt(5, b.getStatusId());
+            stm.setInt(6, b.getUser().getId());
+            stm.setDate(7, b.getCreatedate());
+            stm.setString(8, b.getContent());
+            stm.setBoolean(9, b.isFeature());
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            if(stm != null)
+            {
+                try {
+                    stm.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BlogDBContext.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            if(connection !=null)
+            {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BlogDBContext.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    //Nghia dep trai da cope o day
+    public boolean doesExistImgNameBlog(String name){
+       try {
+           String sql = "select * from Blog where thumbnail like ?";
+           PreparedStatement stm = connection.prepareStatement(sql);
+           ResultSet rs = stm.executeQuery();
+           while(rs.next()){
+               return true;
+            }
+           } catch (SQLException ex) {
+           Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       return false;
+    }
     public static void main(String[] args){
         BlogDBContext a = new BlogDBContext();
         ArrayList<Blog> blogs = a.getBlogForHome();

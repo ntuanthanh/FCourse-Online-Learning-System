@@ -95,38 +95,10 @@ public class RegisterCourseController extends BaseAuthController {
         Calendar cal = Calendar.getInstance();
 
         UserCourseDBContext ucdb = new UserCourseDBContext();
-//        if (ucdb.userCourseExistTrue(uid, cid)) {
-//            UserCourse uc = ucdb.getUserCourseByUidCid(uid, cid);
-//            String dateBefore = sdf.format(uc.getEndDate());
-//            try {
-//                cal.setTime(sdf.parse(dateBefore));
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            cal.add(Calendar.MONTH, price.getDuration());
-//            String dateAfter = sdf.format(cal.getTime());
-//            Date startdate = Date.valueOf(dateBefore);
-//            Date enddate = Date.valueOf(dateAfter);
-//            uc.setStartDate(startdate);
-//            uc.setEndDate(enddate);
-//            ucdb.insertUserCourse(uc);
-//        } else if (ucdb.userCourseExistFalse(uid, cid)) {
-//            UserCourse uc = ucdb.getUserCourseByUidCid(uid, cid);
-//            String dateBefore = sdf.format(uc.getEndDate());
-//            try {
-//                cal.setTime(sdf.parse(dateBefore));
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            cal.add(Calendar.MONTH, price.getDuration());
-//            String dateAfter = sdf.format(cal.getTime());
-//
-//            Date startdate = uc.getStartDate();
-//            Date enddate = Date.valueOf(dateAfter);
-//            uc.setStartDate(startdate);
-//            uc.setEndDate(enddate);
-//            ucdb.updateUserCourse(uc);
-//        } else {
+
+        UserCourse userc = ucdb.getUserCourseByUidCid(uid, cid);
+        if (userc == null) {
+
             String dateBefore = sdf.format(cal.getTime());
             cal.add(Calendar.MONTH, price.getDuration());
             String dateAfter = sdf.format(cal.getTime());
@@ -138,7 +110,7 @@ public class RegisterCourseController extends BaseAuthController {
             Course c = new Course();
             User u = new User();
             PricePackage p = new PricePackage();
-            
+
             u.setId(uid);
             uc.setUser(u);
             c.setCourseId(cid);
@@ -149,9 +121,43 @@ public class RegisterCourseController extends BaseAuthController {
 
             uc.setPricePackage(p);
             ucdb.insertUserCourse(uc);
-     //   }
-        
-      response.sendRedirect("../course/list");
+        } else  {
+            if (userc.isRegistration_status()) //   }
+            {
+
+                String dateBefore = sdf.format(userc.getEndDate());
+                try {
+                    cal.setTime(sdf.parse(dateBefore));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                cal.add(Calendar.MONTH, price.getDuration());
+                String dateAfter = sdf.format(cal.getTime());
+                Date startdate = Date.valueOf(dateBefore);
+                Date enddate = Date.valueOf(dateAfter);
+                userc.setStartDate(startdate);
+                userc.setEndDate(enddate);
+                ucdb.insertUserCourse(userc);
+            } else {
+
+                String dateBefore = sdf.format(userc.getEndDate());
+                try {
+                    cal.setTime(sdf.parse(dateBefore));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                cal.add(Calendar.MONTH, price.getDuration());
+                String dateAfter = sdf.format(cal.getTime());
+
+                Date startdate = userc.getStartDate();
+                Date enddate = Date.valueOf(dateAfter);
+                userc.setStartDate(startdate);
+                userc.setEndDate(enddate);
+                ucdb.updateUserCourse(userc);
+            }
+        }
+        response.sendRedirect("../myregistration");
+        //   }
 
     }
 

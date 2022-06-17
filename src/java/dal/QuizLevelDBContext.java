@@ -36,4 +36,23 @@ public class QuizLevelDBContext extends DBContext{
         }
         return QuizLevels;
     }
+    public QuizLevel getQuizLevelById(int qid) {
+      
+        try {
+            String sql = "select * from QuizLevel where id = ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            
+            stm.setInt(1, qid);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                QuizLevel t = new QuizLevel();
+                t.setId(rs.getInt(1));
+                t.setLevelName(rs.getString(2));
+                return t;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuizLevelDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

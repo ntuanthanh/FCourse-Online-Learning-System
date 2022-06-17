@@ -9,6 +9,7 @@ import controller.authorization.BaseAuthController;
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
 import dal.StatusDBContext;
+import dal.UserDBContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import model.Category;
 import model.Course;
@@ -53,6 +55,16 @@ public class AdminSubjectDetailController extends BaseAuthController {
             request.getRequestDispatcher("../../view/base/404page.jsp").forward(request, response);
             return;
         }
+        // check xem Account hiện tại( Đã là expert và admin ) có phải Owner của khóa học hay không
+        UserDBContext userDB = new UserDBContext();
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        boolean isOwnerCourse = userDB.isOwnerOfCourse(cid, user);
+        boolean isAdmin = userDB.isAdmin(user.getId());
+        if(!isOwnerCourse && !isAdmin){
+            request.getRequestDispatcher("../../view/base/404page.jsp").forward(request, response);
+            return;
+        }
         // get data to show page
         // All  category
         CategoryDBContext categoryDB = new CategoryDBContext();
@@ -67,6 +79,9 @@ public class AdminSubjectDetailController extends BaseAuthController {
         request.setAttribute("categories", categories);
         request.setAttribute("course", course);
         request.setAttribute("statuses", statuses);
+        // phân quyền
+        request.setAttribute("isOwnerCourse", isOwnerCourse);
+        request.setAttribute("isAdmin", isAdmin);
         request.getRequestDispatcher("../../view/admin/subjectDetails.jsp").forward(request, response);
     }
 

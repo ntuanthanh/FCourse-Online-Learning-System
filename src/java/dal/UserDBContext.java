@@ -497,22 +497,54 @@ public class UserDBContext extends DBContext{
     public ArrayList<User> getOwnerByCourse(int courseid) {
         ArrayList<User> owners = new ArrayList<>();
         try {
-            String sql = "select [User].fullname from [User] \n"
+            String sql = "select * from [User] \n"
                     + "		inner join [Owner] on [Owner].UserId = [User].Userid\n"
                     + "		where [Owner].CourseId = ? ";
             PreparedStatement stm = connection.prepareCall(sql);
             stm.setInt(1, courseid);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                User u = new User();
-                u.setFullName(rs.getString(1));
-                owners.add(u);
+                 //Take user by id
+                User user = new User();
+                user.setId(rs.getInt("Userid"));
+                user.setFullName(rs.getString("fullname"));
+                user.setEmail(rs.getString("email"));
+                user.setGender(rs.getBoolean("gender"));
+                user.setPassword(rs.getString("password"));
+                user.setPhone(rs.getString("phone"));
+                user.setAvatarImage(rs.getString("avatar_img"));
+                user.setDob(rs.getDate("dob"));
+                // Take status of this User 
+                Status status = new Status();
+                status.setId(rs.getInt("Statusid"));
+                owners.add(user);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return owners;
+    }
+    /* 
+      tuanthanh 
+      check xem user có phải owner của khóa học hay không 
+    */
+    public boolean isOwnerOfCourse(int cid, User user){
+        try {
+            String sql = "select * from [User] \n" +
+                    " inner join [Owner] on [Owner].UserId = [User].Userid\n" +
+                    " where [Owner].CourseId = ? and [User].Userid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, cid);
+            stm.setInt(2, user.getId());
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
 //    public static void main(String[] args) {

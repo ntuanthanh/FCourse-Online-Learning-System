@@ -27,7 +27,7 @@ and open the template in the editor.
     font-weight: 300;
     font-size: 20px;
     font-size: 1.25rem;
-    background-color: #007bff;
+    background-color: #471879;
     border: 1px solid white;
   }
   
@@ -39,7 +39,10 @@ and open the template in the editor.
     padding: 1rem;
   }
   
-  .table__heading { border-bottom: 2px solid #007bff; }
+  .table__heading { 
+      border-bottom: 2px solid #471879;
+      color: white;
+  }
    @media (max-width: 32rem) {
    .table__heading {
   display: none;
@@ -52,7 +55,7 @@ and open the template in the editor.
    margin: .25rem 1rem;
    padding: .5rem 0;
    display: block;
-   border-bottom: 2px solid #007bff;
+   border-bottom: 2px solid #471879;
   }
    .table__content:before {
    content: attr(data-heading);

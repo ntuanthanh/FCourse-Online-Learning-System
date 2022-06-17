@@ -105,20 +105,7 @@ public class UserCourseDBContext extends DBContext {
             return userCourses;
         } catch (SQLException ex) {
             Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-            }
-
+        
         }
         return null;
     }
@@ -165,8 +152,8 @@ public class UserCourseDBContext extends DBContext {
 
         try {
             String sql = "select * from User_Course \n"
-                    + "where Userid = ? and Courseid = ? ";
-            PreparedStatement stm = connection.prepareCall(sql);
+                    + "where Userid = ? and Courseid = ? order by registration_status";
+            PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, userid);
             stm.setInt(2, courseid);
             ResultSet rs = stm.executeQuery();
@@ -184,8 +171,9 @@ public class UserCourseDBContext extends DBContext {
                 uc.setStartDate(rs.getDate(4));
                 uc.setEndDate(rs.getDate(5));
                 p.setId(rs.getInt(6));
-
+                
                 uc.setPricePackage(p);
+                uc.setRegistration_status(rs.getBoolean(7));
                 return uc;
 
             }
@@ -228,22 +216,20 @@ public class UserCourseDBContext extends DBContext {
     public void updateUserCourse(UserCourse uc) {
         try {
             String sql = "UPDATE [dbo].[User_Course]\n"
-                    + "   SET [Userid] = ?\n"
-                    + "      ,[Courseid] = ?\n"
-                    + "      ,[Startdate] = ?\n"
+                    + "   SET \n"
+                    + "         [Startdate] = ?\n"
                     + "      ,[enddate] = ?\n"
                     + "      ,[price_packageid] = ?\n"
                     + "      \n"
                     + " WHERE [Userid] = ? and [Courseid] = ?";
 
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, uc.getUser().getId());
-            stm.setInt(2, uc.getCourse().getCourseId());
-            stm.setDate(3, uc.getStartDate());
-            stm.setDate(4, uc.getEndDate());
-            stm.setInt(5, uc.getPricePackage().getId());
-            stm.setInt(6, uc.getUser().getId());
-            stm.setInt(7, uc.getCourse().getCourseId());
+          
+            stm.setDate(1, uc.getStartDate());
+            stm.setDate(2, uc.getEndDate());
+            stm.setInt(3, uc.getPricePackage().getId());
+            stm.setInt(4, uc.getUser().getId());
+            stm.setInt(5, uc.getCourse().getCourseId());
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserCourseDBContext.class.getName()).log(Level.SEVERE, null, ex);

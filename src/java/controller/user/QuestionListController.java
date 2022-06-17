@@ -5,8 +5,12 @@
  */
 package controller.user;
 
+import dal.CategoryDBContext;
+import dal.CourseDBContext;
+import dal.DimensionDBContext;
 import dal.QuestionDBContext;
 import dal.QuizLevelDBContext;
+import dal.StatusDBContext;
 import dal.TagDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,8 +19,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Category;
+import model.Dimension;
 import model.Question;
 import model.QuizLevel;
+import model.Status;
 import model.Tag;
 
 /**
@@ -64,16 +71,18 @@ public class QuestionListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        QuestionDBContext q = new QuestionDBContext();
-        ArrayList<Question> question = q.getQuestion();
-        request.setAttribute("list", question);
         
         QuizLevelDBContext qdb = new QuizLevelDBContext();
         ArrayList<QuizLevel> listQuizLevels = qdb.getListQuizLevels();
         request.setAttribute("quizlevels", listQuizLevels);
         
-        TagDBContext tdb = new TagDBContext();
-         ArrayList<Tag> tags = tdb.getListTags();
+         StatusDBContext sdb = new StatusDBContext();
+        ArrayList<Status> allStatuses = sdb.getAllStatuses();
+        request.setAttribute("status", allStatuses);
+        
+        DimensionDBContext db = new DimensionDBContext();
+        ArrayList<Dimension> dimensions = db.getDimensions();
+        request.setAttribute("dimensions", dimensions);
 //        boolean []tidCheck = new boolean[tags.size()];
 //        
 //        String []tid_raw = request.getParameterValues("tagId");
@@ -87,8 +96,42 @@ public class QuestionListController extends HttpServlet {
 //        for (int i = 0; i < tidCheck.length; i++) {
 //            tidCheck[i] = ischeck(tags.get(i).getTagId(), tid); //finding tag having check
 //        }
-        request.setAttribute("tags",tags);
+ 
+      
         
+        
+        String status = request.getParameter("status");    
+        int stt = -1;
+        if (status != null){
+            stt = Integer.parseInt(status);
+        }
+        String dimension = request.getParameter("dimensions");
+        int did = -1;
+        if (dimension != null){
+            did = Integer.parseInt(dimension);
+        }
+        
+        String []cid_raw = request.getParameterValues("qid");
+        
+        int[] cid = null;
+        ArrayList <Integer> qid = new ArrayList<>();
+        if(cid_raw!=null){
+            cid = new int[cid_raw.length];
+            for (int i = 0; i < cid_raw.length; i++) {
+                   cid[i] = Integer.parseInt(cid_raw[i]);
+                   qid.add(cid[i]);                  
+            }
+        }
+        
+      
+        QuestionDBContext q = new QuestionDBContext();
+        ArrayList<Question> question = q.getFilterQuestion(stt, did, cid);
+        request.setAttribute("list", question);
+        
+       
+        request.setAttribute("qid", qid);
+        request.setAttribute("stt", stt);
+        request.setAttribute("did", did);
         
 //        response.getWriter().println("a"+question.get(0).getOption1());
         request.getRequestDispatcher("../view/questionlist.jsp").forward(request, response);
@@ -106,7 +149,9 @@ public class QuestionListController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        
+        
     }
 
     /**
