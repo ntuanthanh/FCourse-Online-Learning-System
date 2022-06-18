@@ -715,7 +715,7 @@ public class CourseDBContext extends DBContext {
                }
                course.setTags(tags);
                // get list Dimension for this course
-               String sql_dimension = " select * from Course_dimension as cd INNER JOIN Dimension as d on cd.dimensionid = d.Did \n" +
+               String sql_dimension = " select dimensionid, did, d.[name] as dname, d.typeID, dicription, dt.TypeId, dt.[name] as dtname from Course_dimension as cd INNER JOIN Dimension as d on cd.dimensionid = d.Did \n" +
                                      " INNER JOIN DimensionType as dt on dt.TypeId = d.typeID\n" +
                                         " where Courseid = ? ";
                stm_sql_course = connection.prepareStatement(sql_dimension);
@@ -725,11 +725,11 @@ public class CourseDBContext extends DBContext {
                while(rs_sql_dimension.next()){
                    Dimension dimension = new Dimension();
                    dimension.setId(rs_sql_dimension.getInt("Did"));
-                   dimension.setName(rs_sql_dimension.getString("name"));
+                   dimension.setName(rs_sql_dimension.getString("dname"));
                    dimension.setDescription(rs_sql_dimension.getString("dicription"));
                    DimensionType dimensionType = new DimensionType();
                    dimensionType.setId(rs_sql_dimension.getInt("TypeId"));
-                   dimensionType.setName(rs_sql_dimension.getString("name"));
+                   dimensionType.setName(rs_sql_dimension.getString("dtname"));
                    dimension.setDimensionType(dimensionType);
                    dimensions.add(dimension);
                }

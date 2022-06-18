@@ -8,6 +8,8 @@ package controller.manager;
 import controller.authorization.BaseAuthController;
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
+import dal.DimensionDBContext;
+import dal.PricePackageDBContext;
 import dal.StatusDBContext;
 import dal.UserDBContext;
 import java.io.File;
@@ -27,6 +29,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import model.Category;
 import model.Course;
+import model.Dimension;
+import model.PricePackage;
 import model.Status;
 import model.Tag;
 import model.User;
@@ -75,10 +79,30 @@ public class AdminSubjectDetailController extends BaseAuthController {
         // get all status 
         StatusDBContext statusDB = new StatusDBContext();
         ArrayList<Status> statuses = statusDB.getAllStatuses();
+        // pageSize of pricePackage and Dimension
+        int pageSize = 2; 
+        // get PricePackage to paging ( lấy cái trang 1 đã rồi dùng ajax lấy những trang sau )
+        PricePackageDBContext pricePackageDB = new PricePackageDBContext();
+        ArrayList<PricePackage> pricePackages = pricePackageDB.getPricePackgeByCoursePaging(cid, 1 , pageSize);
+        int count = pricePackageDB.CountGetPricePackgeByCoursePaging(cid);
+        int totalPagePricePackage = (count % pageSize == 0) ? (count / pageSize) : (count / pageSize) + 1;
+        // get Dimension to paging ( lấy trang 1 đã rồi dùng ajax lấy những trang sau ) 
+        DimensionDBContext dimensionDB = new DimensionDBContext();
+        ArrayList<Dimension> dimensions = dimensionDB.getDimenstionByCoursePaging(cid, 1, pageSize);
+        int count_dimension = dimensionDB.CountGetDimensionCoursePaging(cid);
+        int totalPageDimension = (count_dimension % pageSize == 0) ? (count_dimension / pageSize) : (count_dimension / pageSize) + 1;
         // set data in req scope 
         request.setAttribute("categories", categories);
         request.setAttribute("course", course);
         request.setAttribute("statuses", statuses);
+        // info to paging pricePackage
+        request.setAttribute("pricePackages", pricePackages);
+        request.setAttribute("pageIndexPricePackage", 1);
+        request.setAttribute("totalPagePricePackage", totalPagePricePackage);
+        // info to paging Dimension
+        request.setAttribute("dimensions", dimensions);
+        request.setAttribute("pageIndexDimension", 1);
+        request.setAttribute("totalPageDimension", totalPageDimension);
         // phân quyền
         request.setAttribute("isOwnerCourse", isOwnerCourse);
         request.setAttribute("isAdmin", isAdmin);

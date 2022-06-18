@@ -140,6 +140,14 @@
         <servlet-name>LogoutAdminController</servlet-name>
         <servlet-class>controller.authorization.LogoutAdminController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjaxPaginPricePackage_SubjectDetail</servlet-name>
+        <servlet-class>controller.manager.AjaxPaginPricePackage_SubjectDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxPagingDimension</servlet-name>
+        <servlet-class>controller.manager.AjaxPagingDimension</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -275,6 +283,14 @@
     <servlet-mapping>
         <servlet-name>LogoutAdminController</servlet-name>
         <url-pattern>/admin/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxPaginPricePackage_SubjectDetail</servlet-name>
+        <url-pattern>/ajaxPaginPricePackage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxPagingDimension</servlet-name>
+        <url-pattern>/ajaxPagingDimension</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

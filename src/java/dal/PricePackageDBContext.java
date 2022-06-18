@@ -160,4 +160,55 @@ public class PricePackageDBContext extends DBContext {
            Logger.getLogger(PricePackageDBContext.class.getName()).log(Level.SEVERE, null, ex);
        }
     }
+    /*
+      tuanthanh
+      18/06
+    */
+    public ArrayList<PricePackage> getPricePackgeByCoursePaging(int cid, int pageIndex, int pageSize){
+        ArrayList<PricePackage> pricepackages = new ArrayList<>();
+        try {
+           String sql = "select * from ( select ROW_NUMBER() OVER(order by packageid asc) as row_index, * from Course_package as cp INNER JOIN Price_Package as p on cp.packageid = p.id \n" +
+                   "              INNER JOIN [Status] as s on p.Status_id = s.Sid  where courseid = ? ) as tbl \n" +
+                   "  where row_index >= ( ? - 1 ) * ? + 1 and row_index <= ? * ? ";
+           PreparedStatement stm = connection.prepareStatement(sql);
+           stm.setInt(1, cid);
+           stm.setInt(2, pageIndex);
+           stm.setInt(3, pageSize);
+           stm.setInt(4, pageSize);
+           stm.setInt(5, pageIndex);
+           ResultSet rs_sql_Packages = stm.executeQuery();
+           while (rs_sql_Packages.next()) {
+               PricePackage pricepackage = new PricePackage();
+               pricepackage.setId(rs_sql_Packages.getInt("id"));
+               pricepackage.setDuration(rs_sql_Packages.getInt("duration"));
+               pricepackage.setListPrice(rs_sql_Packages.getFloat("list_price"));
+               pricepackage.setName(rs_sql_Packages.getString("name"));
+               pricepackage.setSalePrice(rs_sql_Packages.getFloat("sale_price"));
+               // add status for this pricePackage 
+               Status status_pricePackage = new Status();
+               status_pricePackage.setId(rs_sql_Packages.getInt("Sid"));
+               status_pricePackage.setName(rs_sql_Packages.getString("Sname"));
+               pricepackage.setStatus(status_pricePackage);
+               pricepackages.add(pricepackage);
+           }
+       } catch (SQLException ex) {
+           Logger.getLogger(PricePackageDBContext.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        return pricepackages;
+    }
+    public int CountGetPricePackgeByCoursePaging(int cid){
+           try {
+            String sql = "select Count(*) as Total from ( select ROW_NUMBER() OVER(order by packageid asc) as row_index, * from Course_package as cp INNER JOIN Price_Package as p on cp.packageid = p.id \n"
+                    + "              INNER JOIN [Status] as s on p.Status_id = s.Sid  where courseid = ? ) as tb ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, cid);
+            ResultSet rs_sql_Packages = stm.executeQuery();
+            while (rs_sql_Packages.next()) {
+                return rs_sql_Packages.getInt("Total"); 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PricePackageDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      return -1;
+    }
 }

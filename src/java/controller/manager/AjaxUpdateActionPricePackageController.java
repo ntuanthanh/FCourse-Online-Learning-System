@@ -9,6 +9,7 @@ import dal.CourseDBContext;
 import dal.PricePackageDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,8 @@ public class AjaxUpdateActionPricePackageController extends HttpServlet {
         int pid = Integer.parseInt(request.getParameter("pid")); 
         int sid = Integer.parseInt(request.getParameter("sid"));
         int cid = Integer.parseInt(request.getParameter("cid"));
+        int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+        int pageSize = 2; 
         PricePackageDBContext pricePackageDB = new PricePackageDBContext();
         if(sid == 1){
            sid = 2;
@@ -37,8 +40,8 @@ public class AjaxUpdateActionPricePackageController extends HttpServlet {
         }    
         CourseDBContext courseDB = new CourseDBContext();
         pricePackageDB.updateStatusPricePackage(pid, sid);
-        Course course = courseDB.getSubjectById(cid);
-        for (PricePackage pricePackage : course.getPricePackage()) {
+        ArrayList<PricePackage> pricePackages = pricePackageDB.getPricePackgeByCoursePaging(cid, pageIndex , pageSize);
+        for (PricePackage pricePackage : pricePackages) {
             response.getWriter().println("<tr>\n" +
                     " <th scope=\"row\">"+pricePackage.getId()+"</th>\n" +
                     " <td>"+pricePackage.getName()+"</td>\n" +
@@ -48,7 +51,7 @@ public class AjaxUpdateActionPricePackageController extends HttpServlet {
                     " <td>"+pricePackage.getStatus().getName()+"</td>\n" +
                     " <td>\n" +
                     "   <a style=\"margin-right: 5px; text-decoration: none \" href = \"#\">Edit</a>\n" +
-                    "   <a style=\"text-decoration: none \" href = \"#\" onclick = \"ActionPricePackage("+pricePackage.getId()+","+pricePackage.getStatus().getId()+","+course.getCourseId()+")\">"+ ( pricePackage.getStatus().getId() == 1 ? "Deactivate" : "Active" ) +"</a>\n" +
+                    "   <a style=\"text-decoration: none\" href = \"#\" onclick = \"ActionPricePackage("+pricePackage.getId()+","+pricePackage.getStatus().getId()+","+cid+","+pageIndex+")\">"+ (pricePackage.getStatus().getId() == 1 ? "Deactivate" : "Active")+"</a>\n" +
                     " </td>\n" +
                     " </tr>");
         }          

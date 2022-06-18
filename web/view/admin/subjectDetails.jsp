@@ -67,6 +67,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="../../js/ImgPreview/imgPreview.js" type="text/javascript"></script>
+        <script src="../../js/paging/pagingPricePackage.js" type="text/javascript"></script>
         <!-- Nhung Alert-->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="sweetalert2.all.min.js"></script>
@@ -130,7 +131,7 @@
             }
             .assigned_list_style ul li{
                  width: 100%;
-                 background: #FFCCCC;
+                 background: #84C75B;
 /*                 background: #6EBDC3;*/
                  height: 40px;
                  line-height: 40px;
@@ -156,6 +157,9 @@
             td{
                 text-transform: capitalize;
             }
+            .page-link:hover{
+                background: #91CD68 !important;
+            }
         </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
@@ -174,7 +178,7 @@
                     <a class="nav-link" data-toggle="tab" href="#Price_Package">Price Package</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#Dimensio">Dimension</a>
+                    <a class="nav-link" data-toggle="tab" href="#Dimension">Dimension</a>
                 </li>
             </ul>
 
@@ -313,80 +317,104 @@
                     <c:if test = "${requestScope.isAdmin == true}">
                         <a style="text-decoration: none; float : right" href="#">Add New</a>
                     </c:if>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr class = "bg-warning">
-                                <th scope="col">#</th>
-                                <th scope="col">Package</th>
-                                <th scope="col">Duration(month)</th>
-                                <th scope="col">List Price</th>
-                                <th scope="col">Sale Price</th>
-                                <th scope="col">Status</th>
-                                <c:if test = "${requestScope.isAdmin == true}">
-                                <th scope="col">Action</th>
-                                </c:if>
-                            </tr>
-                        </thead>
-                        <tbody id = "table-price">
-<!--                            <c:forEach var = "i" begin = "1" end = "5"> 
-                                <tr>
-                                    <th scope="row">${i}</th>
-                                    <td>Gói truy cập 3 tháng</td>
-                                    <td>3</td>
-                                    <td>3600</td>
-                                    <td>3200</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
-                                        <a style="text-decoration: none "href = "#">Deactivate</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>    -->
-                            <c:forEach items="${requestScope.course.pricePackage}" var = "p"> 
-                                <tr>
-                                    <th scope="row">${p.id}</th>
-                                    <td>${p.name}</td>
-                                    <td>${p.duration != -1 ? p.duration : "Unlimited"} (Month)</td>
-                                    <td>${p.listPrice} ($)</td>
-                                    <td>${p.salePrice} ($)</td>
-                                    <td>${p.status.name}</td>
-                                    <c:if test = "${requestScope.isAdmin}">
-                                    <td>
-                                        <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
-                                        <a style="text-decoration: none" href = "#" onclick = "ActionPricePackage(${p.id},${p.status.id},${requestScope.course.courseId})">${p.status.id == 1?"Deactivate":"Active"}</a>
-                                    </td>
+                    <div id = "pagingPricePackageAjax">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr class = "bg-warning">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Package</th>
+                                    <th scope="col">Duration(month)</th>
+                                    <th scope="col">List Price</th>
+                                    <th scope="col">Sale Price</th>
+                                    <th scope="col">Status</th>
+                                    <c:if test = "${requestScope.isAdmin == true}">
+                                    <th scope="col">Action</th>
                                     </c:if>
                                 </tr>
-                            </c:forEach>  
-                        </tbody>
-                    </table>
+                            </thead>
+                                <tbody id = "table-price">
+                                    <c:forEach items="${requestScope.pricePackages}" var = "p"> 
+                                        <tr>
+                                            <th scope="row">${p.id}</th>
+                                            <td>${p.name}</td>
+                                            <td>${p.duration != -1 ? p.duration : "Unlimited"} (Month)</td>
+                                            <td>${p.listPrice} ($)</td>
+                                            <td>${p.salePrice} ($)</td>
+                                            <td>${p.status.name}</td>
+                                            <c:if test = "${requestScope.isAdmin}">
+                                            <td>
+                                                <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
+                                                <a style="text-decoration: none" href = "#" onclick = "ActionPricePackage(${p.id},${p.status.id},${requestScope.course.courseId},${requestScope.pageIndexPricePackage})">${p.status.id == 1?"Deactivate":"Active"}</a>
+                                            </td>
+                                            </c:if>
+                                        </tr>
+                                    </c:forEach>  
+                                </tbody>
+                        </table>
+                        <!-- this is paging -->
+                        <div style="display: flex;justify-content: center; margin-top: 20px;" >
+                            <ul class="pagination" id = "paggerBottom">
+                                <li class="page-item active"><span class="page-link">1</span></li>
+                                <c:forEach begin="${requestScope.pageIndexPricePackage + 1}" end="${requestScope.pageIndexPricePackage + 2}" var = "i">
+                                    <c:if test="${i <= requestScope.totalPagePricePackage}">
+                                        <li class="page-item"><a class="page-link" onclick ="pagingPricePackage(${requestScope.course.courseId},${i})">${i}</a></li>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${requestScope.pageIndexPricePackage < requestScope.totalPagePricePackage}">
+                                        <li class="page-item"><a class="page-link" onclick ="pagingPricePackage(${requestScope.course.courseId},${requestScope.pageIndexPricePackage+1})">Next</a></li>
+                                </c:if>
+                                <c:if test="${requestScope.pageIndexPricePackage + 2 < requestScope.totalPagePricePackage}">
+                                        <li class="page-item"><a class="page-link" onclick ="pagingPricePackage(${requestScope.course.courseId},${requestScope.totalPagePricePackage})">Last</a></li>
+                                </c:if>
+                            </ul>
+                        </div>    
+                   </div> 
                 </div>
-                <div id="Dimensio" class="container tab-pane fade"><br>
+                <div id="Dimension" class="container tab-pane fade"><br>
                     <a style="text-decoration: none; float : right" href="#">Add New</a>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr class = "bg-warning">
-                                <th scope="col">#</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Dimension</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <c:forEach items = "${requestScope.course.dimensions}" var = "d"> 
-                                <tr>
-                                    <th scope="row">${d.id}</th>
-                                    <td>${d.dimensionType.name}</td>
-                                    <td>${d.name}</td>
-                                    <td>
-                                        <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
-                                        <a style="text-decoration: none "href = "#">Delete</a>
-                                    </td>
+                    <div id = "pagingDimensionAjax">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr class = "bg-warning">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Dimension</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+
+                                <c:forEach items = "${requestScope.dimensions}" var = "d"> 
+                                    <tr>
+                                        <th scope="row">${d.id}</th>
+                                        <td>${d.dimensionType.name}</td>
+                                        <td>${d.name}</td>
+                                        <td>
+                                            <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
+                                            <a style="text-decoration: none "href = "#">Delete</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                        <!-- this is paging -->
+                        <div style="display: flex;justify-content: center; margin-top: 20px;" >
+                            <ul class="pagination">
+                                <li class="page-item active"><span class="page-link">1</span></li>
+                                <c:forEach begin="${requestScope.pageIndexDimension + 1}" end="${requestScope.pageIndexDimension + 2}" var = "i">
+                                    <c:if test="${i <= requestScope.totalPageDimension}">
+                                        <li class="page-item"><a class="page-link" onclick ="pagingDimension(${requestScope.course.courseId},${i})">${i}</a></li>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${requestScope.pageIndexDimension < requestScope.totalPageDimension}">
+                                        <li class="page-item"><a class="page-link" onclick ="pagingDimension(${requestScope.course.courseId},${requestScope.pageIndexDimension+1})">Next</a></li>
+                                </c:if>
+                                <c:if test="${requestScope.pageIndexPricePackage + 2 < requestScope.totalPagePricePackage}">
+                                        <li class="page-item"><a class="page-link" onclick ="pagingDimension(${requestScope.course.courseId},${requestScope.totalPageDimension})">Last</a></li>
+                                </c:if>
+                            </ul>
+                        </div>    
+                    </div>
                 </div>
             </div>
         </div>
@@ -565,17 +593,19 @@
                     }
             }
             // Price Package : Action ( Ajax ) 
-            function ActionPricePackage(id,statusId,courseId){
+            function ActionPricePackage(id,statusId,courseId,pageIndexPricePackage){
                 var pricePackageId = id;
                 var status = statusId; 
                 var course = courseId;
+                var data_pageIndex = pageIndexPricePackage; 
                 $.ajax({
                         url: '/summer2022-se1616-g4/updateStatusPricePackage',
                         type: 'get',
                         data: {
                             pid: pricePackageId,
                             sid: status,
-                            cid: course
+                            cid: course,
+                            pageIndex: data_pageIndex
                         } ,
                         success: function (response) {
                             var content = document.querySelector('#table-price');
@@ -591,6 +621,45 @@
                         }
                 });    
                 
+            }
+            // Ajax phân trang cho pricePackage
+            function pagingPricePackage(courseId, pageIndexPricePackage){
+                var data_courseId = courseId;
+                var data_pageIndex = pageIndexPricePackage; 
+                $.ajax({
+                        url: '/summer2022-se1616-g4/ajaxPaginPricePackage',
+                        type: 'get',
+                        data: {                        
+                            cid: courseId,
+                            pageIndex: data_pageIndex
+                        } ,
+                        success: function (response) {
+                            var content = document.querySelector('#pagingPricePackageAjax');
+                            content.innerHTML = response;
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                });                
+            }
+            function pagingDimension(courseId, pageIndexDimension){
+                var data_courseId = courseId;
+                var data_pageIndex = pageIndexDimension; 
+                $.ajax({
+                        url: '/summer2022-se1616-g4//ajaxPagingDimension',
+                        type: 'get',
+                        data: {                        
+                            cid: courseId,
+                            pageIndex: data_pageIndex
+                        } ,
+                        success: function (response) {
+                            var content = document.querySelector('#pagingDimensionAjax');
+                            content.innerHTML = response;
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                });                
             }
         </script>
         
