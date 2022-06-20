@@ -86,27 +86,51 @@ public class CourseDBContext extends DBContext {
         }
         return null;
     }
+     public int countRegis(int Userid) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select count(*) as Total from (select uc.usercourseId,\n"
+                    + "                    uc.Courseid,\n"
+                    + "                    uc.Startdate,\n"
+                    + "                    uc.enddate,\n"
+                    + "                    uc.price_packageid,\n"
+                    + "                    uc.registration_status,\n"
+                    + "					uc.Userid,\n"
+                    + "					ROW_NUMBER() over (order by uc.CourseId asc ) as row_index\n"
+                    + "                    from User_Course uc \n"
+                    + "					inner join [User] u  on uc.Userid= u.Userid\n"
+                    + "                    where u.Userid = ? ) a";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, Userid);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
 
+        }
+        return -1;
+    }
     public ArrayList<Course> getMyCourse(int UserId, int pageindex, int pagesize) {
         PreparedStatement stm = null;
         ResultSet rs = null;
-        String sql = "	select * from\n"
+        String sql = "select * from\n"
                 + "	(select c.CourseId,\n"
-                + "     c.title,\n"
-                + "     c.briefinfo,\n"
-                + "     c.createdate,\n"
-                + "     c.Categoryid,\n"
-                + "     c.featured,\n"
-                +"c.[description],"
-                + "     c.statusid,\n"
-                + "     c.thumnaiURL,\n"
-                + "	u.Userid,uc.registration_status,\n"
-                + "	ROW_NUMBER() over (order by c.CourseId asc ) as row_index\n"
-                + "     from \n"
-                + "     [User] u inner join User_Course uc on u.Userid=uc.Userid\n"
-                + "              inner join Courses c on uc.Courseid = c.CourseId) u\n"
-                + "     where u.Userid = ? and u.registration_status='true' \n"
-                + "		and row_index >= (?-1)*?+1 and row_index<= ?*?";
+                + "            c.title,\n"
+                + "            c.briefinfo,\n"
+                + "            c.createdate,\n"
+                + "            c.Categoryid,\n"
+                + "            c.featured,\n"
+                + "            c.statusid,\n"
+                + "            c.thumnaiURL,\n"
+                + "			u.Userid,uc.registration_status,\n"
+                + "			ROW_NUMBER() over (order by c.CourseId asc ) as row_index\n"
+                + "            from  [User] u inner join User_Course uc on u.Userid=uc.Userid\n"
+                + "                		inner join Courses c on uc.Courseid = c.CourseId\n"
+                + "			where u.Userid = ? and uc.registration_status = 'true'\n"
+                + "			) u\n"
+                + " where row_index >= (?-1) * ? + 1 and row_index <= ?*? ";
         try {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, UserId);
@@ -121,7 +145,6 @@ public class CourseDBContext extends DBContext {
                 Course Course = new Course();
                 Course.setCourseId(rs.getInt("CourseId"));
                 Course.setCreatedate(rs.getDate("createdate"));
-                Course.setDescription(rs.getString("description"));
                 Course.setBriefinfo(rs.getString("briefinfo"));
                 Course.setThumnailURL(rs.getString("thumnaiURL"));
                 Course.setTitle(rs.getString("title"));
@@ -139,19 +162,6 @@ public class CourseDBContext extends DBContext {
             return Courses;
         } catch (SQLException ex) {
             Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-            }
         }
         return null;
     }

@@ -37,11 +37,12 @@
         <link class="skin" rel="stylesheet" type="text/css" href="../view/admin/assets/css/color/color-1.css">
         <script src="../js/ImgPreview/imgPreview.js" type="text/javascript"></script>
         <script src="//cdn.ckeditor.com/4.19.0/basic/ckeditor.js"></script>
+        <script src="../js/pagination/pagging_subjectlesson.js" type="text/javascript"></script>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
-       <jsp:include page="../../view/admin/header_admin.jsp" /> 
-
+        <!-- header start -->
+        <jsp:include page="../../view/admin/header_admin.jsp" /> 
         <!--Main container start -->
         <main class="ttr-wrapper">
             <div class="container-fluid">
@@ -64,7 +65,7 @@
                                 <form action="lesson" method="GET" id="searchFRM" onchange="submitData();">
                                     <div class="row">
                                     <div class="form-group col-4">
-                                        <label class="col-form-label">Lesson Group</label>
+                                        <label class="col-form-label">Select Topic</label>
                                         <select name="tid" class="chosen" style="width:17.6rem;">
                                             <option value="-1">All lesson group</option>
                                             <c:forEach items="${requestScope.topics}" var="t">
@@ -128,7 +129,11 @@
 
 
                                           </table>
+                                        <div style="display: flex; justify-content: center">
+                                            <ul class="pagination" id = "paggerBottomSubjectLesson">
 
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -161,6 +166,8 @@
     <script src="../view/admin/assets/js/admin.js"></script>
     <script src='../view/admin/assets/vendors/switcher/switcher.js'></script>
     <script>
+        pagger_Lessons("paggerBottomSubjectLesson",2,${requestScope.totalPage},${requestScope.pageIndex},'${requestScope.url}'); 
+        
                                                     // Pricing add
                                                     function newMenuItem() {
                                                         var newElem = $('tr.list-item').first().clone();

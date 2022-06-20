@@ -108,7 +108,7 @@ public class PostDetailController extends BaseAuthController {
         String raw_feature = request.getParameter("featured_blog");
         String raw_StatusId = request.getParameter("status_id");
         String raw_content = request.getParameter("content_blog");
-        
+        String mess = "update Success!";
         String title = raw_title;
         int categoryId = Integer.parseInt(raw_categoryId);
         String brief = raw_brief;
@@ -173,7 +173,9 @@ public class PostDetailController extends BaseAuthController {
          
          
         dbBlog.editBlog(b);
+        request.setAttribute("mess", mess);
         response.sendRedirect("detail?bid="+bid);
+        
     }
 
     /**

@@ -22,57 +22,71 @@ import model.UserCourse;
  */
 public class UserCourseDBContext extends DBContext {
 
-    public ArrayList<UserCourse> getCoursesRegistraion(int userId, int Categoryid, String title) {
+    public ArrayList<UserCourse> getCoursesRegistraion(int userId,
+            int Categoryid, String title, int pageindex, int pagesize) {
         ResultSet rs = null;
         PreparedStatement stm = null;
         String sql = "";
         if (Categoryid == 0) {
-            sql = "select uc.usercourseId,\n"
-                    + "		uc.Courseid,\n"
-                    + "		uc.Startdate,\n"
-                    + "		uc.enddate,\n"
-                    + "		uc.price_packageid,\n"
-                    + "		uc.registration_status\n"
-                    + "from User_Course uc inner join [User] u \n"
-                    + "			on uc.Userid= u.Userid\n"
-                    + "where u.Userid =? \n"
-                    + "order by uc.registration_status asc, uc.Startdate desc";
+            sql = "select* from\n"
+                    + "(select uc.usercourseId,\n"
+                    + "                    uc.Courseid,\n"
+                    + "                    uc.Startdate,\n"
+                    + "                    uc.enddate,\n"
+                    + "                    uc.price_packageid,\n"
+                    + "                    uc.registration_status,\n"
+                    + "					uc.Userid,\n"
+                    + "					ROW_NUMBER() over (order by uc.CourseId asc ) as row_index\n"
+                    + "                    from User_Course uc \n"
+                    + "					inner join [User] u  on uc.Userid= u.Userid\n"
+                    + "                    where u.Userid = ? \n"
+                    + "					) u\n"
+                    + "                    where row_index >= (" + pageindex + "-1)*" + pagesize + "+1 and row_index<= " + pageindex + "*" + pagesize + "\n"
+                    + "                    order by u.registration_status asc, u.Startdate desc";
         } else {
-            sql = "select a.usercourseId,\n"
-                    + "	a.Courseid,\n"
-                    + "	a.Startdate,\n"
-                    + "	a.enddate,\n"
-                    + "	a.price_packageid,\n"
-                    + "	a.registration_status,\n"
-                    + "	a.Userid,\n"
-                    + "	cu.Categoryid\n"
-                    + "	from\n"
-                    + "	(select uc.usercourseId,\n"
-                    + "	uc.Courseid,\n"
-                    + "	uc.Startdate,\n"
-                    + "	uc.enddate,\n"
-                    + "	uc.price_packageid,\n"
-                    + "	uc.registration_status,\n"
-                    + "	u.Userid\n"
-                    + "	from User_Course uc inner join [User] u \n"
-                    + "	on uc.Userid= u.Userid)\n"
-                    + "	a inner join Courses cu on cu.CourseId =a.Courseid\n"
-                    + "where a.Userid=? and cu.Categoryid=?\n"
-                    + "order by a.registration_status asc, a.Startdate desc";
+            sql = "select * from \n"
+                    + "(select a.usercourseId,\n"
+                    + "        a.Courseid,\n"
+                    + "        a.Startdate,\n"
+                    + "        a.enddate,\n"
+                    + "        a.price_packageid,\n"
+                    + "        a.registration_status,\n"
+                    + "        a.Userid,\n"
+                    + "        cu.Categoryid,\n"
+                    + "	       ROW_NUMBER() over (order by a.CourseId asc ) as row_index\n"
+                    + "        from\n"
+                    + "            (select uc.usercourseId,\n"
+                    + "                    uc.Courseid,\n"
+                    + "			   uc.Startdate,\n"
+                    + "                    uc.enddate,\n"
+                    + "                    uc.price_packageid,\n"
+                    + "                    uc.registration_status,\n"
+                    + "                    u.Userid\n"
+                    + "                    from User_Course uc inner join [User] u \n"
+                    + "                    on uc.Userid= u.Userid)\n"
+                    + "                    a inner join Courses cu on cu.CourseId =a.Courseid\n"
+                    + "                    where a.Userid=? and cu.Categoryid=?\n"
+                    + "                    ) x\n"
+                    + "                    where row_index >= (" + pageindex + "-1)*" + pagesize + "+1 and row_index<= " + pageindex + "*" + pagesize + "\n"
+                    + "    order by x.registration_status asc, x.Startdate desc ";
         }
         if (title != null && title.trim().length() != 0) {
-            sql = "select uc.usercourseId,\n"
-                    + "uc.Courseid,\n"
-                    + "uc.Startdate,\n"
-                    + "uc.enddate,\n"
-                    + "uc.price_packageid,\n"
-                    + "uc.registration_status\n"
-                    + "from User_Course uc inner join [User] u \n"
-                    + "on uc.Userid= u.Userid\n"
-                    + "inner join Courses c on c.CourseId=uc.Courseid\n"
-                    + "\n"
-                    + "where u.Userid = ? and c.title like ?\n"
-                    + "order by uc.registration_status asc, uc.Startdate desc";
+            sql = "select* from\n"
+                    + "(select uc.usercourseId,\n"
+                    + "                    uc.Courseid,\n"
+                    + "                    uc.Startdate,\n"
+                    + "                    uc.enddate,\n"
+                    + "                    uc.price_packageid,\n"
+                    + "                    uc.registration_status,\n"
+                    + "					uc.Userid,\n"
+                    + "					ROW_NUMBER() over (order by uc.CourseId asc ) as row_index\n"
+                    + "                    from User_Course uc \n"
+                    + "					inner join [User] u  on uc.Userid= u.Userid\n"
+                    + "                    inner join Courses c on c.CourseId=uc.Courseid\n"
+                    + "					where u.Userid = ? and c.title like ?\n"
+                    + "					) u\n"
+                    + "                    where row_index >= (" + pageindex + "-1)*" + pagesize + "+1 and row_index<= " + pageindex + "*" + pagesize + "\n"
+                    + "                    order by u.registration_status asc, u.Startdate desc";
         }
 
         try {
@@ -105,48 +119,11 @@ public class UserCourseDBContext extends DBContext {
             return userCourses;
         } catch (SQLException ex) {
             Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        
+
         }
         return null;
     }
-
-    public boolean userCourseExistTrue(int userid, int courseid) {
-
-        try {
-            String sql = "select * from User_Course \n"
-                    + "where  Userid = ? and Courseid = ? and registration_status = 1";
-            PreparedStatement stm = connection.prepareCall(sql);
-            stm.setInt(1, userid);
-            stm.setInt(2, courseid);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(UserCourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean userCourseExistFalse(int userid, int courseid) {
-
-        try {
-            String sql = "select * from User_Course \n"
-                    + "where  Userid = ? and Courseid = ? and registration_status =0";
-            PreparedStatement stm = connection.prepareCall(sql);
-            stm.setInt(1, userid);
-            stm.setInt(2, courseid);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(UserCourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
+    
 
     public UserCourse getUserCourseByUidCid(int userid, int courseid) {
 
@@ -171,7 +148,7 @@ public class UserCourseDBContext extends DBContext {
                 uc.setStartDate(rs.getDate(4));
                 uc.setEndDate(rs.getDate(5));
                 p.setId(rs.getInt(6));
-                
+
                 uc.setPricePackage(p);
                 uc.setRegistration_status(rs.getBoolean(7));
                 return uc;
@@ -224,7 +201,7 @@ public class UserCourseDBContext extends DBContext {
                     + " WHERE [Userid] = ? and [Courseid] = ?";
 
             PreparedStatement stm = connection.prepareStatement(sql);
-          
+
             stm.setDate(1, uc.getStartDate());
             stm.setDate(2, uc.getEndDate());
             stm.setInt(3, uc.getPricePackage().getId());

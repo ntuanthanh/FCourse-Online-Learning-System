@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Lesson;
@@ -161,6 +163,166 @@ public class LessonDBContext extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(LessonDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+   public ArrayList<Lesson> getLessonListForSubjectLesson1(String cid, int tid, String name, int sid, int pageIndex, int pageSize ) {
+        ArrayList<Lesson> lessons = new ArrayList<>();
+        try {
+            String sql = "select * from ( select ROW_NUMBER() OVER(order by l.lessonId asc) as row_index, \n" +
+                    " l.LessonId, l.LessonsName, l.StatusId, l.TopicId, l.LessonOder, s.sname \n" +
+                    " from Lessons as l inner join Topic as t on t.Id=l.TopicId\n" +
+                    "join Status s on s.Sid = l.StatusId\n" +
+                    "join Courses c on c.CourseId = t.CourseId\n" +
+                    " And c.CourseId=? ";
+            HashMap<Integer, Object[]> parameters = new HashMap<>();
+            int paramIndex = 1;
+            if(tid != -1){
+                sql += "And t.Id = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = tid;
+                parameters.put(paramIndex, param);
+            }
+            if(sid != -1){
+                sql += "And l.StatusId =  ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = sid;
+                parameters.put(paramIndex, param);
+            }
+            if(name != null){
+                sql += "And l.LessonsName like '%' + ? + '%' ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = String.class.getTypeName();
+                param[1] = name;
+                parameters.put(paramIndex, param);
+            }
+            
+            sql += ") as tbl where row_index >= ( ? - 1 ) * ? + 1 and row_index <= ? * ?";
+            // dấu hỏi số 1 của where row_index >= ....
+            paramIndex++;
+            Object[] param = new Object[2];
+            param[0] = Integer.class.getTypeName();
+            param[1] = pageIndex; 
+            parameters.put(paramIndex, param);
+            // dấu hỏi số 2 của where row_index >= ....
+            paramIndex++;
+            param = new Object[2];
+            param[0] = Integer.class.getTypeName();
+            param[1] = pageSize; 
+            parameters.put(paramIndex, param);
+            // dấu hỏi số 3 của where row_index >= ....
+            paramIndex++;
+            param = new Object[2];
+            param[0] = Integer.class.getTypeName();
+            param[1] = pageSize; 
+            parameters.put(paramIndex, param);
+            // dấu hỏi số 4 của where row_index >= ....
+            paramIndex++;
+            param = new Object[2];
+            param[0] = Integer.class.getTypeName();
+            param[1] = pageIndex; 
+            parameters.put(paramIndex, param);
+            
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, cid);
+            //parameters
+            for (Map.Entry<Integer, Object[]> entry : parameters.entrySet()) {
+                Integer index = entry.getKey();
+                Object[] value = entry.getValue();
+                String type = value[0].toString();
+                if(type.equals(Integer.class.getName()))
+                {
+                    stm.setInt(index, Integer.parseInt(value[1].toString()));
+                }
+                else if (type.equals(String.class.getName()))
+                {
+                    stm.setString(index, value[1].toString());
+                }
+            }
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Lesson l = new Lesson();
+                Status s = new Status();
+                l.setId(rs.getInt("LessonId"));
+                l.setLessonname(rs.getString("LessonsName"));
+                l.setLessonorder(rs.getInt("LessonOder"));
+                s.setId(rs.getInt("StatusId"));
+                s.setName(rs.getString("sname"));
+                l.setStatus(s);
+                lessons.add(l);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LessonDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lessons;
+    }
+    public int countLessonListForSubjectLesson1(String cid, int tid, String name, int sid){
+        try {
+            String sql = "select Count(*) as Total from ( select ROW_NUMBER() OVER(order by l.lessonId asc) as row_index, \n" +
+                            " l.LessonId, l.LessonsName, l.StatusId, l.TopicId, l.LessonOder, s.sname \n" +
+                            " from Lessons as l inner join Topic as t on t.Id=l.TopicId\n" +
+                            "join Status s on s.Sid = l.StatusId\n" +
+                            "join Courses c on c.CourseId = t.CourseId\n" +
+                            " And c.CourseId=? ";
+            HashMap<Integer, Object[]> parameters = new HashMap<>();
+            int paramIndex = 1;
+            if(tid != -1){
+                sql += "And t.Id = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = tid;
+                parameters.put(paramIndex, param);
+            }
+            if(sid != -1){
+                sql += "And s.Sid =  ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = sid;
+                parameters.put(paramIndex, param);
+            }
+            
+            if(name != null){
+                sql += "And l.LessonsName like '%' + ? + '%' ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = String.class.getTypeName();
+                param[1] = name;
+                parameters.put(paramIndex, param);
+            }
+            
+            sql += ") as tbl"; 
+            PreparedStatement stm = connection.prepareStatement(sql); 
+            stm.setString(1, cid);
+            //parameters
+            for (Map.Entry<Integer, Object[]> entry : parameters.entrySet()) {
+                Integer index = entry.getKey();
+                Object[] value = entry.getValue();
+                String type = value[0].toString();
+                if(type.equals(Integer.class.getName()))
+                {
+                    stm.setInt(index, Integer.parseInt(value[1].toString()));
+                }
+                else if (type.equals(String.class.getName()))
+                {
+                    stm.setString(index, value[1].toString());
+                }
+            }
+            ResultSet rs = stm.executeQuery(); 
+            while(rs.next()){
+                return rs.getInt("Total");
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(LessonDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Status;
 
 /**
  *
@@ -523,6 +524,100 @@ public class BlogDBContext extends DBContext {
            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
        }
        return false;
+    }
+    public ArrayList<Blog> getBlogListForMK(int pageIndex, int pageSize)
+    {
+        ArrayList<Blog> blogs = new ArrayList<>();
+        try {
+            
+            String sql ="select * from ( select ROW_NUMBER() OVER(order by b.id desc) as row_index, \n" +
+                    " b.id, b.brief, b.createdate, b.Thumbnail, b.Title, c.value, s.sname, b.statusId, b.UserId, u.fullname\n" +
+                    "from Blog b inner join [User] u on u.UserId= b.UserId join Category c on b.CategoryId = c.Categoryid join Status s on b.statusId = s.Sid) as tbl where row_index >= ( ? - 1 ) * ? + 1 and row_index <= ? * ?";
+            
+            PreparedStatement stm = connection.prepareStatement(sql);
+            //parameters
+            stm.setInt(1, pageIndex);
+            stm.setInt(2, pageSize);
+            stm.setInt(3, pageIndex);
+            stm.setInt(4, pageSize);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                Blog b = new Blog();
+                User u = new User();
+                Category c = new Category();
+                Status s = new Status();
+                b.setId(rs.getInt("id"));
+                b.setCreatedate(rs.getDate("createdate"));
+                b.setBrief(rs.getString("brief"));
+                b.setThumbnail(rs.getString("Thumbnail"));
+                b.setTitle(rs.getString("title"));
+                c.setValue(rs.getString("value"));
+                s.setName(rs.getString("sname"));
+                b.setStatusId(rs.getInt("statusId"));
+                u.setFullName(rs.getString("fullname"));
+                b.setUser(u);
+                b.setCategory(c);
+                b.setStatus(s);
+                blogs.add(b);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return blogs;
+    }
+    public int countBlogListForMK(){
+        try {
+            String sql ="select Count(*) as Total from ( select ROW_NUMBER() OVER(order by b.id desc) as row_index, \n" +
+                    " b.id, b.brief, b.createdate, b.Thumbnail, b.Title, c.value, s.sname, b.UserId, u.fullname\n" +
+                    "from Blog b inner join [User] u on u.UserId= b.UserId join Category c on b.CategoryId = c.Categoryid join Status s on b.statusId = s.Sid) as tbl";
+            
+            PreparedStatement stm = connection.prepareStatement(sql); 
+            //parameters
+     
+            ResultSet rs = stm.executeQuery(); 
+            while(rs.next()){
+                return rs.getInt("Total");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LessonDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+    public Blog getBlogDemo(String bid)
+    {
+        try {
+            String sql ="select b.id, b.brief, b.Thumbnail, b.featured, b.content, b.Title, b.CategoryId, b.StatusId, b.UserId, u.fullname, c.value, b.createdate\n" +
+"                        from Blog b inner join [User] u on u.UserId= b.UserId\n" +
+"                        inner join Category c on b.CategoryId= c.Categoryid\n" +
+"                        where b.id = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, bid);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                Blog b = new Blog();
+                User u = new User();
+                Category c = new Category();
+                b.setId(rs.getInt("id"));
+                b.setFeature(rs.getBoolean("featured"));
+                b.setBrief(rs.getString("brief"));
+                b.setThumbnail(rs.getString("Thumbnail"));
+                b.setContent(rs.getString("content"));
+                b.setTitle(rs.getString("title"));
+                b.setCategoryId(rs.getInt("CategoryId"));
+                b.setStatusId(rs.getInt("StatusId"));
+                u.setFullName(rs.getString("fullname"));
+                c.setValue(rs.getString("value"));
+                b.setUser(u);
+                b.setCreatedate(rs.getDate("createdate"));
+                b.setCategory(c);
+                return b;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+        
     }
     public static void main(String[] args){
         BlogDBContext a = new BlogDBContext();

@@ -1,5 +1,4 @@
-<%@page import="model.Course"%>
-<%@page import="java.util.ArrayList"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -113,11 +112,19 @@
                 transition-duration: .1s;
             }
 
+            .feature{
+                text-align: center;
+                justify-content: center;
+                font-size: 20px;
+                color: #BA4A00;
+                font-weight: 500;
+            }
             @media (min-width: 768px) {
                 .button-36 {
                     padding: 0 2.6rem;
                 }
             }
+
         </style>
 
     </head>
@@ -131,21 +138,21 @@
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- inner page banner -->
-                <div class="page-banner ovbl-dark" style="background-image:url(user/images/banner/banner3.jpg);">
+<!--                <div class="page-banner ovbl-dark" style="background-image:url(user/images/banner/banner3.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
                             <h1 class="text-white">Our Courses</h1>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!-- Breadcrumb row -->
                 <div class="breadcrumb-row">
-                    <div class="container">
+<!--                    <div class="container">
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
                             <li>Our Courses</li>
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
                 <!-- Breadcrumb row END -->
                 <!-- inner page banner END -->
@@ -163,15 +170,14 @@
 
                                     <form action="list" method="GET">
 
-                                        <div class="widget courses-search-bx placeani">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <h4>Search Courses</h4>
 
-                                                    <input   type="text" name="title"  value="${requestScope.title}" >
-                                                </div>
-                                            </div>
+                                        <div style="margin-bottom: 40px" class="input-group">
+                                            <input name="title" value="${requestScope.title}" class="form-control"  type="text">
+                                            <span class="input-group-btn">
+                                                <button style="height: 40px; width: 40px" type="submit" class="fa fa-search text-primary"></button>
+                                            </span> 
                                         </div>
+
                                         <div class="widget widget_archive" style="margin-bottom: 10px">
                                             <h5 class="widget-title style-1">category</h5>
                                             <ul>
@@ -289,19 +295,17 @@
                                                         </ul>
                                                     </div>
                                                     <div class="cours-more-info">
-                                                        <div class="review">
-                                                            <span>3 Review</span>
-                                                            <ul class="cours-star">
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li><i class="fa fa-star"></i></li>
-                                                                <li><i class="fa fa-star"></i></li>
-                                                            </ul>
+                                                        <div style="height: 60px" class="review">
+
+                                                            <c:if test="${course.feature}">
+                                                                <div class="feature">hot</div>
+                                                            </c:if>
                                                         </div>
                                                         <div class="price">
-                                                            <del>$${course.pricePackage[0].listPrice}</del>
-                                                            <h5>$${course.pricePackage[0].salePrice}</h5>
+                                                            <c:if test="${course.pricePackage.size()>0}">
+                                                                <del>$${course.pricePackage[0].listPrice}</del>
+                                                                <h5>$${course.pricePackage[0].salePrice}</h5>
+                                                            </c:if>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -323,6 +327,7 @@
                     </div>
                 </div>
                 <!-- contact area END -->
+
                 <c:forEach items="${requestScope.courses}" var="course">
                     <div class="modal fade" id="myModal-course${course.courseId}">
                         <div style="max-width: 1000px"class="modal-dialog modal-xl">
@@ -334,17 +339,17 @@
                                                 <ul class="price">
                                                     <li class="header">${price.name}</li>
                                                     <li class="grey">duration ${price.duration} month</li>
-
+                                                    
                                                     <li><del>${price.listPrice}</del></li>
                                                     <li>${price.salePrice}</li>
-                                                        <c:if test = "${sessionScope.user != null}">
+                                                    <c:if test = "${sessionScope.user != null}">
                                                         <li class="grey">  
-                                                            <a  onclick="submitRe();" href="#"  class="button">register</a>
-                                                            <form id="regist" method="POST" action="../course/register">
-                                                                <input type="hidden" name="courseid" value="${course.courseId}">
+                                                            <a  href="../course/register?courseid=${course.courseId}&userid=${sessionScope.user.id}&priceid=${price.id}"  
+                                                               class="button">register</a>
+                                                            <form id="regist${course.courseId}" method="POST" action="../course/register">
+                                                                 <input type="hidden" name="courseid" value="${course.courseId}">
                                                                 <input type="hidden" name="userid" value="${sessionScope.user.id}">
-                                                                <input type="hidden" name="priceid" value="${price.id}">
-
+                                                                <input type="hidden" name="priceid" value="${price.id}">    
                                                             </form> 
                                                         </li>  
                                                     </c:if>
@@ -360,8 +365,6 @@
                                             </div>
                                         </div>
                                     </c:forEach>
-
-
                                 </div>
                                 <!-- Modal footer -->
                                 <div class="modal-footer col-12">
@@ -380,9 +383,11 @@
         </div>
         <!-- External JavaScripts -->
         <script>
-            function submitRe() {
-                document.getElementById("regist").submit();
+          
+            function submitRe(x) {
+                document.getElementById("regist"+x).submit();
             }
+            
             var from = document.getElementById("from");
             var to = document.getElementById("to");
 
@@ -395,7 +400,7 @@
                 from.max = to.value;
                 console.log(from.max + "|" + to.value);
             }
-            
+
             var inputtitle;
             var inputelement = document.querySelector('input[name="title"]');
             inputelement.oninput = function (e) {

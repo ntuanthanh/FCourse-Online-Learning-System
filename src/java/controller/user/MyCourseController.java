@@ -32,16 +32,17 @@ public class MyCourseController extends BaseAuthController {
         response.setContentType("text/html;charset=UTF-8");
         CourseDBContext cdbc1 = new CourseDBContext();
         User u = (User) request.getSession().getAttribute("user");
-        int pagesize =4;
+        int pagesize =8;
         String page = request.getParameter("page");
         if(page == null || page.trim().length()==0){
             page = "1";
         }
+        User user = (User) request.getSession().getAttribute("user");
         int pageindex = Integer.parseInt(page);
-        int count = cdbc1.count(1);
+        int count = cdbc1.count(user.getId());
         int totalpage = (count%pagesize==0)?(count/pagesize):(count / pagesize)+1;
         CourseDBContext cdbc2 = new CourseDBContext();
-        ArrayList<Course> Courses = cdbc2.getMyCourse(1,pageindex,pagesize);
+        ArrayList<Course> Courses = cdbc2.getMyCourse(user.getId(),pageindex,pagesize);
         ArrayList<Integer> courserates = new ArrayList();
         for (int i=0 ; i< Courses.size(); i++) {
             CourseDBContext cdbc3 = new CourseDBContext();

@@ -12,6 +12,7 @@ import dal.DimensionDBContext;
 import dal.PricePackageDBContext;
 import dal.StatusDBContext;
 import dal.UserDBContext;
+import static java.awt.SystemColor.window;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -198,6 +202,11 @@ public class AdminSubjectDetailController extends BaseAuthController {
         }
         // update
         courseDB.UpdateCourse(course);
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AdminSubjectDetailController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         response.sendRedirect("details?id="+course.getCourseId());
     }
 

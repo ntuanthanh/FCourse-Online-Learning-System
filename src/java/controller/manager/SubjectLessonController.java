@@ -5,7 +5,6 @@
  */
 package controller.manager;
 
-import controller.authorization.BaseAuthController;
 import dal.CourseDBContext;
 import dal.LessonDBContext;
 import dal.StatusDBContext;
@@ -26,7 +25,7 @@ import model.Topic;
  *
  * @author tuann
  */
-public class SubjectLessonController extends BaseAuthController {
+public class SubjectLessonController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -64,19 +63,49 @@ public class SubjectLessonController extends BaseAuthController {
         TopicDBContext dbTopic = new TopicDBContext();
         ArrayList<Topic> topics = dbTopic.getTopics(int_cid);
         
+        //paging
+        int pageSize = 5; 
+        String page = request.getParameter("page");
+        if(page == null || page.trim().length() == 0){
+            page = "1"; 
+        }
+        int pageIndex = Integer.parseInt(page);
+        if(pageIndex < 1) pageIndex = 1;
         
-        ArrayList<Lesson> searchsubjectlesson = dbLesson.getLessonListForSubjectLesson(cid, tid_int, name, sid_int);
+        ArrayList<Lesson> searchsubjectlesson = dbLesson.getLessonListForSubjectLesson1(cid, tid_int, name, sid_int, pageIndex, pageSize );
+        int count = dbLesson.countLessonListForSubjectLesson1(cid, tid_int, name, sid_int);
+        int totalPage = (count % pageSize == 0) ? (count / pageSize) : (count / pageSize) + 1;
         request.setAttribute("searchsubjectlesson", searchsubjectlesson);
+        request.setAttribute("totalPage", totalPage);
+        request.setAttribute("pageIndex", pageIndex);
         request.setAttribute("course", course);
         request.setAttribute("sid", sid);
         request.setAttribute("tid", tid);
         request.setAttribute("cid", cid);
         request.setAttribute("name", name);
         
-        request.setAttribute("course", course);
         request.setAttribute("statuses", statuses);
         request.setAttribute("topics", topics);
-        System.out.println(searchsubjectlesson);
+        
+        // lấy Url để phân trang bằng js 
+        String url = "lesson?";
+        String url_param = request.getQueryString();
+        request.setAttribute("url", url);
+        if(url_param != null && url_param.length() > 0){
+            if(url_param.endsWith("page=" + pageIndex)){
+               url_param = url_param.replaceAll("page=" +pageIndex, "");      
+            }
+            // nếu nó không rời vào trường hợp lesson?page=x và thiếu & thì thêm vào
+            if(!url_param.equals("") && !url_param.endsWith("&")){
+                url_param += "&"; 
+            }
+            url += (url_param); 
+        }
+        request.setAttribute("url", url);
+//        System.out.println(searchsubjectlesson);
+        response.getWriter().println(url);
+//        response.getWriter().println(pageIndex);
+        
         request.getRequestDispatcher("../view/admin/lessonsubject.jsp").forward(request, response);
     }
 
@@ -90,7 +119,7 @@ public class SubjectLessonController extends BaseAuthController {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void processGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -104,7 +133,7 @@ public class SubjectLessonController extends BaseAuthController {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void processPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
     }

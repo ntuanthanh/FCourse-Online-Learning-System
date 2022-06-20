@@ -91,7 +91,7 @@ public class PricePackageDBContext extends DBContext {
         return null;
     }
 
-    public ArrayList<PricePackage> getPricePackageByCourseList(int courseid) {
+     public ArrayList<PricePackage> getPricePackageByCourseList(int courseid) {
         ArrayList<PricePackage> coursePrices = new ArrayList<>();
         try {
 
@@ -99,7 +99,7 @@ public class PricePackageDBContext extends DBContext {
                     + "FROM     Course_package INNER JOIN\n"
                     + "                  Price_Package ON Course_package.packageid = Price_Package.id INNER JOIN\n"
                     + "                  Courses ON Course_package.courseid = Courses.CourseId\n"
-                    + "				  where Courses.CourseId = ? and statusid = 1";
+                    + "				  where Courses.CourseId = ? and status_id = 1";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, courseid);
             ResultSet rs = stm.executeQuery();

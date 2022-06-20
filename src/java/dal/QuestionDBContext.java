@@ -91,7 +91,7 @@ public class QuestionDBContext extends DBContext {
         return getQ;
     }
 
-    public ArrayList<Question> getFilterQuestion(int stt, int did, int[] qlv) {
+    public ArrayList<Question> getFilterQuestion(int stt, int did, int qlv, int courseid) {
 
         ArrayList<Question> getQ = new ArrayList<>();
         PreparedStatement stm = null;
@@ -103,17 +103,21 @@ public class QuestionDBContext extends DBContext {
         if (stt > -1) {
             sql += " and StatusId = ? ";
         }
+
         if (did > -1) {
             sql += " and Did = ? ";
         }
-        if (qlv != null) {
+        if (courseid > -1) {
+            sql += " and CourseId = ? ";
+        }
+        if (qlv > -1) {
             sql += " and QuizLevelId in(";
-            for (int i = 0; i < qlv.length; i++) {
-                sql += qlv[i] + ",";
-            }
-            if (sql.endsWith(",")) {
-                sql = sql.substring(0, sql.length() - 1);
-            }
+//            for (int i = 0; i < qlv.length; i++) {
+                sql += qlv;
+//            }
+//            if (sql.endsWith(",")) {
+//                sql = sql.substring(0, sql.length() - 1);
+//            }
             sql += ")";
         }
 
@@ -123,10 +127,26 @@ public class QuestionDBContext extends DBContext {
                 stm.setInt(1, stt);
                 if (did > -1) {
                     stm.setInt(2, did);
+                    if (courseid > -1) {
+                        stm.setInt(3, courseid);
+                    }
+                }
+                else
+                {   
+                    if (courseid > -1) {
+                        stm.setInt(2, courseid);
+                    }
+                    
                 }
             }
-            if (did > -1) {
+            else if (did > -1) {
                 stm.setInt(1, did);
+                if (courseid > -1) {
+                    stm.setInt(2, courseid);
+                }
+            }
+            if (courseid > -1) {
+                stm.setInt(1, courseid);
             }
 
             rs = stm.executeQuery();
@@ -146,24 +166,23 @@ public class QuestionDBContext extends DBContext {
 //                course.setCourseId(rs.getInt("CourseId"));
                 CourseDBContext cdb = new CourseDBContext();
                 Course subjectById = cdb.getSubjectById(rs.getInt("CourseId"));
-                
+
                 Question.setCourse(subjectById);
 
-            
                 QuizLevelDBContext qdb = new QuizLevelDBContext();
                 QuizLevel q = qdb.getQuizLevelById(rs.getInt("QuizLevelId"));
                 Question.setQuizlevel(q);
 
-               StatusDBContext sdb = new StatusDBContext();
+                StatusDBContext sdb = new StatusDBContext();
                 Status a = sdb.getStatus(rs.getInt("StatusId"));
-              //  a.setId();
+                //  a.setId();
                 Question.setStatus(a);
-                
+
                 int didd = rs.getInt("Did");
                 DimensionDBContext db = new DimensionDBContext();
                 Dimension d = db.getDimensionById(didd);
-                
-               Question.setDimension(d);
+
+                Question.setDimension(d);
                 getQ.add(Question);
             }
         } catch (SQLException ex) {
@@ -187,7 +206,7 @@ public class QuestionDBContext extends DBContext {
 
     public static void main(String[] args) {
         QuestionDBContext qdb = new QuestionDBContext();
-        ArrayList<Question> qs = qdb.getQuestion();
+        ArrayList<Question> qs = qdb.getFilterQuestion(-1, -1, -1, 1);
         int size = qs.size();
         System.out.println("" + size);
         for (Question q : qs) {

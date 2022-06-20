@@ -71,7 +71,7 @@
                                                 <h6>Upload a thumbnail image</h6>
                                                 <input value="{sessionScope.user.avatarImage}" type="text" hidden="hidden" name = "old_avatar_img"/>
                                                 <input type="file" onchange="getImgPreview_profileUser(event)" name = "thumnail_img" class="text-center center-block file-upload">-->
-                                                <img  id = "avatar" class = "img-thumbnail img-fluid" src="../images/blogdetail/noimage.jpg" alt=""/>
+                                                <img  id = "avatar" class = "img-thumbnail img-fluid" src="../images/blogdetail/noimage.jpg" alt="" style="width: 500px; height: 300px"/>
 <!--                                                <img src="../../images/blogdetail/noimage.jpg" alt=""/>-->
                                                 <h6>Upload a new photo</h6>
                                                 <input value="noimage.jpg" type="text" hidden="hidden" name = "old_img_blog"/>

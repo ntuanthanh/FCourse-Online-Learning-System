@@ -16,7 +16,7 @@
         <header class="header rs-nav">
             <div class="top-bar">
                 <div class="container">
-                    <div class="row d-flex justify-content-between">
+                    <div class="row d-flex justify-content-between" >
                         <div class="topbar-left">
                             <ul>
                                 <li><a href="faq-1.html"><i class="fa fa-question-circle"></i>Ask a Question</a></li>

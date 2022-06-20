@@ -265,9 +265,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button">
+                            <a href="../post/list" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
-                                <span class="ttr-label">Add listing</span>
+                                <span class="ttr-label">Post List</span>
                             </a>
                         </li>
                         <li>

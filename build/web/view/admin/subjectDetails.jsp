@@ -103,6 +103,7 @@
                 cursor: pointer;
                 margin-top: 10px;
             }
+            /* Kết quả search của Expert */
             .style-list-subject{
                 margin-top: 10px;
             }
@@ -115,10 +116,34 @@
                  background: #E1DCDA;
                  height: 40px;
                  line-height: 40px;
+                 font-weight: 500;
                  padding: 0 5px;
                  cursor: pointer;
                  margin: 5px 0;
                  box-shadow: -3px 6px 4px #222;
+                 text-transform : capitalize;
+            }
+            /* Kết quả search của Tag */
+            .style-list-tag{
+                margin-top: 10px;
+            }
+            .style-list-tag ul{
+                 list-style: none;
+                 width: 500px;
+                 display: flex;
+                 flex-wrap: wrap;
+            }
+            .style-list-tag ul li{
+                 flex-basis: 48%;
+                 background: #f2f2f2;
+                 font-weight: 500;
+                 line-height: 40px;
+                 border-radius: 30px;
+                 padding: 0 5px;
+                 cursor: pointer;
+                 margin: 5px 5px;
+                 text-align: center;
+/*                 box-shadow: -3px 6px 4px #222;*/
                  text-transform : capitalize;
             }
             /* assign expert : */
@@ -131,7 +156,7 @@
             }
             .assigned_list_style ul li{
                  width: 100%;
-                 background: #84C75B;
+                 background: #CAFBFF;
 /*                 background: #6EBDC3;*/
                  height: 40px;
                  line-height: 40px;
@@ -158,7 +183,7 @@
                 text-transform: capitalize;
             }
             .page-link:hover{
-                background: #91CD68 !important;
+                color : white !important;
             }
         </style>
     </head>
@@ -291,7 +316,7 @@
                                         <input oninput="searchTag(this)" id = "course_tag" placeholder ="You can search by name tag" name ="course_tag" class="form-control" type="text">
                                     </div>
                                     <!--Kết quả search bởi admin-->
-                                    <div id = "result_search_tag" class= "style-list-subject">
+                                    <div id = "result_search_tag" class= "style-list-tag">
                                         <ul id = "my_list_result_search_tag">
                                             
                                         </ul>
@@ -354,7 +379,9 @@
                         <!-- this is paging -->
                         <div style="display: flex;justify-content: center; margin-top: 20px;" >
                             <ul class="pagination" id = "paggerBottom">
-                                <li class="page-item active"><span class="page-link">1</span></li>
+                                <c:if test = "${requestScope.pricePackages.size() > 0}">
+                                  <li class="page-item active"><span class="page-link">1</span></li>
+                                </c:if>
                                 <c:forEach begin="${requestScope.pageIndexPricePackage + 1}" end="${requestScope.pageIndexPricePackage + 2}" var = "i">
                                     <c:if test="${i <= requestScope.totalPagePricePackage}">
                                         <li class="page-item"><a class="page-link" onclick ="pagingPricePackage(${requestScope.course.courseId},${i})">${i}</a></li>
@@ -400,7 +427,9 @@
                         <!-- this is paging -->
                         <div style="display: flex;justify-content: center; margin-top: 20px;" >
                             <ul class="pagination">
-                                <li class="page-item active"><span class="page-link">1</span></li>
+                                <c:if test = "${requestScope.dimensions.size() > 0}">
+                                  <li class="page-item active"><span class="page-link">1</span></li>
+                                </c:if> 
                                 <c:forEach begin="${requestScope.pageIndexDimension + 1}" end="${requestScope.pageIndexDimension + 2}" var = "i">
                                     <c:if test="${i <= requestScope.totalPageDimension}">
                                         <li class="page-item"><a class="page-link" onclick ="pagingDimension(${requestScope.course.courseId},${i})">${i}</a></li>
@@ -646,7 +675,7 @@
                 var data_courseId = courseId;
                 var data_pageIndex = pageIndexDimension; 
                 $.ajax({
-                        url: '/summer2022-se1616-g4//ajaxPagingDimension',
+                        url: '/summer2022-se1616-g4/ajaxPagingDimension',
                         type: 'get',
                         data: {                        
                             cid: courseId,

@@ -9,28 +9,27 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home|Edu-FCourse</title>
-        <link rel="stylesheet" href="css/home.css"/>
         <link rel="stylesheet" href="css/blog.css"/>
         <link rel="stylesheet" href="css/tagline.css"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- FAVICONS ICON ============================================= -->
-	<link rel="icon" href="${pageContext.request.contextPath}/assets/images/favicon.ico" type="image/x-icon" />
-	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/images/favicon.png" />
-		
-	<!-- MOBILE SPECIFIC ============================================= -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- All PLUGINS CSS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/assets.css">
-	
-	<!-- TYPOGRAPHY ============================================= -->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/typography.css">
-	
-	<!-- SHORTCODES ============================================= -->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/shortcodes/shortcodes.css">
-	
-	<!-- STYLESHEETS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
-	<link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/color/color-1.css">
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/images/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/images/favicon.png" />
+
+        <!-- MOBILE SPECIFIC ============================================= -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- All PLUGINS CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/assets.css">
+
+        <!-- TYPOGRAPHY ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/typography.css">
+
+        <!-- SHORTCODES ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/shortcodes/shortcodes.css">
+
+        <!-- STYLESHEETS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
+        <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/color/color-1.css">
         <!-- header css -->
         <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" type="text/css"/>
         <!-- JavaScripts -->
@@ -52,183 +51,251 @@
         <!-- Bootstrap 4.6.1 -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<!--         End Bootstrap 4.6.1 -->
+        <!--         End Bootstrap 4.6.1 -->
         <script src ="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+        <link href="css/home.css" rel="stylesheet" type="text/css"/>
+        <link href="css/slider.css" rel="stylesheet" type="text/css"/>
+        <noscript>
+        <link rel="stylesheet" type="text/css" href="css/nojs.css" />
+        </noscript>
+        <!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+                <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Oswald:700|Montserrat:700'>-->
         <%
             ArrayList<Course> coursesSlider = (ArrayList<Course>) request.getAttribute("coursesSlider");
         %>
+        <style>
+            .da-img img{
+                height: 256px;
+                width: 256px;
+                object-fit: cover;
+            }
+            .action-box img{
+
+                height: 150px;
+                object-fit:cover;
+            }
+            .title-course{
+                height: 60px;
+            }
+            .text-center{
+                text-align: left;
+                font-weight: 500;
+                height: 100px;
+                font-size: 110%;
+
+                padding: 0px 5px;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            .recent-post img{
+                width: 100px;
+                height: 100px;
+                object-fit:cover;
+            }
+            .register:hover {
+                color:white;
+                background-color: purple: 
+            }
+            .register{
+                color:white;
+                background-color: orange; 
+            }
+            .card-feature{
+                height: 50px;
+            }
+            .card-price > del{
+                display: inline-block;
+            }
+        </style>
     </head>
 
-    <body>
-        <!-- Header side -->
-        <jsp:include page="../view/base/header_t.jsp" />     
-        <!-- Slider side --> 
-        <div class = "slider">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-
-
-                    <%for (int i = 0; i < 3; i++) {%> 
-                    <%Course c = coursesSlider.get(i);%>
-                    <%if (i == 0) {%>
-                    <div class="carousel-item active">
-                        <a href="#">
-                            <img class="d-block w-100" src="images/courses/<%=c.getThumnailURL()%>" alt="" >
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5><%=c.getTitle()%></h5>
-                            </div>
-                        </a>
-                    </div>        
-                    <%}%>
-                    <%if (i != 0) {%>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img class="d-block w-100" src="images/courses/<%=c.getThumnailURL()%>" alt="" >
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5><%=c.getTitle()%></h5>
-                            </div>
-                        </a>
-                    </div>        
-                    <%}%>
-
-                    <%}%>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+    <body id="bg">
+        <jsp:include page="../view/base/header_t.jsp" />
+        <!-- SLIDER-->
+        <div id="da-slider" class="da-slider">
+            <div class="da-slide">
+                <h2>AI Blogs</h2>
+                <p>Artificial intelligence (AI) is a wide-ranging branch of computer science concerned with building smart machines capable of performing tasks that typically require human intelligence. See AI blogs now</p>
+                <a href="#" class="da-link">Read More</a>
+                <div class="da-img"><img src="images/slider/1.png" alt="image01" /></div>
             </div>
-
+            <div class="da-slide">
+                <h2>How to save money</h2>
+                <p>Sometimes the hardest thing about saving money is just getting started. This step-by-step guide can help you develop a simple and realistic strategy, so that you can save for all your short- and long-term goals.</p>
+                <a href="#" class="da-link">Read more</a>
+                <div class="da-img"><img src="images/slider/3.png" alt="image01"  /></div>
+            </div>
+            <div class="da-slide">
+                <h2>How to learn Math fast</h2>
+                <p>Many people struggle with math. It tends to be one of the most common subjects that people have trouble with. But with the right training, practice and effort, it can become easier. For those who want to learn how to be good at math, it may require extra practice. Here are a few best practices to learn math fast.</p>
+                <a href="#" class="da-link">Read more</a>
+                <div class="da-img"><img src="images/slider/2.png" alt="image01" /></div>
+            </div>
+            <div class="da-slide">
+                <h2>What is the internet of things?</h2>
+                <p>The internet of things, or IoT, is a system of interrelated computing devices, mechanical and digital machines, objects, animals or people that are provided with unique identifiers (UIDs) and the ability to transfer data over a network without requiring human-to-human or human-to-computer interaction.</p>
+                <a href="#" class="da-link">Read more</a>
+                <div class="da-img"><img src="images/slider/4.png" alt="image01" /></div>
+            </div>
+            <nav class="da-arrows">
+                <span class="da-arrows-prev"></span>
+                <span class="da-arrows-next"></span>
+            </nav>
         </div>
-        <!-- Content side -->
-        <div class = "content-main">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-3 col-12">
-                        <h4 class="category-subject" style="text-align: center; margin-bottom: 60px;">Subject Category</h4>
-                        <div class="list-category">
-                            <c:forEach items="${requestScope.cates}" var="cate">
-                                <div >
-                                    <a href="course/list?cateId=${cate.categoryID}">${cate.value}</a>
+
+        <!-- SLIDER END-->
+        <div class="content-block">
+            <!-- About Us -->
+            <div class="section-area section-sp1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
+                            <h4>LATEST POST</h4>
+                            <c:forEach items="${requestScope.blognews}" var="b">
+                                <div class="recent-post">
+                                    <img src="images/blogdetail/${b.thumbnail}" alt=""/>
+                                    <div>
+                                        <h5>${b.title}</h5>
+                                        <p>${b.brief}</p>
+                                    </div>
                                 </div>
                             </c:forEach>
-
-
                         </div>
-                        <hr>
-                        <h4 class="category-subject" style="text-align: center;">most prominent</h4>
-                        <div class="course-recent">
-                            
-
-                                <c:forEach items="${requestScope.coursesProminent}" var="c">
-                                    <div class="row list-course-recent">
-                                    <div class="col-md-4 col-3 recent">
-                                        <div class="img-recent">
-                                            <img src="images/courses/${c.thumnailURL}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8 col-3 recent">
-                                        <div class="title-recent"><a href="#">${c.title}</a></div>
-                                        <p>$${c.pricePackage[0].salePrice}</p>
-                                    </div>
-                                    </div>
-
-                                </c:forEach>
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-9 col-12">
-                        <h2 class="title">Featured Course</h2>
-                        <div class="row">
-                            <c:forEach items="${requestScope.courses}" var="course">
-                                <div class="cards col-xl-4 col-sm-6 col-12">
-                                    <div class="course-card">
-                                        <div class="card-infor">
-                                            <div class="card-img">
-                                                <img src="images/courses/${course.thumnailURL}" alt="">
-                                                <div class="button">
-                                                    <button class="resgiter-card" onclick="alert('Hello world!')">register</button>
-                                                </div>
-                                                <c:if test ="${course.feature}">
-                                                    <div class="feature-card">hot</div>
-                                                </c:if>
-                                                <div class="category-card">${course.category.value}</div>
+                        <div class="col-lg-9 col-md-8 col-sm-12">
+                            <h4 class="title-home">Featured Courses</h4>
+                            <div class="row">
+                                <c:forEach items="${requestScope.courses}" var="course" >
+                                    <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                                        <div class="cours-bx">
+                                            <div class="action-box">
+                                                <img  src="images/courses/${course.thumnailURL}" alt="">
+                                                <a href="#" class="btn register">resgister</a>
                                             </div>
+                                            <div class="info-bx text-center">
+                                                <div class="title-course"> <h5><a href="../coursedetail?id=${course.courseId}">${course.title}</a></h5></div>
+                                                <span>${course.category.value}</span>
 
-                                            <div class="card-title">
-                                                <a href="coursedetail?id=${course.courseId}">${course.title}</a>
-                                            </div>
-                                            <div class="card-price row">
-                                                <div class="sale-price col-md-6  col-sm-6 col-6"><span>${course.pricePackage[0].salePrice}</span></div>
-                                                <div class="list-price col-md-6  col-sm-6 col-6"><span>${course.pricePackage[0].listPrice}</span></div>
-
-                                            </div>
-                                            <ul class="tag">
-                                              
+                                                <!--                                                <ul class="tag">
                                                 <c:forEach items="${course.getTags()}" var="tag">
-                                                    <li class="tag-item" style="margin-bottom: 20px"><a href="course/list?tagId=${tag.tagId}">${tag.getTagname()}</a></li>
+
+                                                     <li class="tag-item"  style="margin-bottom: 20px"><a href="list?tagId=${tag.tagId}">${tag.getTagname()}</a></li>
                                                 </c:forEach>
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </c:forEach>
-                            <div class="col-12 show">
-                                <a href="course/list"> show more</a> 
-                            </div>
-                            <hr>
-                            <h2 class="title col-12"> Featured Blog </h2>
-
-                            <c:forEach items="${requestScope.blogs}" var="b">
-                                <div class="cards col-xl-4 col-sm-6 col-12">
-                                    <div class="blog-card">
-                                        <div class="blog-infor">
-                                            <div class="blog-img">
-                                                <img src="images/blogdetail/${b.thumbnail}" alt="">
-                                                <div class="category-card">${b.category.value}</div>
+                                            </ul>-->
                                             </div>
-                                            <div class="blog-title">
-                                                <a href="blog/detail?bid=${b.id}">${b.title}</a>
+                                            <div class="cours-more-info card-feature">
+                                                <div class="review">
+                                                    <span>Feature</span>
 
-                                            </div>
-                                            <div class="row">
-                                                <div class="bief ">
-                                                    ${b.brief}
+                                                </div>
+                                                <div class="card-price">
+                                                    <c:if test="${course.pricePackage.size()>0}">
+                                                        <del>$${course.pricePackage[0].listPrice}</del>
+
+                                                        <h5>$${course.pricePackage[0].salePrice}</h5>
+                                                    </c:if>  
                                                 </div>
                                             </div>
-                                            <div>
-                                                <p class="auhor">${b.user.fullName}</p>
-                                            </div>
-
-
                                         </div>
                                     </div>
-                                </div>
-                            </c:forEach>
+                                </c:forEach>
 
 
-                            <div class="col-12 show">
-                                <a href="#"> show more</a> 
+
                             </div>
+                            <h4 class="title-home">Hot Posts</h4>
+                            <div class="row">
+                                <c:forEach items="${requestScope.blogs}" var="b">
+                                    <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                                        <div class="cours-bx">
+                                            <div class="action-box">
+                                                <img src="images/blogdetail/${b.thumbnail}" alt=""/>
+                                                <a  href="blog/detail?bid=${b.id}" class="btn register">See Now</a>
+                                            </div>
+                                            <div class="info-bx text-center">
+                                                <div class="title-course"> <h5><a href="../coursedetail?id=${course.courseId}">${b.title}</a></h5></div>
+
+                                            </div>
+                                            <div class="cours-more-info">
+                                                <div class="info-blog">
+                                                    <p><i class="fa fa-calendar"></i> ${b.createdate} | <i class="fa fa-user"></i>${b.user.fullName}</p>
+                                                </div>
+                                                <!--                                                    <div class="review">
+                                                                                        </div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+
+                            </div>                   
 
                         </div>
+
                     </div>
                 </div>
             </div>
-            <!-- footer side --> 
-            <jsp:include page="base/footer_t.jsp" /> 
-    </body>
+        </div>
+        <!-- contact area END -->    
+    </div>
+</div>
+<!-- footer side --> 
+<jsp:include page="base/footer_t.jsp" />
+
+<!--    <script src="../js/slider.js" type="text/javascript"></script>-->
+<div class="page-wraper">
+
+    <!-- Header Top ==== -->
+
+    <!-- header END ==== -->
+    <!-- Content -->
+
+    <!-- inner page banner -->
+
+
+
+
+
+
+</div>
+<!-- Content END-->
+
+<!-- scroll top button -->
+
+</div>
+<!-- External JavaScripts -->
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+<script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+<script src="assets/vendors/counter/waypoints-min.js"></script>
+<script src="assets/vendors/counter/counterup.min.js"></script>
+<script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+<script src="assets/vendors/masonry/masonry.js"></script>
+<script src="assets/vendors/masonry/filter.js"></script>
+<script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+<script src="assets/js/functions.js"></script>
+<script src="assets/js/contact.js"></script>
+<script src='assets/vendors/switcher/switcher.js'></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.cslider.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $('#da-slider').cslider({
+            autoplay: true,
+            bgincrement: 450
+        });
+
+    });
+</script>
+<script type="text/javascript" src="js/modernizr.custom.28468.js"></script>
+</body>
 
 </html>

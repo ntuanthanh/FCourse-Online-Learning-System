@@ -21,6 +21,9 @@ import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 //import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -194,7 +197,12 @@ public class AddPostDetaiController extends BaseAuthController {
         
         
         dbBlog.addBlog(b);
-        response.sendRedirect("post");
+//        try {
+//            TimeUnit.SECONDS.sleep(3);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(AdminSubjectDetailController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        response.sendRedirect("../post/list");
         
         
         

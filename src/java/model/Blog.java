@@ -19,6 +19,16 @@ public class Blog {
     private String title;
     private int categoryId;
     private boolean feature;
+    private Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+    
 
     public boolean isFeature() {
         return feature;

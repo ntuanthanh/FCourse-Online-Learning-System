@@ -7,6 +7,7 @@ package controller.user;
 
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
+import dal.OwnerDBContext;
 import dal.ParentCategoryDBContext;
 import dal.PricePackageDBContext;
 import dal.TagDBContext;
@@ -23,12 +24,12 @@ import model.ParentCategory;
 import model.PricePackage;
 import model.Tag;
 import model.Topic;
+import model.User;
 
 /**
  *
  * @author pv
  */
-
 public class CourseDetailController extends HttpServlet {
 
     @Override
@@ -41,47 +42,51 @@ public class CourseDetailController extends HttpServlet {
         if (id != null && !id.isEmpty()) {
             a = Integer.parseInt(id);
         }
-         CourseDBContext cdb = new CourseDBContext();
-         ArrayList<Course> courses = cdb.getThreeCourseForCourse(a);
-        
-//        PricePackageDBContext pdb = new PricePackageDBContext();
-//        TagDBContext tdb = new TagDBContext();
-//        for (int i = 0; i < courses.size(); i++) {
-//            ArrayList<PricePackage> prices = pdb.getPricePackageByCourseList(courses.get(i).getCourseId());
-//            // get price by courseid
-//              ArrayList<Tag> tag = tdb.getTagsByCourse(courses.get(i).getCourseId());
-//            courses.get(i).setPricePackage(prices);
-//            courses.get(i).setTags(tag);
-//            System.out.println("xxxx");
-//            
-//        }
-       
+        CourseDBContext cdb = new CourseDBContext();
+        ArrayList<Course> courses = cdb.getThreeCourseForCourse(a);
+
+        PricePackageDBContext pdb = new PricePackageDBContext();
+        TagDBContext tdb = new TagDBContext();
+        for (int i = 0; i < courses.size(); i++) {
+            ArrayList<PricePackage> prices = pdb.getPricePackageByCourseList(courses.get(i).getCourseId());
+            // get price by courseid
+            ArrayList<Tag> tag = tdb.getTagsByCourse(courses.get(i).getCourseId());
+            courses.get(i).setPricePackage(prices);
+            courses.get(i).setTags(tag);
+
+        }
+
         Course Course = cdb.getCourseDetail(a);
         CategoryDBContext CDB = new CategoryDBContext();
         ArrayList<Category> Categorys = CDB.getCategorys();
         PricePackageDBContext ppdbc = new PricePackageDBContext();
+
         ArrayList<PricePackage> PricePackes = ppdbc.PricePackes(a);
+
         TopicDBContext tdbc = new TopicDBContext();
         ArrayList<Topic> Topics = tdbc.getTopics(a);
-        
+
         //get parrent
         ParentCategoryDBContext padb = new ParentCategoryDBContext();
         ArrayList<ParentCategory> pCates = padb.getParentCategory();
-        
+
         //get categories
         CategoryDBContext cadb = new CategoryDBContext();
         ArrayList<Category> cates = cadb.getCategorys();
+        OwnerDBContext odb = new OwnerDBContext();
+        ArrayList<User> users = odb.getOwnerByCourseId(a);
         
         request.setAttribute("cates", cates);
-      
-      request.setAttribute("pCates", pCates);
+        request.setAttribute("pCates", pCates);
         request.setAttribute("courses", courses);
         request.setAttribute("Topics", Topics);
+        request.setAttribute("users", users);
+        
         request.setAttribute("PricePackes", PricePackes);
         request.setAttribute("Categorys", Categorys);
         request.setAttribute("Course", Course);
         request.setAttribute("now", java.time.LocalDate.now());
-        request.getRequestDispatcher("view/courseDetail.jsp").forward(request, response);
+        request.getRequestDispatcher("view/courses-details.jsp").forward(request, response);
     }
 
     @Override
@@ -89,5 +94,5 @@ public class CourseDetailController extends HttpServlet {
             throws ServletException, IOException {
 
     }
-    
+
 }
