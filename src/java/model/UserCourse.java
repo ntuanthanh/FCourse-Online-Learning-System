@@ -19,7 +19,25 @@ public class UserCourse {
     private Date endDate;
     private PricePackage pricePackage;
     private boolean registration_status;
+    private User createBy; 
+    private User updateBy; 
 
+    public User getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(User createBy) {
+        this.createBy = createBy;
+    }
+
+    public User getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(User updateBy) {
+        this.updateBy = updateBy;
+    }
+    
     public UserCourse() {
     }
 

@@ -50,6 +50,34 @@ public class TopicDBContext extends DBContext {
         } 
         return null;
     }
+       public Topic getTopic(int Tid) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String sql = "SELECT  [Id]\n"
+                + "      ,[TopicOrder]\n"
+                + "      ,[TopicName]\n"
+                + "      ,[description]\n"
+                + "  FROM [Topic]\n"
+                + "  where Id = ?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, Tid);
+            stm.executeQuery();
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                Topic Topic = new Topic();
+                Topic.setId(rs.getInt("Id"));
+                Topic.setTopicOrder(rs.getInt("TopicOrder"));
+                Topic.setTopicName(rs.getString("TopicName"));
+                Topic.setDescription(rs.getString("description"));
+                return Topic;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TopicDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public static void main(String[] args) {
         TopicDBContext t = new TopicDBContext();
         ArrayList<Topic> Topics = t.getTopics(1);

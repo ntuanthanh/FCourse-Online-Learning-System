@@ -53,8 +53,8 @@ public class AjaxPagingDimension extends HttpServlet {
 "                                   <td>"+dimension.getDimensionType().getName()+"</td>\n" +
 "                                   <td>"+dimension.getName()+"</td>\n" +
 "                                   <td>\n" +
-"                                       <a style=\"margin-right: 5px; text-decoration: none \" href = \"#\">Edit</a>\n" +
-"                                       <a style=\"text-decoration: none \"href = \"#\">Delete</a>\n" +
+"                                       <a style=\"margin-right: 5px; text-decoration: none \" href = \"../../admin/dimension/edit?did="+dimension.getId()+"&cid="+cid+"\">Edit</a>\n" +
+"                                       <a style=\"text-decoration: none \"href = \"#\" onclick =\"DeleteDimension("+dimension.getId()+","+cid+","+pageIndex+")\">Delete</a>\n" +
 "                                    </td>\n" +
 "                                 </tr>");
         }
@@ -75,6 +75,7 @@ public class AjaxPagingDimension extends HttpServlet {
         if(i > 0)
         response.getWriter().print("<li class=\"page-item\"><a class=\"page-link\" onclick =\"pagingDimension("+cid+","+i+")\">"+i+"</a></li>");
        }
+       if(totalPage > 0)
         response.getWriter().print("<li class=\"page-item active\"><a class=\"page-link\")\">"+pageIndex+"</a></li>");
        for(int i = pageIndex + 1; i <= pageIndex + gap; i++){
         if(i <= totalPage)

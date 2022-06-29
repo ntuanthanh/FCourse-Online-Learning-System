@@ -340,7 +340,7 @@
                 </div>
                 <div id="Price_Package" class="container tab-pane fade"><br>
                     <c:if test = "${requestScope.isAdmin == true}">
-                        <a style="text-decoration: none; float : right" href="#">Add New</a>
+                        <a style="text-decoration: none; float : right" href="../../admin/pricepackage/add?cid=${requestScope.course.courseId}">Add New</a>
                     </c:if>
                     <div id = "pagingPricePackageAjax">
                         <table class="table table-hover">
@@ -368,7 +368,8 @@
                                             <td>${p.status.name}</td>
                                             <c:if test = "${requestScope.isAdmin}">
                                             <td>
-                                                <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
+                                                <a style="margin-right: 5px; text-decoration: none " href = "#" onclick ="DeletePricePackage(${p.id},${requestScope.course.courseId},${requestScope.pageIndexPricePackage})" >Delete</a>
+                                                <a style="margin-right: 5px; text-decoration: none " href = "../../admin/pricepackage/edit?pid=${p.id}&cid=${requestScope.course.courseId}">Edit</a>
                                                 <a style="text-decoration: none" href = "#" onclick = "ActionPricePackage(${p.id},${p.status.id},${requestScope.course.courseId},${requestScope.pageIndexPricePackage})">${p.status.id == 1?"Deactivate":"Active"}</a>
                                             </td>
                                             </c:if>
@@ -398,7 +399,7 @@
                    </div> 
                 </div>
                 <div id="Dimension" class="container tab-pane fade"><br>
-                    <a style="text-decoration: none; float : right" href="#">Add New</a>
+                    <a style="text-decoration: none; float : right" href="../../admin/dimension/add?cid=${requestScope.course.courseId}">Add New</a>
                     <div id = "pagingDimensionAjax">
                         <table class="table table-hover">
                             <thead>
@@ -417,8 +418,8 @@
                                         <td>${d.dimensionType.name}</td>
                                         <td>${d.name}</td>
                                         <td>
-                                            <a style="margin-right: 5px; text-decoration: none " href = "#">Edit</a>
-                                            <a style="text-decoration: none "href = "#">Delete</a>
+                                            <a style="margin-right: 5px; text-decoration: none " href = "../../admin/dimension/edit?did=${d.id}&cid=${requestScope.course.courseId}">Edit</a>
+                                            <a style="text-decoration: none "href = "#" onclick ="DeleteDimension(${d.id},${requestScope.course.courseId},${requestScope.pageIndexDimension})">Delete</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -671,6 +672,47 @@
                         }
                 });                
             }
+            // Ajax delete cho pricePackage
+            function DeletePricePackage(id,courseId,pageIndexPricePackage){
+                var pricePackageId = id;
+                var course = courseId;
+                var data_pageIndex = pageIndexPricePackage; 
+                
+                Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                        url: '/summer2022-se1616-g4/deletePricePackage',
+                        type: 'get',
+                        data: {
+                            pid: pricePackageId,
+                            cid: course,
+                            pageIndex: data_pageIndex
+                        } ,
+                        success: function (response) {
+                            var content = document.querySelector('#pagingPricePackageAjax');
+                            content.innerHTML = response;
+                            Swal.fire(
+                                'Delete successfully',
+                                'Delete successfully ',
+                                'success'
+                            )
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    });
+                }
+              })     
+            }
+            // Dimension 
             function pagingDimension(courseId, pageIndexDimension){
                 var data_courseId = courseId;
                 var data_pageIndex = pageIndexDimension; 
@@ -689,6 +731,46 @@
                             alert("error");
                         }
                 });                
+            }
+            // Ajax delete cho pricePackage
+            function DeleteDimension(id,courseId,pageIndexDimension){
+                var dimensionId = id;
+                var course = courseId;
+                var data_pageIndex = pageIndexDimension; 
+                
+                Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                        url: '/summer2022-se1616-g4/deleteDimension',
+                        type: 'get',
+                        data: {
+                            did: dimensionId,
+                            cid: course,
+                            pageIndex: data_pageIndex
+                        } ,
+                        success: function (response) {
+                            var content = document.querySelector('#pagingDimensionAjax');
+                            content.innerHTML = response;
+                            Swal.fire(
+                                'Delete successfully',
+                                'Delete successfully ',
+                                'success'
+                            )
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    });
+                }
+              })     
             }
         </script>
         

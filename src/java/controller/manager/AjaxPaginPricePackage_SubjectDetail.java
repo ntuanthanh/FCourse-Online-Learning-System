@@ -69,7 +69,8 @@ public class AjaxPaginPricePackage_SubjectDetail extends HttpServlet {
          if(isAdmin){
            response.getWriter().print(""
                    + "                <td>\n" +
-"                                          <a style=\"margin-right: 5px; text-decoration: none \" href = \"#\">Edit</a>\n" +
+                   "                       <a style=\"margin-right: 5px; text-decoration: none \" href = \"#\" onclick =\"DeletePricePackage("+pricePackage.getId()+","+cid+","+pageIndex+")\" >Delete</a>\n" +
+"                                          <a style=\"margin-right: 5px; text-decoration: none \" href = \"../../admin/pricepackage/edit?pid="+pricePackage.getId()+"&cid="+cid+"\">Edit</a>\n" +
 "                                          <a style=\"text-decoration: none\" href = \"#\" onclick = \"ActionPricePackage("+pricePackage.getId()+","+pricePackage.getStatus().getId()+","+cid+","+pageIndex+")\">"+ (pricePackage.getStatus().getId() == 1 ? "Deactivate" : "Active")+"</a>\n" +
 "                                     </td>");
          }
@@ -92,6 +93,7 @@ public class AjaxPaginPricePackage_SubjectDetail extends HttpServlet {
         if(i > 0)
         response.getWriter().print("<li class=\"page-item\"><a class=\"page-link\" onclick =\"pagingPricePackage("+cid+","+i+")\">"+i+"</a></li>");
        }
+       if(totalPage > 0)
         response.getWriter().print("<li class=\"page-item active\"><a class=\"page-link\")\">"+pageIndex+"</a></li>");
        for(int i = pageIndex + 1; i <= pageIndex + gap; i++){
         if(i <= totalPage)

@@ -51,13 +51,18 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/popupNotiResogister.css">
         <style>
             .li-item{
-                width: 20%;
+                width: 30%;
             }
             .hiden1{
                 display: none;
             }
             .card-content > li {
                 font-size: 14px;
+            }
+            .pagger {
+                border: 1px dotted lightslategray;
+                font-size: 30px;
+                margin: 10px;
             }
         </style>
     </head>
@@ -87,12 +92,12 @@
                 </c:if>
 
                 <div class="breadcrumb-row">
-<!--                    <div class="container">
+                    <div class="container">
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
                             <li>Blog List Sidebar</li>
                         </ul>
-                    </div>-->
+                    </div>
                 </div>
                 <!-- Breadcrumb row END -->
                 <!-- contact area -->
@@ -118,7 +123,6 @@
 
                                                     <ul style="width: 100%" class="media-post">
                                                         <li class="li-item"><a href="#"><i class="fa fa-id-card"></i>id: ${requestScope.myCourses.get(i).course.courseId}</a></li>
-                                                        <li class="li-item"><a href="#">package: ${requestScope.myCourses.get(i).pricePackage.name}</a></li>
                                                         <li  class="li-item"><a href="#"><i class="fa fa-calendar"></i>
                                                                 <c:if test="${!requestScope.myCourses.get(i).registration_status}"> status: submitted </c:if>
                                                                 <c:if test="${requestScope.myCourses.get(i).registration_status}"> status: accepted </c:if>
@@ -137,17 +141,7 @@
                                     </div>
 
 
-                                    <!-- Pagination start -->
-                                   <div class="pagination-bx rounded-sm gray clearfix">
-                                        <ul class="pagination">
-                                            <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="myregistration?page=2">2</a></li>
-                                           
-                                            <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <!-- Pagination END -->
+
                                 </div>
                                 <!-- Left part END -->
                                 <!-- Side bar start -->
@@ -202,23 +196,57 @@
                     </div>
                 </div>
             </div>
+            <!-- Pagination start -->
+            <div id="paggerbot" class = "text-center" style="margin-bottom: 50px
+                 ">
+
+            </div>
+            <!-- Pagination END -->                                                
             <!-- Content END-->
 
 
-
             <!-- Footer ==== -->
-
+            <jsp:include page="../view/base/footer_t.jsp" />  
             <!-- Footer END ==== -->
             <!-- scroll top button -->
             <button class="back-to-top fa fa-chevron-up" ></button>
 
         </div>
         <script>
+            pagger("paggerbot",${requestScope.pageindex},${requestScope.totalpage}, 1);
+            function pagger(id, pageindex, totalpage, gap) {
+
+                var x = location.href;
+                var y = location.search;
+                var url = x.replace(y, '');
+
+                var container = document.getElementById(id);
+                var result = '';
+
+                if (pageindex - gap > 1)
+                    result += '<a class="pagger" href="' + url + '?page=1">First</a>';
+
+                for (var i = pageindex - gap; i < pageindex; i++)
+                    if (i > 0)
+                        result += '<a class="pagger" href="' + url + '?page=' + i + '">' + i + '</a>';
+
+                result += '<span class="pagger">' + pageindex + '</span>';
+
+                for (var i = pageindex + 1; i <= pageindex + gap; i++)
+                    if (i <= totalpage)
+                        result += '<a class="pagger" href="' + url + '?page=' + i + '">' + i + '</a>';
+
+                if (pageindex + gap < totalpage)
+                    result += '<a class="pagger" href="' + url + '?page=' + totalpage + '">Last</a>';
+                container.innerHTML = result;
+            }
+            ;
             BoxClose = function () {
                 document.querySelector(".box_notify").classList.add("hiden1");
-            }
+            };
 
         </script>
+        <script src="js/pager.js" type="text/javascript"></script>
         <!-- External JavaScripts -->
         <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/bootstrap/js/popper.min.js"></script>

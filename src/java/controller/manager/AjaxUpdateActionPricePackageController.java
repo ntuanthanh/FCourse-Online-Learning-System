@@ -50,7 +50,8 @@ public class AjaxUpdateActionPricePackageController extends HttpServlet {
                     " <td>"+pricePackage.getSalePrice()+" ($)</td>\n" +
                     " <td>"+pricePackage.getStatus().getName()+"</td>\n" +
                     " <td>\n" +
-                    "   <a style=\"margin-right: 5px; text-decoration: none \" href = \"#\">Edit</a>\n" +
+                    "   <a style=\"margin-right: 5px; text-decoration: none \" href = \"#\" onclick =\"DeletePricePackage("+pricePackage.getId()+","+cid+","+pageIndex+")\" >Delete</a>\n" +
+                    "   <a style=\"margin-right: 5px; text-decoration: none \" href = \"../../admin/pricepackage/edit?pid="+pricePackage.getId()+"&cid="+cid+"\">Edit</a>\n" +
                     "   <a style=\"text-decoration: none\" href = \"#\" onclick = \"ActionPricePackage("+pricePackage.getId()+","+pricePackage.getStatus().getId()+","+cid+","+pageIndex+")\">"+ (pricePackage.getStatus().getId() == 1 ? "Deactivate" : "Active")+"</a>\n" +
                     " </td>\n" +
                     " </tr>");

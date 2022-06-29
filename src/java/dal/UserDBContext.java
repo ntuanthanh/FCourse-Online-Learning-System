@@ -593,5 +593,38 @@ public class UserDBContext extends DBContext{
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
-    }  
+    }
+    /*
+     Dat inter 3   
+    */
+  public User getUserr(String email) {
+
+    try {
+        String sql = "SELECT * FROM [User] \n"
+                + "where email = ? \n";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setString(1, email);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            User user = new User();
+            user.setId(rs.getInt("Userid"));
+            user.setFullName(rs.getString("fullname"));
+            user.setEmail(rs.getString("email"));
+            user.setGender(rs.getBoolean("gender"));
+            user.setPhone(rs.getString("phone"));
+            user.setAvatarImage(rs.getString("avatar_img"));
+            // add dob in database ( fix 6/7/2022) 
+            user.setDob(rs.getDate("dob"));
+            // Take status of this User 
+            Status status = new Status();
+            status.setId(rs.getInt("Statusid"));
+            user.setStatus(status);
+            return user;
+        }
+
+    } catch (SQLException ex) {
+        Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return null;
+}
 }

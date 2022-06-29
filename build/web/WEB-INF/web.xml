@@ -156,6 +156,70 @@
         <servlet-name>BlogDetailDemoController</servlet-name>
         <servlet-class>controller.manager.BlogDetailDemoController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjaxDeletePricePackage_SubjectDetail</servlet-name>
+        <servlet-class>controller.manager.AjaxDeletePricePackage_SubjectDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditPricePackageController</servlet-name>
+        <servlet-class>controller.manager.EditPricePackageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddPricePackage</servlet-name>
+        <servlet-class>controller.manager.AddPricePackage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxSearchPricePackage_SubjectDetailController</servlet-name>
+        <servlet-class>controller.manager.AjaxSearchPricePackage_SubjectDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddPricePackage_systemController</servlet-name>
+        <servlet-class>controller.manager.AddPricePackage_systemController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxDeleteDimension_SubjectDetail</servlet-name>
+        <servlet-class>controller.manager.AjaxDeleteDimension_SubjectDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditDimensionController</servlet-name>
+        <servlet-class>controller.manager.EditDimensionController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddDimension</servlet-name>
+        <servlet-class>controller.manager.AddDimension</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxSearchDimension_subjectDetail</servlet-name>
+        <servlet-class>controller.manager.AjaxSearchDimension_subjectDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddDimension_systemController</servlet-name>
+        <servlet-class>controller.manager.AddDimension_systemController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrationsListController</servlet-name>
+        <servlet-class>controller.manager.RegistrationsListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LessonDetailController</servlet-name>
+        <servlet-class>controller.manager.LessonDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrationDetailsController</servlet-name>
+        <servlet-class>controller.manager.RegistrationDetailsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxSearchRegistrationDetail</servlet-name>
+        <servlet-class>controller.manager.AjaxSearchRegistrationDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxStartDate</servlet-name>
+        <servlet-class>controller.manager.AjaxStartDate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateRegisDetailController</servlet-name>
+        <servlet-class>controller.manager.updateRegisDetailController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -307,6 +371,70 @@
     <servlet-mapping>
         <servlet-name>BlogDetailDemoController</servlet-name>
         <url-pattern>/blog/demo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxDeletePricePackage_SubjectDetail</servlet-name>
+        <url-pattern>/deletePricePackage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditPricePackageController</servlet-name>
+        <url-pattern>/admin/pricepackage/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddPricePackage</servlet-name>
+        <url-pattern>/admin/pricepackage/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxSearchPricePackage_SubjectDetailController</servlet-name>
+        <url-pattern>/searchPricePackageAjax</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddPricePackage_systemController</servlet-name>
+        <url-pattern>/admin/pricepackage/addsystem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxDeleteDimension_SubjectDetail</servlet-name>
+        <url-pattern>/deleteDimension</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditDimensionController</servlet-name>
+        <url-pattern>/admin/dimension/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddDimension</servlet-name>
+        <url-pattern>/admin/dimension/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxSearchDimension_subjectDetail</servlet-name>
+        <url-pattern>/searchDimensionAjax</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddDimension_systemController</servlet-name>
+        <url-pattern>/admin/dimension/addsystem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrationsListController</servlet-name>
+        <url-pattern>/admin/registration/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LessonDetailController</servlet-name>
+        <url-pattern>/LessonDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrationDetailsController</servlet-name>
+        <url-pattern>/RegistrationDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxSearchRegistrationDetail</servlet-name>
+        <url-pattern>/AjaxSearchRegistrationDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxStartDate</servlet-name>
+        <url-pattern>/AjaxStartDate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateRegisDetailController</servlet-name>
+        <url-pattern>/updateRegisDetail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

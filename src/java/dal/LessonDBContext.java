@@ -328,4 +328,67 @@ public class LessonDBContext extends DBContext {
         }
         return -1;
     }
+    /*
+     Dat inter 3
+    */
+    public void INSERTLessonDetail(String videoLink, String LessonsName,
+            String Content, int StatusId, int TopicId, int LessonOder, String LessonType) {
+        try {
+            String sql = "INSERT INTO [Lessons]\n"
+                    + "           ([videoLink]\n"
+                    + "           ,[LessonsName]\n"
+                    + "           ,[Content]\n"
+                    + "           ,[StatusId]\n"
+                    + "           ,[TopicId]\n"
+                    + "           ,[LessonOder]\n"
+                    + "           ,[LessonType])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, videoLink);
+            stm.setString(2, LessonsName);
+            stm.setString(3, Content);
+            stm.setInt(4, StatusId);
+            stm.setInt(5, TopicId);
+            stm.setInt(6, LessonOder);
+            stm.setString(7, LessonType);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(LessonDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void updateLessonDetail(String lid, String videoLink, String LessonsName,
+            String Content, int StatusId, int TopicId, int LessonOder, String LessonType) {
+        try {
+            String sql = "UPDATE [Lessons] \n"
+                    + "   SET [videoLink] = ?\n"
+                    + "      ,[LessonsName] = ?\n"
+                    + "      ,[Content] = ?\n"
+                    + "      ,[StatusId] = ?\n"
+                    + "      ,[TopicId] = ?\n"
+                    + "      ,[LessonOder] = ?\n"
+                    + "      ,[LessonType] = ?\n"
+                    + " WHERE [Lessons].LessonId = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, videoLink);
+            stm.setString(2, LessonsName);
+            stm.setString(3, Content);
+            stm.setInt(4, StatusId);
+            stm.setInt(5, TopicId);
+            stm.setInt(6, LessonOder);
+            stm.setString(7, LessonType);
+            stm.setString(8, lid);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(LessonDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -264,10 +264,16 @@
                                 <span class="ttr-label">Question List</span>
                             </a>
                         </li>
-                        <li>
+<!--                        <li>
                             <a href="../post/list" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
                                 <span class="ttr-label">Post List</span>
+                            </a>
+                        </li>-->
+                        <li>
+                            <a href="${pageContext.request.contextPath}/admin/registration/list" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
+                                <span class="ttr-label">Registration List</span>
                             </a>
                         </li>
                         <li>

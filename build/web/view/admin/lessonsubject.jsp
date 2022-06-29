@@ -96,7 +96,7 @@
                                             <button type="submit" class="btn" >Search</button>
                                     </div>    
                                     </div>
-                                        
+                                 <a href="../LessonDetail?cid=${requestScope.cid}">add lesson</a>       
                                         
                                 </form>
                                 <div class="row">
@@ -117,7 +117,7 @@
                                                     <td class="table__content" data-heading="Points">${l.lessonorder}</td>
                                                     <td class="table__content" data-heading="Jersey Number">Subject Topic</td>
                                                     <td class="table__content" data-heading="Teams">${l.status.name}</td>
-                                                    <td class="table__content" data-heading="Career"><a href="#">Edit</a> | 
+                                                    <td class="table__content" data-heading="Career"><a href="../LessonDetail?cid=${requestScope.cid}&Lid=${l.id}">Edit</a> | 
                                                         <c:if test="${l.status.id==1}">
                                                             <a href="../lesson/updatestatus?lid=${l.id}&sid=${requestScope.sid}&cid=${requestScope.cid}&tid=${requestScope.tid}&name=${requestScope.name}">Inactive</a></td>
                                                         </c:if>

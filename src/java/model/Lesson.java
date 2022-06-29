@@ -18,7 +18,16 @@ public class Lesson {
     private int type;
     private int topicid;
     private int lessonorder;
+    private String LessonType;
 
+    public String getLessonType() {
+        return LessonType;
+    }
+
+    public void setLessonType(String LessonType) {
+        this.LessonType = LessonType;
+    }
+    
     public int getType() {
         return type;
     }
