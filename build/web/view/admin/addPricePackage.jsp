@@ -212,9 +212,11 @@
                                 <div class = "status_pricepackage">
                                     <span class = "font-weight-subject-overview">Status : </span>
                                     <select style="text-transform: capitalize" id="status_id" name = "status_id">
-                                        <c:forEach items="${requestScope.statuses}" var ="s">
+                                        <!-- <c:forEach items="${requestScope.statuses}" var ="s">
                                             <option value = "${s.id}">${s.name}</option>
-                                        </c:forEach>
+                                        </c:forEach> -->
+                                            <option value = "1">Active</option>
+                                            <option value = "2">Deactive</option>
                                     </select>
                                 </div>    
                                 <div class="col-12" style="margin-top: 10px; display: flex; justify-content: center">
@@ -277,6 +279,22 @@
         <div class="ttr-overlay"></div>
         <script>
             validateEditPricePackage();
+            <c:if test="${sessionScope.addPricePackage_mess!=null}">
+                Swal.fire(
+                    'Added successfully',
+                    'Added PricePackage to ${requestScope.course.title} successfully ',
+                    'success'
+                          )
+                <% request.getSession().setAttribute("addPricePackage_mess", null); %>
+            </c:if>
+            <c:if test="${sessionScope.addPricePackageSystem_mess!=null}">
+                Swal.fire(
+                    'Added successfully',
+                    'Added PricePackage to Fcourse System successfully ',
+                    'success'
+                          )
+                <% request.getSession().setAttribute("addPricePackageSystem_mess", null); %>
+            </c:if>
             // Xử lí bên tìm kiếm pricepackage và gán pricepackage
            var close = document.querySelectorAll('.delete-pricepackage');
             var num = close.length;

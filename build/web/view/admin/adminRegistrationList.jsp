@@ -5,6 +5,7 @@
 --%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -85,7 +86,7 @@
                 color: #333;
             }
             .advanced-search .advanced-search-item{
-                flex-basis: 24%; 
+                flex-basis: 32%; 
             }
             .advanced-search .second{
                 margin-top: 2px;
@@ -121,11 +122,11 @@
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
         <jsp:include page="../../view/admin/header_admin.jsp" /> 
         <!--Main container start -->
-        <main class="ttr-wrapper">
+        <main class="ttr-wrapper"> 
         <div class="container mt-3">
             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid black">
                 <h2 style="color: #F68051">Registration List</h2>
-                <button onclick="addRegistration()" type="button" class="btn btn-primary">
+                <button onclick="addRegistration()" style="margin-bottom: 5px" type="button" class="btn btn-primary">
                     Add Registration
                 </button>
             </div>
@@ -133,10 +134,10 @@
             <!--Form search-->
             <form action = "list" method="GET">
                 <div class="advanced-search">
-                    <div class = "advanced-search-item">
+<!--                    <div class = "advanced-search-item">
                         <label for="sort">Sorted By</label>
                         <select class="form-control" id="sort" name = "sort">
-<!--                            <option value selected = "selected">Select The Field To Sort</option>-->
+                            <option value selected = "selected">Select The Field To Sort</option>
                             <option ${requestScope.sort == "0"?"selected = selected":""} value = "0">Sorted by id ascending</option>
                             <option ${requestScope.sort == "1"?"selected = selected":""} value = "1">Sorted by id descending</option>
                             <option ${requestScope.sort == "2"?"selected = selected":""} value = "2">Sorted by email ascending</option>
@@ -152,13 +153,14 @@
                             <option ${requestScope.sort == "12"?"selected = selected":""} value = "12">Sorted by valid to ascending</option>
                             <option ${requestScope.sort == "13"?"selected = selected":""} value = "13">Sorted by valid to descending</option>                                    
                         </select>
-                    </div>
+                    </div>-->
                     <div class = "advanced-search-item">
                         <label for="status">Search by status</label>
                         <select class="form-control" id="status" name = "status">
                             <option value>Select the status to search</option>
-                            <option ${requestScope.status == "1"?"selected = selected":""} value = "1">Active</option>
-                            <option ${requestScope.status == "0"?"selected = selected":""} value = "0">Deactive</option>
+                            <option ${requestScope.status == "3"?"selected = selected":""} value = "3">Success</option>
+                            <option ${requestScope.status == "4"?"selected = selected":""} value = "4">Cancelled</option>
+                            <option ${requestScope.status == "5"?"selected = selected":""} value = "5">Submitted</option>
                         </select>
                     </div>
                     <div class = "advanced-search-item">
@@ -166,7 +168,7 @@
                         <input onchange="myFrom()" max="" value="${requestScope.registrationtimefrom}" type="date" class="form-control" name ="registrationtimefrom" id="registrationtimefrom">
                     </div>
                     <div class = "advanced-search-item">
-                        <label for="registrationtimefrom">Registration Time To</label>
+                        <label for="registrationtimeto">Registration Time To</label>
                         <input onchange="myTo()" min="" value="${requestScope.registrationtimeto}" type="date" class="form-control" name ="registrationtimeto" id="registrationtimeto">
                     </div>
                     <div class = "advanced-search-item second">
@@ -187,30 +189,62 @@
             <table class="table table-hover">
                 <thead>
                     <tr class = "bg-warning">
-                        <th scope="col">ID</th>
-                        <th scope="col">Email (Register) </th>
-                        <th scope="col">RegistrationTime</th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Package</th>
-                        <th scope="col">Total cost</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">
+                            <span style="cursor: pointer" onclick="sort(${requestScope.sortId})">ID <i class="fa fa-sort" aria-hidden="true"></i></span>                      
+                        </th>
+                        <th scope="col">
+                            <span style="cursor: pointer" onclick ="sort(${requestScope.sortEmail})"> Email(Register) <i class="fa fa-sort" aria-hidden="true"></i></span>
+<!--                        <div>
+                                <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                                <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                            </div>-->
+                        </th>
+                        <th scope="col">
+                            <span style="cursor: pointer" onclick ="sort(${requestScope.sortRegisTime})">Regis Time <i class="fa fa-sort" aria-hidden="true"></i></span>
+                        </th>
+                        <th scope="col">
+                           <span style="cursor: pointer" onclick ="sort(${requestScope.sortSubject})">Subject <i class="fa fa-sort" aria-hidden="true"></i></span>
+                        </th>
+                        <th scope="col">
+                            <span style="cursor: pointer" onclick ="sort(${requestScope.sortPackage})">Package <i class="fa fa-sort" aria-hidden="true"></i></span>
+                        </th>
+                        <th scope="col">
+                            <span style="cursor: pointer" onclick ="sort(${requestScope.sortTotalCost})">Total cost <i class="fa fa-sort" aria-hidden="true"></i></span>
+                        </th>
+                        <th scope="col">
+                            <span style="cursor: pointer" onclick ="sort(${requestScope.sortStatus})">Status <i class="fa fa-sort" aria-hidden="true"></i></span>
+                        </th>
 <!--                        <th scope="col">Valid from</th>
                         <th scope="col">Valid to</th>-->
-                        <th scope="col">Updated by user</th>
-                        <th scope="col">Edit</th>
-<!--                        <th scope="col">Delete</th>-->
+                        <th scope="col">
+                            Updated by
+                        </th>
+                        <th scope="col">Edit
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach items="${requestScope.usercourses}" var="uc"> 
                         <tr>
-                            <th scope="row">${uc.userCourseId}</th>
+                            <th scope="row" style="">${uc.userCourseId}</th>
                             <td>${uc.user.email}</td>
                             <td>${uc.startDate}</td>
-                            <td>${uc.course.title}</td>
+                            <c:set var="titles" value="${fn:split(uc.course.title, ' ')}"/>
+                            <td>${titles[0]} ${titles[1]}...</td>
                             <td>${uc.pricePackage.name}</td>
                             <td>${uc.pricePackage.salePrice}($)</td>
-                            <td>${uc.registration_status==true?"Active":"Deactive"}</td>
+                            <td>
+                                <!--${uc.registration_status.name} -->
+                                <c:if test = "${uc.registration_status.id == 3}">
+                                    Success
+                                </c:if>
+                                <c:if test = "${uc.registration_status.id == 4}">
+                                    Cancel
+                                </c:if>
+                                <c:if test = "${uc.registration_status.id == 5}">
+                                    Submit
+                                </c:if>
+                            </td>
                             <td>${uc.updateBy.fullName}</td>
                             <td><button type="button" onclick="editRegistration(${uc.userCourseId})" class="btn btn-info">Edit</button></td>
 <!--                            <td>
@@ -248,6 +282,10 @@
             }
             function addRegistration(){
                 window.location.href = "../../RegistrationDetails";
+            }
+            function sort(SortId){
+                var url = 'list?sort='+SortId+'&status=${requestScope.status}&registrationtimefrom=${requestScope.registrationtimefrom}&registrationtimeto=${requestScope.registrationtimeto}&title=${requestScope.title}&email=${requestScope.email}&page=${requestScope.pageIndex}';
+                window.location.href = url;
             }
         </script>
         <script src="/summer2022-se1616-g4/view/admin/assets/js/jquery.min.js"></script>

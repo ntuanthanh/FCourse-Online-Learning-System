@@ -112,6 +112,12 @@
                 display: inline-block;
             }
         </style>
+        <!-- Nhung Alert-->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="sweetalert2.all.min.js"></script>
+        <script src="sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css"> 
+        <script src="/summer2022-se1616-g4/js/validationForm/validateForm.js" type="text/javascript"></script>
     </head>
 
     <body id="bg">
@@ -286,6 +292,14 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.cslider.js"></script>
 <script type="text/javascript">
+    <c:if test="${sessionScope.quizHandle_mess!=null}">
+                Swal.fire(
+                    'Submit successfully',
+                    'Submit successfully ',
+                    'success'
+                          )
+                <% request.getSession().setAttribute("quizHandle_mess", null); %>
+            </c:if>
     $(function () {
 
         $('#da-slider').cslider({

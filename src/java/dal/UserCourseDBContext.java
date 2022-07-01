@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Course;
 import model.PricePackage;
+import model.Status;
 import model.User;
 import model.UserCourse;
 
@@ -113,7 +114,10 @@ public class UserCourseDBContext extends DBContext {
                 uc.setCourse(Course);
                 uc.setStartDate(rs.getDate("Startdate"));
                 uc.setEndDate(rs.getDate("enddate"));
-                uc.setRegistration_status(rs.getBoolean("registration_status"));
+                // 
+                Status s = new Status();
+                s.setId(rs.getInt("registration_status"));
+                uc.setRegistration_status(s); // Vì sửa bảng status từ boolean sang Status ( code của ai k biết - người sửa Thành ( 30/6/2022 ) 
                 PricePackageDBContext ppdbc = new PricePackageDBContext();
                 PricePackage pk = ppdbc.getPackage(rs.getInt("price_packageid"));
                 uc.setPricePackage(pk);
@@ -153,7 +157,9 @@ public class UserCourseDBContext extends DBContext {
                 p.setId(rs.getInt(6));
 
                 uc.setPricePackage(p);
-                uc.setRegistration_status(rs.getBoolean(7));
+                Status s = new Status();
+                s.setId(rs.getInt("registration_status"));
+                uc.setRegistration_status(s);  // Vì sửa bảng status từ boolean sang Status ( code của ai k biết - người sửa Thành ( 30/6/2022 ) 
                 return uc;
 
             }
@@ -219,10 +225,10 @@ public class UserCourseDBContext extends DBContext {
     /*
       Tuanthanh 28/06/2022
     */
-    public ArrayList<UserCourse> advancedSearchRegistration(int sort, String title, Date registrationFrom,Date registrationTo, Boolean status, String Email, int pageIndex, int pageSize ){
+    public ArrayList<UserCourse> advancedSearchRegistration(int sort, String title, Date registrationFrom,Date registrationTo, int status, String Email, int pageIndex, int pageSize ){
         ArrayList<UserCourse> usercourses = new ArrayList<>();
         try {
-            String sql = "select * from ( select uc.usercourseId, u.Userid, u.fullname, u.email, uc.Courseid, c.title, uc.Startdate, uc.enddate, uc.price_packageid, p.[name] as pname, p.sale_price as totalCost , uc.registration_status, \n" +
+            String sql = "select * from ( select uc.usercourseId, u.Userid, u.fullname, u.email, uc.Courseid, c.title, uc.Startdate, uc.enddate, uc.price_packageid, p.[name] as pname, p.sale_price as totalCost , uc.registration_status, s.Sname, \n" +
                     "	    updateBy.Userid as updateById, updateBy.fullname as updateByFullName, updateBy.email as updateByEmail ,";
             switch (sort) {
                 case 0:
@@ -268,10 +274,10 @@ public class UserCourseDBContext extends DBContext {
                     break;
                     // valid to ( bỏ qua valid from ) 
                 case 12:
-                    sql += " ROW_NUMBER() OVER(order by uc.enddate asc) as row_index ";
+                    sql += " ROW_NUMBER() OVER(order by s.sname asc) as row_index ";
                     break;
                 case 13:
-                    sql += " ROW_NUMBER() OVER(order by uc.enddate desc) as row_index ";
+                    sql += " ROW_NUMBER() OVER(order by s.sname desc) as row_index ";
                     break; 
                 default:
                     break;              
@@ -281,6 +287,7 @@ public class UserCourseDBContext extends DBContext {
                     "                    INNER JOIN Courses as c on uc.Courseid = c.CourseId\n" +
                     "	             INNER JOIN Price_Package as p on uc.price_packageid = p.id\n" +
                     "		     INNER JOIN [User] as updateBy on uc.UpdateBy = updateBy.Userid\n" +
+                    "                INNER JOIN  [Status] as s on uc.registration_status = s.[Sid] \n"+
                     "	             And (1=1) ";
             HashMap<Integer, Object[]> parameters = new HashMap<>();
             int paramIndex = 0;
@@ -300,11 +307,11 @@ public class UserCourseDBContext extends DBContext {
                 param[1] = Email;
                 parameters.put(paramIndex, param);
             }
-            if (status != null) {
+            if (status != -1) {
                 sql += "And uc.registration_status = ? ";
                 paramIndex++;
                 Object[] param = new Object[2];
-                param[0] = Boolean.class.getTypeName();
+                param[0] = Integer.class.getTypeName();
                 param[1] = status;
                 parameters.put(paramIndex, param);
             }
@@ -397,7 +404,10 @@ public class UserCourseDBContext extends DBContext {
                pricePackage.setSalePrice(rs.getFloat("totalCost"));
                userCourse.setPricePackage(pricePackage);
                // registration_status
-               userCourse.setRegistration_status(rs.getBoolean("registration_status"));
+               Status s = new Status();
+               s.setId(rs.getInt("registration_status"));
+               s.setName(rs.getString("Sname"));
+               userCourse.setRegistration_status(s);
                // updateBy
                User updateBy = new User(); 
                updateBy.setId(rs.getInt("updateById"));
@@ -412,7 +422,7 @@ public class UserCourseDBContext extends DBContext {
         return usercourses;
     }
     
-    public int CountAdvancedSearchRegistration(int sort, String title, Date registrationFrom,Date registrationTo, Boolean status, String Email){
+    public int CountAdvancedSearchRegistration(int sort, String title, Date registrationFrom,Date registrationTo, int status, String Email){
         ArrayList<UserCourse> usercourses = new ArrayList<>();
         try {
             String sql = "select Count(*) as Total from ( select uc.usercourseId, u.Userid, u.fullname, u.email, uc.Courseid, c.title, uc.Startdate, uc.enddate, uc.price_packageid, p.[name] as pname, p.sale_price as totalCost , uc.registration_status, \n" +
@@ -461,10 +471,10 @@ public class UserCourseDBContext extends DBContext {
                     break;
                     // valid to ( bỏ qua valid from ) 
                 case 12:
-                    sql += " ROW_NUMBER() OVER(order by uc.enddate asc) as row_index ";
+                    sql += " ROW_NUMBER() OVER(order by s.sname asc) as row_index ";
                     break;
                 case 13:
-                    sql += " ROW_NUMBER() OVER(order by uc.enddate desc) as row_index ";
+                    sql += " ROW_NUMBER() OVER(order by s.sname desc) as row_index ";
                     break; 
                 default:
                     break;              
@@ -493,11 +503,11 @@ public class UserCourseDBContext extends DBContext {
                 param[1] = Email;
                 parameters.put(paramIndex, param);
             }
-            if (status != null) {
+            if (status != -1) {
                 sql += "And uc.registration_status = ? ";
                 paramIndex++;
                 Object[] param = new Object[2];
-                param[0] = Boolean.class.getTypeName();
+                param[0] = Integer.class.getTypeName();
                 param[1] = status;
                 parameters.put(paramIndex, param);
             }
@@ -553,7 +563,10 @@ public class UserCourseDBContext extends DBContext {
     
     
     /*
-      Dat inter 3
+      Dat inter 3 đã fix
+    */
+/*
+      Dat inter 3 30/6
     */
      public void updateUcDetail2(UserCourse uc, int ucid) {
         try {
@@ -564,7 +577,6 @@ public class UserCourseDBContext extends DBContext {
                     + "      ,[enddate] = ?\n"
                     + "      ,[price_packageid] = ?\n"
                     + "      ,[registration_status] = ?\n"
-                    + "      ,[createby] = ?\n"
                     + "      ,[updateby] = ?\n"
                     + " WHERE [usercourseId] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -573,23 +585,22 @@ public class UserCourseDBContext extends DBContext {
             stm.setDate(3, uc.getStartDate());
             stm.setDate(4, uc.getEndDate());
             stm.setInt(5, uc.getPricePackage().getId());
-            stm.setBoolean(6, uc.isRegistration_status());
-            stm.setInt(7, uc.getCreateBy().getId());
-            stm.setInt(8, uc.getUpdateBy().getId());
-            stm.setInt(9, ucid);
+            stm.setInt(6, uc.getRegistration_status().getId());
+            stm.setInt(7, uc.getUpdateBy().getId());
+            stm.setInt(8, ucid);
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserCourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void updateStatus(boolean status, int ucid) {
+    public void updateStatus(int status, int ucid) {
         try {
             String sql = "UPDATE [User_Course]\n"
                     + "   SET [registration_status] = ?\n"
                     + " WHERE [User_Course].usercourseId=?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setBoolean(1, status);
+            stm.setInt(1, status);
             stm.setInt(2, ucid);
             stm.executeUpdate();
         } catch (SQLException ex) {
@@ -626,7 +637,9 @@ public class UserCourseDBContext extends DBContext {
                 PricePackageDBContext ppdbc = new PricePackageDBContext();
                 PricePackage p = ppdbc.getPackage(rs.getInt("price_packageid"));
                 uc.setPricePackage(p);
-                uc.setRegistration_status(rs.getBoolean("registration_status"));
+                Status s = new Status();
+                s.setId(rs.getInt("registration_status"));   
+                uc.setRegistration_status(s);
                 UserDBContext udbc1 = new UserDBContext();
                 User u1 = udbc1.getUserById(rs.getInt("createby"));
                 UserDBContext udbc2 = new UserDBContext();
@@ -668,12 +681,51 @@ public class UserCourseDBContext extends DBContext {
             stm.setDate(3, uc.getStartDate());
             stm.setDate(4, uc.getEndDate());
             stm.setInt(5, uc.getPricePackage().getId());
-            stm.setBoolean(6, uc.isRegistration_status());
+            stm.setInt(6, uc.getRegistration_status().getId());
             stm.setInt(7, uc.getCreateBy().getId());
             stm.setInt(8, uc.getUpdateBy().getId());
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserCourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public UserCourse getUserCouByUidCid1(int userid, int courseid) {
+
+        try {
+            String sql = "select uc.usercourseId,\n" +
+    "	uc.Userid, uc.Courseid,uc.Startdate,\n" +
+    "	uc.enddate,uc.price_packageid,uc.registration_status,\n" +
+    "	uc.createby,uc.updateby\n" +
+    " from User_Course uc\n" +
+    " where Userid = ? and Courseid = ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userid);
+            stm.setInt(2, courseid);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                UserCourse uc = new UserCourse();
+                Course c = new Course();
+                User u = new User();
+                PricePackage p = new PricePackage();
+                uc.setUserCourseId(rs.getInt("usercourseId"));
+                u.setId(rs.getInt("Userid"));
+                uc.setUser(u);
+                c.setCourseId(rs.getInt("Courseid"));
+                uc.setCourse(c);
+                uc.setStartDate(rs.getDate("Startdate"));
+                uc.setEndDate(rs.getDate("enddate"));
+                p.setId(rs.getInt("price_packageid"));
+                uc.setPricePackage(p);
+                Status s = new Status();
+                s.setId(rs.getInt("registration_status"));   
+                uc.setRegistration_status(s);
+                return uc;
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserCourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

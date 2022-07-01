@@ -128,7 +128,7 @@ public class CourseDBContext extends DBContext {
                 + "			ROW_NUMBER() over (order by c.CourseId asc ) as row_index\n"
                 + "            from  [User] u inner join User_Course uc on u.Userid=uc.Userid\n"
                 + "                		inner join Courses c on uc.Courseid = c.CourseId\n"
-                + "			where u.Userid = ? and uc.registration_status = 'true'\n"
+                + "			where u.Userid = ? \n"
                 + "			) u\n"
                 + " where row_index >= (?-1) * ? + 1 and row_index <= ?*? ";
         try {
@@ -156,7 +156,8 @@ public class CourseDBContext extends DBContext {
                 category.setCategoryID(rs.getInt("Categoryid"));
                 Course.setCategory(category);
                 Status a = new Status();
-                Course.setStatus(a);
+//                a.setId(rs.getInt(""));
+//                Course.setStatus(a);
                 Courses.add(Course);
             }
             return Courses;
@@ -166,7 +167,7 @@ public class CourseDBContext extends DBContext {
         return null;
     }
 
-    public int count(int Userid) {
+   public int count(int Userid) {
         PreparedStatement stm=null;
         ResultSet rs =null;
         try {
@@ -186,7 +187,7 @@ public class CourseDBContext extends DBContext {
 "                                   	from \n" +
 "                                  [User] u inner join User_Course uc on u.Userid=uc.Userid\n" +
 "                                    		inner join Courses c on uc.Courseid = c.CourseId) u)a\n" +
-"                                where a.Userid =  ? and a.registration_status ='true'";
+"                                where a.Userid =  ? ";
              stm = connection.prepareStatement(sql);
             stm.setInt(1, Userid);
              rs = stm.executeQuery();
@@ -1199,5 +1200,234 @@ public class CourseDBContext extends DBContext {
             Logger.getLogger(QuestionDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    /*
+       Hoa inter 3, ngày 7/1/2022
+    */
+    // Total
+    public int totalCourse() {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select count(*) as Total from courses ";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int newCourse() {
+        try {
+            String sql = "select count(*) as Total1 from \n"
+                    + "(select top (7) CourseId ,createdate from \n"
+                    + "(select CourseId, createdate from courses group by createdate,CourseId )  \n"
+                    + " as t order by createdate desc) as c ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total1");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int totalCustomer() {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select count(Distinct UserId) as Total2 from User_Course ";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total2");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int newCustomer() {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select count(Distinct UserId) as Total from (\n"
+                    + "select Top(7) UserId,Startdate from (\n"
+                    + "select Userid, Startdate from User_Course \n"
+                    + "group by Userid,Startdate ) as c  order by Startdate desc ) as d ";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int totalRevenues() {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select SUM(sale_price) as Total \n"
+                    + "from User_Course as c inner join Price_Package as p\n"
+                    + "on c.price_packageid = p.id ";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int newRevenues() {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = " select SUM(sale_price) as Total from (\n"
+                    + "select Top (7) sale_price, Startdate from\n"
+                    + "(select c.Startdate, p.sale_price\n"
+                    + "from User_Course as c inner join Price_Package as p\n"
+                    + "on c.price_packageid = p.id )  as d \n"
+                    + "order by d.Startdate desc) \n"
+                    + "as m ";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    // registration
+    public int registrationStatus(String status, String from, String to) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = " select count(*) as Total from User_Course as r \n"
+                    + "inner join [Status] as s on r.registration_status = s.Sid \n"
+                    + "where s.Sname like ? and r.Startdate >= ? and r.Startdate <= ? ";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, status);
+            stm.setString(2, from);
+            stm.setString(3, to);
+
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int customCategory(int id, String from, String to) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = " select count(Distinct u.Userid) as Total  from User_Course as u \n"
+                    + "inner join Courses as c on c.CourseId = u.Courseid\n"
+                    + "inner join [Status] as s on s.Sid = u.registration_status \n"
+                    + "inner join Category as cg on cg.Categoryid = c.Categoryid\n"
+                    + "inner join parentCategory as pc on pc.id = cg.parentId\n"
+                    + "where pc.id = ? and Startdate >= ? and Startdate <= ?  ";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.setString(2, from);
+            stm.setString(3, to);
+
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int customSuc(int id, String from, String to) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = " select count(Distinct u.Userid) as Total  from User_Course as u \n"
+                    + "inner join Courses as c on c.CourseId = u.Courseid\n"
+                    + "inner join [Status] as s on s.Sid = u.registration_status \n"
+                    + "inner join Category as cg on cg.Categoryid = c.Categoryid\n"
+                    + "inner join parentCategory as pc on pc.id = cg.parentId\n"
+                    + "where pc.id = ? and Startdate >= ? and Startdate <= ? and s.Sname like 'success'  ";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.setString(2, from);
+            stm.setString(3, to);
+
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int orderSuc(String date) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = " select count(*) as Total  from User_Course as u \n"
+                    + "inner join Courses as c on c.CourseId = u.Courseid\n"
+                    + "inner join [Status] as s on s.Sid = u.registration_status \n"
+                    + "inner join Category as cg on cg.Categoryid = c.Categoryid\n"
+                    + "inner join parentCategory as pc on pc.id = cg.parentId\n"
+                    + "where Startdate like ? and s.Sname = 'success'  ";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, date);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public int order(String date) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = " select count(*) as Total  from User_Course as u \n"
+                    + "inner join Courses as c on c.CourseId = u.Courseid\n"
+                    + "inner join [Status] as s on s.Sid = u.registration_status \n"
+                    + "inner join Category as cg on cg.Categoryid = c.Categoryid\n"
+                    + "inner join parentCategory as pc on pc.id = cg.parentId\n"
+                    + "where Startdate like ? ";
+            stm = connection.prepareStatement(sql);
+            // stm.setInt(1, id);
+            stm.setString(1, date);
+
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
 }

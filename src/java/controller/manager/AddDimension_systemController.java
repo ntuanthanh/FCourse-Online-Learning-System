@@ -39,6 +39,8 @@ public class AddDimension_systemController extends HttpServlet {
         // add
         DimensionDBContext dimensionDB = new DimensionDBContext();
         dimensionDB.AddDimension(d);
+        // Lưu message bằng session, hiện thị trong thì xóa nó đi 
+        request.getSession().setAttribute("addDimensionSystem_mess", "addDimensionSystem_mess");
         response.sendRedirect("../../admin/dimension/add?cid="+cid);
     }
 

@@ -32,6 +32,11 @@
         <link class="skin" rel="stylesheet" type="text/css" href="view/admin/assets/css/color/color-1.css"/>
         <script src="js/ImgPreview/imgPreview.js" type="text/javascript"></script>
         <script src="//cdn.ckeditor.com/4.19.0/basic/ckeditor.js"></script>
+         <!-- Nhung Alert-->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="sweetalert2.all.min.js"></script>
+        <script src="sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css"> 
         <Style>
             .abc {
                 padding: 0% 2% 3% 2%;
@@ -135,7 +140,7 @@
                 </div>
                 <div class="abc " id="htmlconten">
                     HTML Content <br>
-                    <textarea name="htmlcontent" 
+                    <textarea class="ckeditor" name="htmlcontent" 
                               required  style="width: 97%; height: 150px;" >
                         <c:if test="${requestScope.Lesson!=null}">
                             ${requestScope.Lesson.content}  </c:if>
@@ -153,7 +158,14 @@
         </main>
 
         <script>
-            
+            <c:if test="${sessionScope.Lesson_successful!=null}">
+                Swal.fire(
+                        'Added successfully',
+                        'Added successfully ',
+                        'success'
+                            )
+                <% request.getSession().setAttribute("Lesson_successful", null); %>
+            </c:if>
             function doload()
             {
                 var a = document.getElementById("selecttype").value;

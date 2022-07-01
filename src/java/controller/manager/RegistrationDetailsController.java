@@ -37,22 +37,21 @@ import utility.SendEmail;
  *
  * @author thand
  */
-public class RegistrationDetailsController extends BaseAuthController {
+public class RegistrationDetailsController extends HttpServlet {
 
     @Override
-    protected void processGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String ucid = request.getParameter("ucid");
-//        request.getSession().setAttribute("u", 1015);
         LocalDate a = java.time.LocalDate.now();
 //        ucid = "1";
         if (ucid != null && ucid.trim().length() > 0) {
             UserCourseDBContext ucdbc = new UserCourseDBContext();
             UserCourse uc = ucdbc.geUCourses(Integer.parseInt(ucid));
-            
+
             UserDBContext udbc = new UserDBContext();
             User create = uc.getCreateBy();
-            
+
             String p = request.getParameter("pid");
             int pid = 1;
             if (p != null && p.trim().length() > 0) {
@@ -64,10 +63,12 @@ public class RegistrationDetailsController extends BaseAuthController {
             request.setAttribute("pr", pr);
             Date startdate = uc.getStartDate();
             Date endate = uc.getEndDate();
+            SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
+            String edate = dt1.format(endate);
             request.getSession().setAttribute("a", a);
             request.setAttribute("date", startdate);
-            request.setAttribute("pid", pid);
-            request.setAttribute("enddate", endate);
+            request.setAttribute("pid", uc.getPricePackage().getId());
+            request.setAttribute("enddate", edate);
             Course Course = uc.getCourse();
             User user = uc.getUser();
             request.setAttribute("uc", uc);
@@ -99,7 +100,7 @@ public class RegistrationDetailsController extends BaseAuthController {
             Calendar c1 = Calendar.getInstance();
             c1.setTime(date);
             c1.add(Calendar.MONTH, (pr.getDuration()));
-            
+
             TimeZone tz = c1.getTimeZone();
             // Getting zone id
             ZoneId zoneId = tz.toZoneId();
@@ -120,141 +121,148 @@ public class RegistrationDetailsController extends BaseAuthController {
     }
 
     @Override
-    protected void processPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User usersale = (User) request.getSession().getAttribute("user");
-        String abcd = request.getParameter("abcd");
-        
-            String cid = request.getParameter("cid");
-            String a = request.getParameter("status") + "";
-            int status = 0;
-            if (a.equals("Active")) {
-                status = 1;
-            }
-            String p = request.getParameter("package");
-            int pid = 1;
-            if (p != null && p.trim().length() > 0) {
-                pid = Integer.parseInt(p);
-            }
-            PricePackageDBContext pdb = new PricePackageDBContext();
-            PricePackage pr = pdb.getPackage(pid);
-            String sdate = request.getParameter("sdate");
 
-            Date starDate = Date.valueOf(sdate);
-            String edate = request.getParameter("edate");
-            SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
-            String zz = "2022-08-01";
-            try {
-                java.util.Date y = dt1.parse(edate);
-                SimpleDateFormat dt2 = new SimpleDateFormat("yyyy-mm-dd");
-                zz = dt2.format(y);
-            } catch (ParseException ex) {
-                Logger.getLogger(RegistrationDetailsController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Date endDate = Date.valueOf(zz);
-            String cname = request.getParameter("cname");
-            String email = request.getParameter("email");
-            String mobile = request.getParameter("mobile");
-            String gen = request.getParameter("gender");
-            boolean gender = true;
-            if (gen.equals("female")) {
-                gender = false;
-            }
-            User user = new User();
-            user.setEmail(email);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            UserCourse uc = new UserCourse();
-            UserDBContext udb = new UserDBContext();
-            Course c = new Course();
-            UserCourseDBContext ucdb = new UserCourseDBContext();
-            c.setCourseId(Integer.parseInt(cid));
-            if (udb.CheckEmailExist(email.trim()) == true) {
-                User u = udb.getUserr(email);
-                UserCourse userc = ucdb.getUserCourseByUidCid(u.getId(), Integer.parseInt(cid));
-                if (userc == null) {
-                    System.out.println("1111");
-                    uc.setUser(u);
-                    uc.setCourse(c);
-                    uc.setStartDate(starDate);
-                    uc.setEndDate(endDate);
-                    uc.setPricePackage(pr);
-                    Status st1 = new Status();
-                    st1.setId(status);
-                    if (status == 1) {
-                        uc.setRegistration_status(true);
-                    } else {
-                        uc.setRegistration_status(false);
-                    }
-                    uc.setCreateBy(usersale);
-                    uc.setUpdateBy(usersale);
-                    ucdb.insertUcDetail(uc);
+        String cid = request.getParameter("cid");
+        String sta = request.getParameter("status");
+
+        String p = request.getParameter("package");
+        int pid = 1;
+        if (p != null && p.trim().length() > 0) {
+            pid = Integer.parseInt(p);
+        }
+        PricePackageDBContext pdb = new PricePackageDBContext();
+        PricePackage pr = pdb.getPackage(pid);
+        String sdate = request.getParameter("sdate");
+        Date starDate = Date.valueOf(sdate);
+        String edate = request.getParameter("edate");
+        System.out.println("aaadd" + edate);
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
+        String zz = "2022-08-01";
+        try {
+            java.util.Date y = dt1.parse(edate);
+            SimpleDateFormat dt2 = new SimpleDateFormat("yyyy-mm-dd");
+            zz = dt2.format(y);
+        } catch (ParseException ex) {
+            Logger.getLogger(RegistrationDetailsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Date endDate = Date.valueOf(zz);
+        String cname = request.getParameter("cname");
+        String email = request.getParameter("email");
+        String mobile = request.getParameter("mobile");
+        String gen = request.getParameter("gender");
+        boolean gender = true;
+        if (gen.equals("female")) {
+            gender = false;
+        }
+        User user = new User();
+        user.setEmail(email);
+        UserCourse uc = new UserCourse();
+        UserDBContext udb = new UserDBContext();
+        Course c = new Course();
+        UserCourseDBContext ucdb = new UserCourseDBContext();
+        c.setCourseId(Integer.parseInt(cid));
+        if (udb.CheckEmailExist(email.trim()) == true) {
+            User u = udb.getUserr(email);
+            UserCourse userc = ucdb.getUserCouByUidCid1(u.getId(), Integer.parseInt(cid));
+            if (userc == null) {
+                System.out.println("1111");
+                uc.setUser(u);
+                uc.setCourse(c);
+                uc.setStartDate(starDate);
+                uc.setEndDate(endDate);
+                uc.setPricePackage(pr);
+                Status st1 = new Status();
+
+                if (sta.equalsIgnoreCase("Success")) {
+                    st1.setId(3);
+                } else if (sta.equalsIgnoreCase("Submitted")) {
+                    st1.setId(5);
                 } else {
-                    if (userc.isRegistration_status()) {
-                        System.out.println("2222");
-                        Date dateBefore = userc.getEndDate();
-                        Date startdates = dateBefore;
-                        Calendar c1 = Calendar.getInstance();
-                        c1.setTime(startdates);
-                        c1.add(Calendar.MONTH, (pr.getDuration()));
-                        TimeZone tz = c1.getTimeZone();
-                        // Getting zone id
-                        ZoneId zoneId = tz.toZoneId();
-                        // conversion
-                        LocalDateTime localDateTime = LocalDateTime.ofInstant(c1.toInstant(), zoneId);
-                        String z = localDateTime.toString();
-                        String[] time = z.split("T");
-                        Date edates = Date.valueOf(time[0]);
-                        userc.setStartDate(startdates);
-                        userc.setEndDate(edates);
-                        if (status == 1) {
-                            userc.setRegistration_status(true);
-                        } else {
-                            userc.setRegistration_status(false);
-                        }
-                        userc.setCreateBy(usersale);
-                        userc.setUpdateBy(usersale);
-                        ucdb.insertUcDetail(userc);
-                    } else {
-//                    update ngay thang
-                    }
+                    st1.setId(4);
                 }
-
+                uc.setRegistration_status(st1);
+                uc.setCreateBy(usersale);
+                uc.setUpdateBy(usersale);
+                ucdb.insertUcDetail(uc);
             } else {
-                user.setFullName(cname);
-                user.setPhone(mobile);
-                user.setGender(gender);
-                String password = "123@123";
-                user.setPassword(password);
-                Status s = new Status();
-                s.setId(1);
-                user.setStatus(s);
-                user.setAvatarImage("non-avatar.png");
-                UserDBContext db = new UserDBContext();
-                int userid = db.insertUser(user);
-                String link = "";
-                link = "http://localhost:8080" + request.getContextPath() + "/user/verify?id=" + userid;
-                SendEmail y = new SendEmail();
-                y.send(email, content(link, password), "Action Required: Confirm your email.");
-//            role
-                UserRoleDBContext urdb = new UserRoleDBContext();
-                urdb.insertUR(userid, 3);
-//            tạo uc
-                UserCourse ucx = new UserCourse();
-                user.setId(userid);
-                ucx.setUser(user);
-                ucx.setCourse(c);
-                ucx.setStartDate(starDate);
-                ucx.setEndDate(endDate);
-                ucx.setPricePackage(pr);
-                if (status == 1) {
-                    ucx.setRegistration_status(true);
+                if (userc.getRegistration_status().getId()==5 || userc.getRegistration_status().getId()==3 ) {
+                    System.out.println("2222");
+                    Date dateBefore = userc.getEndDate();
+                    Date startdates = dateBefore;
+                    Calendar c1 = Calendar.getInstance();
+                    c1.setTime(startdates);
+                    c1.add(Calendar.MONTH, (pr.getDuration()));
+                    TimeZone tz = c1.getTimeZone();
+                    // Getting zone id
+                    ZoneId zoneId = tz.toZoneId();
+                    // conversion
+                    LocalDateTime localDateTime = LocalDateTime.ofInstant(c1.toInstant(), zoneId);
+                    String z = localDateTime.toString();
+                    String[] time = z.split("T");
+                    Date edates = Date.valueOf(time[0]);
+//                        userc.setStartDate(startdates);
+                    userc.setEndDate(edates);
+                    Status st2 = new Status();
+                    if (sta.equalsIgnoreCase("success")) {
+                        st2.setId(3);
+                    } else if (sta.equalsIgnoreCase("submitted")) {
+                        st2.setId(5);
+                    } else {
+                        st2.setId(4);
+                    }
+                    uc.setRegistration_status(st2);
+                    userc.setCreateBy(usersale);
+                    userc.setUpdateBy(usersale);
+                    ucdb.updateUcDetail2(userc, userc.getUserCourseId());
                 } else {
-                    ucx.setRegistration_status(false);
+//                    update ngay thang
                 }
-                ucx.setCreateBy(usersale);
-                ucx.setUpdateBy(usersale);
-                ucdb.insertUcDetail(ucx);
             }
+
+        } else {
+            user.setFullName(cname);
+            user.setPhone(mobile);
+            user.setGender(gender);
+            String password = "123@123";
+            user.setPassword(password);
+            Status s = new Status();
+            s.setId(1);
+            user.setStatus(s);
+            user.setAvatarImage("non-avatar.png");
+            UserDBContext db = new UserDBContext();
+            int userid = db.insertUser(user);
+            String link = "";
+            link = "http://localhost:8080" + request.getContextPath() + "/user/verify?id=" + userid;
+            SendEmail y = new SendEmail();
+            y.send(email, content(link, password), "Action Required: Confirm your email.");
+//            role
+            UserRoleDBContext urdb = new UserRoleDBContext();
+            urdb.insertUR(userid, 3);
+//            tạo uc
+            UserCourse ucx = new UserCourse();
+            user.setId(userid);
+            ucx.setUser(user);
+            ucx.setCourse(c);
+            ucx.setStartDate(starDate);
+            ucx.setEndDate(endDate);
+            ucx.setPricePackage(pr);
+            Status st2 = new Status();
+            if (sta.equalsIgnoreCase("success")) {
+                st2.setId(3);
+
+            } else if (sta.equalsIgnoreCase("submitted")) {
+                st2.setId(5);
+            } else {
+                st2.setId(4);
+            }
+            uc.setRegistration_status(st2);
+            ucx.setCreateBy(usersale);
+            ucx.setUpdateBy(usersale);
+            ucdb.insertUcDetail(ucx);
+        }
 
         request.getSession().setAttribute("successful", "successful");
         response.sendRedirect("RegistrationDetails?cid="+cid);

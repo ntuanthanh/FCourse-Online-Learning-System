@@ -84,7 +84,10 @@ public class EditDimensionController extends BaseAuthController {
         request.setAttribute("mess", "oke");
         request.setAttribute("cid", cid);
         request.setAttribute("did", did);
-        doGet(request, response);
+//        doGet(request, response);
+       // Lưu message bằng session, hiện thị trong thì xóa nó đi 
+        request.getSession().setAttribute("editDimension_mess", "editDimension_mess");
+        response.sendRedirect("edit?did="+did+"&cid="+cid);
     }
 
 }

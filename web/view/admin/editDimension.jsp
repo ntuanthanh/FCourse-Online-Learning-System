@@ -153,13 +153,21 @@
         <div class="ttr-overlay"></div>
         <script>
             validateEditDimension();
-            if(${requestScope.mess != null}){          
+            <c:if test="${sessionScope.editDimension_mess!=null}">
                 Swal.fire(
                     'Update successfully',
                     'Update Price Package successfully ',
                     'success'
                           )
-            }
+                <% request.getSession().setAttribute("editDimension_mess", null); %>
+            </c:if>
+//            if(${requestScope.mess != null}){          
+//                Swal.fire(
+//                    'Update successfully',
+//                    'Update Price Package successfully ',
+//                    'success'
+//                          )
+//            }
             function backToOverview(cid){
                 window.location.href = "../../admin/subject/details?id="+cid;               
             }

@@ -71,7 +71,7 @@ public class AjaxSearchRegistrationDetail extends HttpServlet {
         String z = localDateTime.toString();
         String[] time = z.split("T");
         Date dates = Date.valueOf(time[0]);
-        SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
         String endate = dt1.format(dates);
         request.setAttribute("pr", pr);
         if (pr.getDuration() > 0) {
@@ -84,10 +84,10 @@ public class AjaxSearchRegistrationDetail extends HttpServlet {
                     + "                                    &emsp; &emsp; <b>Sale price: </b>&nbsp; \n"
                     + "                                    <span>" + pr.getSalePrice() + " $</span> \n"
                     + " <br><b>Start date:</b>&nbsp; \n"
-                    + "                                    <span > <input type=\"date\" name=\"date\" id=\"startdate\" oninput =\"xyz(this)\" value=\"" + date + "\"/> </span>\n"
+                    + "                                    <span > <input type=\"date\" name=\"sdate\" id=\"startdate\" oninput =\"xyz(this)\" value=\"" + date + "\"/> </span>\n"
                     + "                                    <br>\n"
-                    + "                                    <b>End date:</b>&nbsp; \n"
-                    + "                                    <span id=\"endate\"> " + endate + " </span>");
+                    + "                                    <b>End date:</b>&nbsp;<input name=\"edate\" value=\""+endate+"\" hidden=\"\"> \n"
+                    + "                                    <span id=\"endate\" >  " + endate + " </span>");
         } else {
             response.getWriter().print(
                     "<b>Registration time:</b>&nbsp;\n"
@@ -98,7 +98,7 @@ public class AjaxSearchRegistrationDetail extends HttpServlet {
                     + "                                    &emsp; &emsp; <b>Sale price: </b>&nbsp; \n"
                     + "                                    <span>" + pr.getSalePrice() + " $</span> \n"
                     + " <br><b>Start date:</b>&nbsp; \n"
-                    + "                                    <span > <input type=\"date\" name=\"date\" id=\"startdate\" oninput =\"xyz(this)\" value=\"" + date + "\"/> </span>\n"
+                    + "                                    <span > <input type=\"date\" name=\"sdate\" id=\"startdate\" oninput =\"xyz(this)\" value=\"" + date + "\"/> </span>\n"
                     + "                                    <br>\n"
                     + "                                    <b>End date:</b>&nbsp; \n"
                     + "                                    <span id=\"endate\"> Unlimited time </span>");

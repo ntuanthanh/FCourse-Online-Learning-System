@@ -4,6 +4,10 @@
     Author     : pv
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.io.Console"%>
+<%@page import="model.ParentCategory"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -53,9 +57,40 @@
         <link rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/color/color-1.css">
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>-->
+
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+
+        <style>
+            .des-date{
+                margin-left: 30px;
+            }
+            .merge-inline{
+                display: flex;
+            }
+            .des-date input{
+                width: 8.5rem;
+            }
+            .des-date input{
+                color: #0083d4;
+            }
+
+
+        </style>
+
+        <% ArrayList<Integer> status = (ArrayList<Integer>) request.getAttribute("status"); %>
+        <% ArrayList<Integer> bought = (ArrayList<Integer>) request.getAttribute("bought"); %>
+        <% ArrayList<Integer> regis = (ArrayList<Integer>) request.getAttribute("regis"); %>
+        <% ArrayList<Integer> orde = (ArrayList<Integer>) request.getAttribute("orde"); %>
+        <% ArrayList<Integer> days = (ArrayList<Integer>) request.getAttribute("days"); %>
+        <% ArrayList<String> time = (ArrayList<String>) request.getAttribute("time"); %>
+        <% ArrayList<Integer> orderss = (ArrayList<Integer>) request.getAttribute("orderss"); %>
+
+        <% ArrayList<ParentCategory> category = (ArrayList<ParentCategory>) request.getAttribute("category"); %>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
-  
+
         <jsp:include page="../../view/admin/header_admin.jsp" /> 
         <!--Main container start -->
         <main class="ttr-wrapper">
@@ -69,339 +104,140 @@
                 </div>	
                 <!-- Card -->
                 <div class="row">
-                    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="col-md-6 col-lg-4 col-xl-4 col-sm-6 col-12">
                         <div class="widget-card widget-bg1">					 
                             <div class="wc-item">
                                 <h4 class="wc-title">
-                                    Total Frofit
+                                    Total Courses
                                 </h4>
                                 <span class="wc-des">
-                                    All Customs Value
+                                    ${rateCourse}%
                                 </span>
                                 <span class="wc-stats">
-                                    $<span class="counter">18</span>M 
+                                    <span class="counter">${totalCourse}</span> 
                                 </span>		
                                 <div class="progress wc-progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 78%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: ${rateCourse}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="wc-progress-bx">
                                     <span class="wc-change">
-                                        Change
+                                        Last 7 days
                                     </span>
                                     <span class="wc-number ml-auto">
-                                        78%
+                                        ${newCourse}
                                     </span>
                                 </span>
                             </div>				      
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="col-md-6 col-lg-4 col-xl-4 col-sm-6 col-12">
                         <div class="widget-card widget-bg2">					 
                             <div class="wc-item">
                                 <h4 class="wc-title">
-                                    New Feedbacks
+                                    Total Revenues
                                 </h4>
                                 <span class="wc-des">
-                                    Customer Review
+                                    ${rateReve}%
                                 </span>
                                 <span class="wc-stats counter">
-                                    120 
+                                    $<span class="counter"> ${totalRevenues}</span>
                                 </span>		
                                 <div class="progress wc-progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 88%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: ${rateReve}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="wc-progress-bx">
                                     <span class="wc-change">
-                                        Change
+                                        Last 7 days
                                     </span>
                                     <span class="wc-number ml-auto">
-                                        88%
+                                        ${newRevenues}
                                     </span>
                                 </span>
                             </div>				      
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="col-md-6 col-lg-4 col-xl-4 col-sm-6 col-12">
                         <div class="widget-card widget-bg3">					 
                             <div class="wc-item">
                                 <h4 class="wc-title">
-                                    New Orders 
+                                    Total Customers 
                                 </h4>
                                 <span class="wc-des">
-                                    Fresh Order Amount 
+                                    ${rateCus}%
                                 </span>
                                 <span class="wc-stats counter">
-                                    772 
+                                    ${totalCustomer}
                                 </span>		
                                 <div class="progress wc-progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: ${rateCus}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="wc-progress-bx">
                                     <span class="wc-change">
-                                        Change
+                                        Last 7 days
                                     </span>
                                     <span class="wc-number ml-auto">
-                                        65%
+                                        ${newCustomer}
                                     </span>
                                 </span>
                             </div>				      
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
-                        <div class="widget-card widget-bg4">					 
-                            <div class="wc-item">
-                                <h4 class="wc-title">
-                                    New Users 
-                                </h4>
-                                <span class="wc-des">
-                                    Joined New User
-                                </span>
-                                <span class="wc-stats counter">
-                                    350 
-                                </span>		
-                                <div class="progress wc-progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <span class="wc-progress-bx">
-                                    <span class="wc-change">
-                                        Change
-                                    </span>
-                                    <span class="wc-number ml-auto">
-                                        90%
-                                    </span>
-                                </span>
-                            </div>				      
-                        </div>
-                    </div>
+
                 </div>
                 <!-- Card END -->
+
+                <div class="row">
+                    <!--<div class="col-lg-8 m-b30">-->
+                    <form action="../admin/dashboard" method="GET">
+                        <div class="des-date">
+                            Date From:<input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-2" 
+                                             type="text" name="from" id="txtFrom" value="${from}">
+                            Date To:<input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-2"
+                                           type="text" name="to" id="txtTo" value="${to}">
+                            <input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-2" style="background-color: #005cbf; color: white;" type="submit" value="Filter" />
+                        </div>
+                    </form>
+                    <!--</div>-->
+
+                </div>
+
                 <div class="row">
                     <!-- Your Profile Views Chart -->
-                    <div class="col-lg-8 m-b30">
+                    <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Your Profile Views</h4>
+                                <h4>Trend of order counts</h4>
                             </div>
                             <div class="widget-inner">
-                                <canvas id="chart" width="100" height="45"></canvas>
+                                <canvas id="myLinechart" width="100" height="45"></canvas>
                             </div>
                         </div>
                     </div>
                     <!-- Your Profile Views Chart END-->
-                    <div class="col-lg-4 m-b30">
+
+
+                    <div class="col-lg-6 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Notifications</h4>
+                                <h4>Customers </h4>
                             </div>
                             <div class="widget-inner">
-                                <div class="noti-box-list">
-                                    <ul>
-                                        <li>
-                                            <span class="notification-icon dashbg-gray">
-                                                <i class="fa fa-check"></i>
-                                            </span>
-                                            <span class="notification-text">
-                                                <span>Sneha Jogi</span> sent you a message.
-                                            </span>
-                                            <span class="notification-time">
-                                                <a href="#" class="fa fa-close"></a>
-                                                <span> 02:14</span>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="notification-icon dashbg-yellow">
-                                                <i class="fa fa-shopping-cart"></i>
-                                            </span>
-                                            <span class="notification-text">
-                                                <a href="#">Your order is placed</a> sent you a message.
-                                            </span>
-                                            <span class="notification-time">
-                                                <a href="#" class="fa fa-close"></a>
-                                                <span> 7 Min</span>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="notification-icon dashbg-red">
-                                                <i class="fa fa-bullhorn"></i>
-                                            </span>
-                                            <span class="notification-text">
-                                                <span>Your item is shipped</span> sent you a message.
-                                            </span>
-                                            <span class="notification-time">
-                                                <a href="#" class="fa fa-close"></a>
-                                                <span> 2 May</span>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="notification-icon dashbg-green">
-                                                <i class="fa fa-comments-o"></i>
-                                            </span>
-                                            <span class="notification-text">
-                                                <a href="#">Sneha Jogi</a> sent you a message.
-                                            </span>
-                                            <span class="notification-time">
-                                                <a href="#" class="fa fa-close"></a>
-                                                <span> 14 July</span>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="notification-icon dashbg-primary">
-                                                <i class="fa fa-file-word-o"></i>
-                                            </span>
-                                            <span class="notification-text">
-                                                <span>Sneha Jogi</span> sent you a message.
-                                            </span>
-                                            <span class="notification-time">
-                                                <a href="#" class="fa fa-close"></a>
-                                                <span> 15 Min</span>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <canvas id="myBarChart" width="100" height="45"></canvas>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>New Users</h4>
+                                <h4>Registrations </h4>
                             </div>
                             <div class="widget-inner">
-                                <div class="new-user-list">
-                                    <ul>
-                                        <li>
-                                            <span class="new-users-pic">
-                                                <img src="assets/images/testimonials/pic1.jpg" alt=""/>
-                                            </span>
-                                            <span class="new-users-text">
-                                                <a href="#" class="new-users-name">Anna Strong </a>
-                                                <span class="new-users-info">Visual Designer,Google Inc </span>
-                                            </span>
-                                            <span class="new-users-btn">
-                                                <a href="#" class="btn button-sm outline">Follow</a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="new-users-pic">
-                                                <img src="assets/images/testimonials/pic2.jpg" alt=""/>
-                                            </span>
-                                            <span class="new-users-text">
-                                                <a href="#" class="new-users-name"> Milano Esco </a>
-                                                <span class="new-users-info">Product Designer, Apple Inc </span>
-                                            </span>
-                                            <span class="new-users-btn">
-                                                <a href="#" class="btn button-sm outline">Follow</a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="new-users-pic">
-                                                <img src="assets/images/testimonials/pic1.jpg" alt=""/>
-                                            </span>
-                                            <span class="new-users-text">
-                                                <a href="#" class="new-users-name">Nick Bold  </a>
-                                                <span class="new-users-info">Web Developer, Facebook Inc </span>
-                                            </span>
-                                            <span class="new-users-btn">
-                                                <a href="#" class="btn button-sm outline">Follow</a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="new-users-pic">
-                                                <img src="assets/images/testimonials/pic2.jpg" alt=""/>
-                                            </span>
-                                            <span class="new-users-text">
-                                                <a href="#" class="new-users-name">Wiltor Delton </a>
-                                                <span class="new-users-info">Project Manager, Amazon Inc </span>
-                                            </span>
-                                            <span class="new-users-btn">
-                                                <a href="#" class="btn button-sm outline">Follow</a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="new-users-pic">
-                                                <img src="assets/images/testimonials/pic3.jpg" alt=""/>
-                                            </span>
-                                            <span class="new-users-text">
-                                                <a href="#" class="new-users-name">Nick Stone </a>
-                                                <span class="new-users-info">Project Manager, Amazon Inc  </span>
-                                            </span>
-                                            <span class="new-users-btn">
-                                                <a href="#" class="btn button-sm outline">Follow</a>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <canvas id="myPieChart" width="100" height="45"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 m-b30">
-                        <div class="widget-box">
-                            <div class="wc-title">
-                                <h4>Orders</h4>
-                            </div>
-                            <div class="widget-inner">
-                                <div class="orders-list">
-                                    <ul>
-                                        <li>
-                                            <span class="orders-title">
-                                                <a href="#" class="orders-title-name">Anna Strong </a>
-                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
-                                            </span>
-                                            <span class="orders-btn">
-                                                <a href="#" class="btn button-sm red">Unpaid</a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="orders-title">
-                                                <a href="#" class="orders-title-name">Revenue</a>
-                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
-                                            </span>
-                                            <span class="orders-btn">
-                                                <a href="#" class="btn button-sm red">Unpaid</a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="orders-title">
-                                                <a href="#" class="orders-title-name">Anna Strong </a>
-                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
-                                            </span>
-                                            <span class="orders-btn">
-                                                <a href="#" class="btn button-sm green">Paid</a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="orders-title">
-                                                <a href="#" class="orders-title-name">Revenue</a>
-                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
-                                            </span>
-                                            <span class="orders-btn">
-                                                <a href="#" class="btn button-sm green">Paid</a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="orders-title">
-                                                <a href="#" class="orders-title-name">Anna Strong </a>
-                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
-                                            </span>
-                                            <span class="orders-btn">
-                                                <a href="#" class="btn button-sm green">Paid</a>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 m-b30">
-                        <div class="widget-box">
-                            <div class="wc-title">
-                                <h4>Basic Calendar</h4>
-                            </div>
-                            <div class="widget-inner">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                    </div>
+
+                   
                 </div>
             </div>
         </main>
@@ -427,84 +263,222 @@
         <script src='/summer2022-se1616-g4/view/admin/assets/vendors/calendar/moment.min.js'></script>
         <script src='/summer2022-se1616-g4/view/admin/assets/vendors/calendar/fullcalendar.js'></script>
         <script src='/summer2022-se1616-g4/view/admin/assets/vendors/switcher/switcher.js'></script>
-        <script>
-            $(document).ready(function () {
+        <!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>-->
+        <script> // Set new default font family and font color to mimic Bootstrap's default styling
 
-                $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay,listWeek'
-                    },
-                    defaultDate: '2019-03-12',
-                    navLinks: true, // can click day/week names to navigate views
+            var data = [];
+            <% for (Integer elem : status) {%>
 
-                    weekNumbers: true,
-                    weekNumbersWithinDays: true,
-                    weekNumberCalculation: 'ISO',
+            data.push(<%=elem%>);
+            <%   }
+            %>
 
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    events: [
+            Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+            Chart.defaults.global.defaultFontColor = '#292b2c';
+
+            // Pie Chart Example
+            var ctx = document.getElementById("myPieChart");
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["Success", "Cancelled", "Submitted"],
+                    datasets: [{
+                            data: data,
+                            backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745']
+                        }]
+                }
+            });
+
+            var regis = [];
+            <% for (Integer elem : regis) {%>
+            regis.push(<%=elem%>);
+            <%   }
+            %>
+
+            var bought = [];
+            <% for (Integer elem : bought) {%>
+            bought.push(<%=elem%>);
+            <%   }
+            %>
+            var cty = document.getElementById("myBarChart");
+            var myLineChart = new Chart(document.getElementById("myBarChart"), {
+                type: 'bar',
+                data: {
+                    labels: ["Software", "Math", "Life Skill", "Design"],
+                    datasets: [
                         {
-                            title: 'All Day Event',
-                            start: '2019-03-01'
-                        },
-                        {
-                            title: 'Long Event',
-                            start: '2019-03-07',
-                            end: '2019-03-10'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: '2019-03-09T16:00:00'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: '2019-03-16T16:00:00'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2019-03-11',
-                            end: '2019-03-13'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2019-03-12T10:30:00',
-                            end: '2019-03-12T12:30:00'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: '2019-03-12T12:00:00'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2019-03-12T14:30:00'
-                        },
-                        {
-                            title: 'Happy Hour',
-                            start: '2019-03-12T17:30:00'
-                        },
-                        {
-                            title: 'Dinner',
-                            start: '2019-03-12T20:00:00'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: '2019-03-13T07:00:00'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2019-03-28'
+                            label: "Registered",
+                            backgroundColor: "#3e95cd",
+                            data: regis
+                        }, {
+                            label: "Bought",
+                            backgroundColor: "#8e5ea2",
+                            data: bought
                         }
                     ]
-                });
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Registration '
+                    }
+                }
+            });
 
+            var order = [];
+            <% for (Integer elem : orde) {%>
+            order.push(<%=elem%>);
+            <%   }
+            %>
+//           
+            var days = [];
+            <% for (int idx = days.size() - 1; idx >= 0; idx--) {
+                    int elem = days.get(idx);%>
+            days.push(<%=elem%>);
+            <%   }
+            %>
+            var ctk = document.getElementById('myLinechart').getContext('2d');
+
+            var times = [];
+            <% for (int idx = time.size() - 1; idx >= 0; idx--) {                   
+                    String elem = "'"+ time.get(idx) + "'" ;%>
+
+                    times.push (String(<%=elem%>));
+            <%   }
+            %>
+                
+          
+          
+
+            var orderss = [];
+            <% for (Integer elem : orderss) {%>
+                orderss.push(<%=elem%>);
+            <%   }
+            %>
+
+            var myLinechart = new Chart(ctk, {
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: times,
+                    // Information about the dataset
+                    datasets: [{
+                            label: "All",
+                            backgroundColor: 'rgba(0,0,0,0.05)',
+                            borderColor: '#4c1864',
+                            borderWidth: "3",
+                            data: order,
+                            pointRadius: 4,
+                            pointHoverRadius: 4,
+                            pointHitRadius: 10,
+                            pointBackgroundColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointBorderWidth: "3",
+                        }
+                        ,
+                        {
+                            label: "Success",
+                            backgroundColor: 'rgba(0,0,1,0.05)',
+                            borderColor: '#3e95cd',
+                            borderWidth: "3",
+                            data: orderss,
+                            pointRadius: 4,
+                            pointHoverRadius: 4,
+                            pointHitRadius: 10,
+                            pointBackgroundColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointBorderWidth: "3",
+                        }
+
+                    ]
+                },
+
+                // Configuration options
+                options: {
+
+                    layout: {
+                        padding: 0,
+                    },
+
+                    legend: {display: true},
+                    title: {display: true},
+
+                    scales: {
+                        yAxes: [{
+                                scaleLabel: {
+                                    display: false
+                                },
+                                gridLines: {
+                                    borderDash: [6, 6],
+                                    color: "#ebebeb",
+                                    lineWidth: 1,
+                                },
+                            }],
+                        xAxes: [{
+                                scaleLabel: {display: false},
+                                gridLines: {display: false},
+                            }],
+                    },
+
+                    tooltips: {
+                        backgroundColor: '#333',
+                        titleFontSize: 12,
+                        titleFontColor: '#fff',
+                        bodyFontColor: '#fff',
+                        bodyFontSize: 12,
+                        displayColors: false,
+                        xPadding: 10,
+                        yPadding: 10,
+                        intersect: false
+                    }
+                },
             });
 
         </script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+        type="text/javascript"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+              rel="Stylesheet"type="text/css"/>
+        <script type="text/javascript">
+            $(document).ready(function () {
+//                $('#txtFrom').on("click", function () {
+//                    alert($("#txtFrom").val());
+//                    alert($("#txtTo").val());
+//                });
+//                $('#txtFrom').datepicker( 'getDate' );
+                $("#txtFrom").datepicker({
+                    numberOfMonths: 1,
+                    onSelect: function (selected) {
+                        var dt = new Date(selected);
+                        dt.setDate(dt.getDate() + 1);
+                        $("#txtTo").datepicker("option", "minDate", dt);
+                    }
+                });
+                $("#txtTo").datepicker({
+                    numberOfMonths: 1,
+                    onSelect: function (selected) {
+                        var dt = new Date(selected);
+                        dt.setDate(dt.getDate() - 1);
+                        $("#txtFrom").datepicker("option", "maxDate", dt);
+                    }
+                });
+
+                $('#txtFrom').on("click", function () {
+                    alert($(this).getDate());
+                });
+            });
+
+
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="../js/datatables-simple-demo.js"></script>
+
+
     </body>
 </html>

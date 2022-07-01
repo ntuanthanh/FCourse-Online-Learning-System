@@ -83,8 +83,10 @@ public class EditPricePackageController extends BaseAuthController {
         request.setAttribute("mess", "oke");
         request.setAttribute("cid", cid);
         request.setAttribute("pid", pid);
-        doGet(request, response);
-        //response.sendRedirect("edit?pid="+p.getId());
+//        doGet(request, response);
+        // Lưu message bằng session, hiện thị trong thì xóa nó đi 
+        request.getSession().setAttribute("editPricePackage_mess", "editPricePackage_mess");
+        response.sendRedirect("edit?pid="+p.getId()+"&cid="+cid);
     }
 
    

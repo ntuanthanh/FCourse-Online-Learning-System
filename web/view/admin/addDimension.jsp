@@ -265,6 +265,22 @@
         <div class="ttr-overlay"></div>
         <script>
             validateEditDimension();
+            <c:if test="${sessionScope.addDimension_mess!=null}">
+                Swal.fire(
+                    'Added successfully',
+                    'Added Dimensions to ${requestScope.course.title} successfully ',
+                    'success'
+                          )
+                <% request.getSession().setAttribute("addDimension_mess", null); %>
+            </c:if>
+            <c:if test="${sessionScope.addDimensionSystem_mess!=null}">
+                Swal.fire(
+                    'Added successfully',
+                    'Added Dimension to Fcourse System successfully ',
+                    'success'
+                          )
+                <% request.getSession().setAttribute("addDimensionSystem_mess", null); %>
+            </c:if>
             // Xử lí bên tìm kiếm pricepackage và gán pricepackage
            var close = document.querySelectorAll('.delete-dimension');
             var num = close.length;

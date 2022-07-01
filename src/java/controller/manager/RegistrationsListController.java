@@ -55,15 +55,87 @@ public class RegistrationsListController extends BaseAuthController {
            raw_sort = "0"; 
         }
         if(raw_status == null || raw_status.length() == 0){
-            raw_status = "all";
+            raw_status = "-1";
         }
 
         int sort = Integer.parseInt(raw_sort); 
         String title = raw_title; 
         String email = raw_email;
-        Boolean status = (!raw_status.equals("all"))?raw_status.equals("1"):null;
+        //Boolean status = (!raw_status.equals("all"))?raw_status.equals("1"):null;
+        int status = Integer.parseInt(raw_status);
         Date registrationtimefrom = (raw_registrationtimefrom != null && raw_registrationtimefrom.length()>0)?Date.valueOf(raw_registrationtimefrom):null;
         Date registrationtimeto = (raw_registrationtimeto != null && raw_registrationtimeto.length()>0)?Date.valueOf(raw_registrationtimeto):null;
+        
+        // Xử lí sort khi bấm lần tiếp theo : 
+        // Th1 : mới vào liền
+        int sortId = 0; // 1
+        int sortEmail = 2; // 3 
+        int sortRegisTime = 4; // 5
+        int sortSubject = 6; // 7
+        int sortPackage = 8; // 9
+        int sortTotalCost = 10; // 11
+        int sortStatus = 12; // 13
+        // Đổi trạng thái để sort lần sau nhấn 
+        switch(sort){
+            case 0:
+                sortId = 1;
+                break;
+            case 1:
+                sortId = 0;
+                break;
+                // email : 
+            case 2:
+                sortEmail = 3;
+                break;
+            case 3:
+                sortEmail = 2;
+                break;
+                // registration time : 
+            case 4:
+                sortRegisTime = 5;
+                break;
+            case 5:
+                sortRegisTime = 4;
+                break;
+                // subject ( sort theo title ) 
+            case 6:
+                sortSubject = 7;
+                break; 
+            case 7: 
+                sortSubject = 6;
+                break;
+                //  ( sort theo package ) 
+            case 8:
+                sortPackage = 9;
+                break;
+            case 9:
+                sortPackage = 8; 
+                break;
+                // total cost
+            case 10:
+                sortTotalCost = 11;
+                break;
+            case 11:
+                sortTotalCost = 10;
+                break;
+                // status 
+            case 12:
+                sortStatus = 13;
+                break;
+            case 13:
+                sortStatus = 12;
+                break; 
+            default:
+                break;
+        }
+        // Set ngược lại cho function js để lần sau bấm sort 
+        request.setAttribute("sortId", sortId);
+        request.setAttribute("sortEmail", sortEmail);
+        request.setAttribute("sortRegisTime", sortRegisTime);
+        request.setAttribute("sortSubject", sortSubject);
+        request.setAttribute("sortPackage", sortPackage);
+        request.setAttribute("sortTotalCost", sortTotalCost);
+        request.setAttribute("sortStatus", sortStatus);
         // lấy ra 
         UserCourseDBContext userCourseDB = new UserCourseDBContext();
         ArrayList<UserCourse> usercourses = userCourseDB.advancedSearchRegistration(sort, title, registrationtimefrom, registrationtimeto, status, email, pageIndex, pageSize);

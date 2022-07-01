@@ -43,6 +43,8 @@ public class AddPricePackage_systemController extends HttpServlet {
         // add to pricepackage 
         PricePackageDBContext pricePackageDB = new PricePackageDBContext();
         pricePackageDB.AddPricePackageToSystem(p);
+        // Lưu message bằng session, hiện thị trong thì xóa nó đi 
+        request.getSession().setAttribute("addPricePackageSystem_mess", "addPricePackageSystem_mess");
         response.sendRedirect("../../admin/pricepackage/add?cid="+cid);
     }
 

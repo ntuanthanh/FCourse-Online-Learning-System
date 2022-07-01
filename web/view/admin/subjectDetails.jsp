@@ -3,6 +3,8 @@
     Created on : Jun 12, 2022, 2:46:43 PM
     Author     : pv
 --%>
+<%@page import="model.Status"%>
+<%@page import="java.util.ArrayList"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -254,9 +256,8 @@
                                                 <input type ="text" hidden ="hidden" name ="status_id" value = "${requestScope.course.status.id}"/>
                                             </c:if>
                                             <span class = "font-weight-subject-overview">Status : </span>   <select ${requestScope.isAdmin == false?"disabled":"" } id="status" name = "status_id">
-                                                <c:forEach items="${requestScope.statuses}" var ="s">
-                                                      <option value ="${s.id}" ${s.id == requestScope.course.status.id?"selected = selected":""} >${s.id == 1?"Published":"UnPublished"}</option>
-                                                </c:forEach>
+                                                  <option value ="1" ${1 == requestScope.course.status.id?"selected = selected":""} >Published</option>
+                                                  <option value ="2" ${2 == requestScope.course.status.id?"selected = selected":""} >UnPublished</option>
                                             </select>
                                         </div>
                                     </div>

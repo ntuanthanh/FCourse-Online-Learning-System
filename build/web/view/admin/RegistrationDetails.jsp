@@ -33,6 +33,11 @@
         <link class="skin" rel="stylesheet" type="text/css" href="/summer2022-se1616-g4/view/admin/assets/css/color/color-1.css">
         <script src="js/ImgPreview/imgPreview.js" type="text/javascript"></script>
         <script src="//cdn.ckeditor.com/4.19.0/basic/ckeditor.js"></script>
+         <!-- Nhung Alert-->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="sweetalert2.all.min.js"></script>
+        <script src="sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css"> 
         <style>
             * {
                 box-sizing: border-box;
@@ -92,15 +97,12 @@
     <body class="ttr-opened-sidebar ttr-pinned-sidebar" >
         <jsp:include page="../../view/admin/header_admin.jsp" />
         <main class="ttr-wrapper">
-             <c:if test="${sessionScope.successful!=null}">
-                 <span style="margin-left: 40%">successful</span><br>
-                    <% request.getSession().setAttribute("successful", null); %>
-                </c:if>  
+            
             <c:if test="${requestScope.ucid == null}">
                 <c:if test="${requestScope.Course.getPricePackage().size()==0}">
                     <div class="form1">
                         <img class ="logo-add-registration"
-                            src="${pageContext.request.contextPath}/images/header/logo-main2_1.png">
+                             src="${pageContext.request.contextPath}/images/header/logo-main2_1.png">
                         Enter the course name and
                         choose course to continue to add new Registration Details
                         <div>
@@ -145,9 +147,12 @@
                                     </div>
                                     <div>
                                         <b>Status:</b>&nbsp; 
-                                        <span><input type="radio" name="status" value="Active"/> Activate
+                                        <input type="radio" name="status" value="Success"/> Success
                                             &emsp;&emsp;&emsp;&emsp;
-                                            <input type="radio" name="status" value="Deactive"/> Deactivate </span>
+                                            <input type="radio" name="status" value="Canceled"/> Canceled 
+                                            &emsp;&emsp;&emsp;&emsp;
+                                            <input type="radio" name="status" value="Submitted"/> Submitted </span>
+                                        
                                     </div>
                                 </div>
 
@@ -179,9 +184,13 @@
                                                        oninput ="xyz(this)"
                                                        id="startdate" value="${requestScope.date}"/> </span>
                                         <br>
-                                        <b>End date:</b>&nbsp; 
-                                        <span id="endate"> ${requestScope.enddate} </span>
-                                        <input name="edate" value="${requestScope.enddate}" hidden="">
+                                        
+                                        <div id="endate">
+                                            <b>End date:</b>&nbsp; 
+                                            <span > ${requestScope.enddate}
+                                                
+                                            </span><input name="edate" value="${requestScope.enddate}" hidden="">
+                                        </div>
                                     </div>
 
                                 </div>
@@ -264,12 +273,15 @@
                                 </div>
                                 <div>
                                     <b>Status:</b>&nbsp; 
-                                    <span><input type="radio" name="status"
-                                                 ${requestScope.uc.isRegistration_status()?"checked=\"checked\"":""}
-                                                 value="Active"/> Activate
-                                        &emsp;&emsp;&emsp;&emsp;
-                                        <input type="radio" ${!requestScope.uc.isRegistration_status()?"checked=\"checked\"":""}
-                                               name="status" value="Deactive"/> Deactivate </span>
+                                   <input type="radio" name="status" value="Success"
+                                        ${uc.getRegistration_status().id==3?"checked=\"checked\"":""} /> Success
+                                            &emsp;&emsp;&emsp;&emsp;
+                                            <input type="radio" name="status" value="Canceled"
+                                             ${uc.getRegistration_status().id==4?"checked=\"checked\"":""}       /> Canceled 
+                                            &emsp;&emsp;&emsp;&emsp;
+                                            <input type="radio" name="status" value="Submitted"
+                                                ${uc.getRegistration_status().id==5?"checked=\"checked\"":""}   /> Submitted </span>
+                                        
                                 </div>
                             </div>
 
@@ -313,9 +325,15 @@
                                         </c:if>
                                     </span>
                                     <br>
-                                    <b>End date:</b>&nbsp; 
-                                    <span id="endate"> ${requestScope.enddate} </span>
-                                    <input name="edate" value="${requestScope.enddate}" hidden="">
+                                    
+                                    <div id="endate">
+                                        <b>End date:</b>&nbsp; 
+                                        <span > ${requestScope.enddate}
+                                            
+                                        </span><input name="edate" value="${requestScope.enddate}" hidden="">
+                                    </div>
+
+
                                 </div>
 
                             </div>
@@ -392,21 +410,29 @@
                         &emsp;&emsp;&emsp;&emsp;
                         &emsp;&emsp;&emsp;&emsp;
                         <a href="${pageContext.request.contextPath}/admin/registration/list">
-                                <input type="button" value="back"></a>
+                            <input type="button" value="back"></a>
                         <input id="time" value="${sessionScope.a}" hidden="">
                     </form>
                 </div><br>
                 <% request.getSession().setAttribute("ucid", request.getAttribute("ucid")); %> 
-                
+
                 <% request.getSession().setAttribute("uc", request.getAttribute("uc"));%>
             </c:if>
-                 
+
 
 
 
 
         </main>
         <script>
+            <c:if test="${sessionScope.successful!=null}">
+                Swal.fire(
+                        'Added successfully',
+                        'Added successfully ',
+                        'success'
+                            )
+                <% request.getSession().setAttribute("successful", null); %>
+            </c:if>
             function searchCourse(param) {
                 var txtSearch = param.value;
                 $.ajax({
@@ -478,11 +504,7 @@
             function xyz(param) {
                 var time = document.getElementById("time").value;
                 var ngay = param.value;
-                if (ngay < time) {
-                    
-                    document.getElementById('startdate').value = time;
-                    return;
-                }
+                
                 var aa = document.getElementById("package").value;
                 $.ajax({
                     url: '${pageContext.request.contextPath}/AjaxStartDate',

@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Course;
 import model.Quiz;
 
@@ -41,7 +43,7 @@ public class QuizDBContext extends DBContext {
             while (rs.next()) {
                 Quiz Quiz = new Quiz();
                 Quiz.setId(rs.getInt("Id"));
-                Quiz.setDescripsion(rs.getString("Descripsion"));
+                Quiz.setDescription(rs.getString("Descripsion"));
                 Quiz.setDuration(rs.getInt("Duration"));
                 Quiz.setName(rs.getString("Name"));
                 Quiz.setPassRate(rs.getFloat("PassRate"));
@@ -56,8 +58,27 @@ public class QuizDBContext extends DBContext {
         }
         return null;
     }
-    public static void main(String[] args) {
-        QuizDBContext a = new QuizDBContext();
-        System.out.println(a.getQuizs(1));
+    /*
+       Thuận inter 3 4:40
+    */
+    public Quiz getQuizByQuizIDForQ(int id){
+        try {
+            String sql = "select * from Quiz inner join QuizType "
+                    + "\n on QuizType.Id = Quiz.QuizTypeId where Quiz.Id  = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                Quiz q = new Quiz();
+                q.setId(rs.getInt("Id"));
+                q.setDescription(rs.getString("Descripsion"));
+                q.setDuration(rs.getInt("Duration"));
+                q.setName(rs.getString("Name"));
+                return q;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuizDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

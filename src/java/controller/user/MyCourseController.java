@@ -46,7 +46,8 @@ public class MyCourseController extends BaseAuthController {
         ArrayList<Integer> courserates = new ArrayList();
         for (int i=0 ; i< Courses.size(); i++) {
             CourseDBContext cdbc3 = new CourseDBContext();
-            int courserate = cdbc3.getCourseRate(Courses.get(i).getCourseId(), 1);
+            int courserate = cdbc3.getCourseRate(Courses.get(i).getCourseId(), u.getId());
+            System.out.println(courserate+Courses.get(i).getCourseId()+Courses.size());
             courserates.add(courserate);
         }
         request.setAttribute("courserates", courserates);

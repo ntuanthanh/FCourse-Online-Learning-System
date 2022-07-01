@@ -38,34 +38,32 @@ import utility.SendEmail;
  */
 public class updateRegisDetailController extends HttpServlet {
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         User uid = (User) request.getSession().getAttribute("create");
         int create = uid.getId();
-        String ucid =  (String) request.getSession().getAttribute("ucid");
+        String ucid = (String) request.getSession().getAttribute("ucid");
         User saleUser = (User) request.getSession().getAttribute("user");
-        int ux =  saleUser.getId();
-        System.out.println("ccc"+create);
-        System.out.println("uuu"+ux);
-        if(ux != create ){
+        int ux = saleUser.getId();
+        if (ux != create) {
             String a = request.getParameter("status");
-            boolean status = false;
-              if (a.equals("Active")) {
-                status = true;
-            }
+            System.out.println("sssaaaa"+a);
+            int x = 3;
+            if (a.equalsIgnoreCase("success")) {
+                        x = 3;
+                    } else if (a.equalsIgnoreCase("submitted")) {
+                        x =5 ;
+                    } else {
+                       x = 4;
+                    }
             UserCourseDBContext ucdb = new UserCourseDBContext();
-            ucdb.updateStatus(status,Integer.parseInt(ucid));
-        }else{
-             User usersale = (User) request.getSession().getAttribute("user");
-            String abcd = request.getParameter("abcd");
+            ucdb.updateStatus(x, Integer.parseInt(ucid));
+        } else {
+            User usersale = (User) request.getSession().getAttribute("user");
             String cid = request.getParameter("cid");
-            String a = request.getParameter("status") + "";
-            int status = 0;
-            if (a.equals("Active")) {
-                status = 1;
-            }
+            String sta = request.getParameter("status");
+            System.out.println("sta1"+sta);
             String p = request.getParameter("package");
             int pid = 1;
             if (p != null && p.trim().length() > 0) {
@@ -74,10 +72,10 @@ public class updateRegisDetailController extends HttpServlet {
             PricePackageDBContext pdb = new PricePackageDBContext();
             PricePackage pr = pdb.getPackage(pid);
             String sdate = request.getParameter("sdate");
-
             Date starDate = Date.valueOf(sdate);
             String edate = request.getParameter("edate");
-            SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-mm-dd");
+            System.out.println("edate----" + edate);
+            SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
             String zz = "2022-08-01";
             try {
                 java.util.Date y = dt1.parse(edate);
@@ -105,7 +103,7 @@ public class updateRegisDetailController extends HttpServlet {
             c.setCourseId(Integer.parseInt(cid));
             if (udb.CheckEmailExist(email.trim()) == true) {
                 User u = udb.getUserr(email);
-                UserCourse userc = ucdb.getUserCourseByUidCid(u.getId(), Integer.parseInt(cid));
+                UserCourse userc = ucdb.getUserCouByUidCid1(u.getId(), Integer.parseInt(cid));
                 if (userc == null) {
                     System.out.println("1111");
                     uc.setUser(u);
@@ -113,43 +111,37 @@ public class updateRegisDetailController extends HttpServlet {
                     uc.setStartDate(starDate);
                     uc.setEndDate(endDate);
                     uc.setPricePackage(pr);
-                    Status st1 = new Status();
-                    st1.setId(status);
-                    if (status == 1) {
-                        uc.setRegistration_status(true);
+                    Status st2 = new Status();
+                    if (sta.equalsIgnoreCase("Success")) {
+                        st2.setId(3);
+                    } else if (sta.equalsIgnoreCase("Submitted")) {
+                        st2.setId(5);
                     } else {
-                        uc.setRegistration_status(false);
+                        st2.setId(4);
                     }
+                    uc.setRegistration_status(st2);
                     uc.setCreateBy(usersale);
                     uc.setUpdateBy(usersale);
                     ucdb.insertUcDetail(uc);
                 } else {
-                    
-                        System.out.println("2222");
-                        Date dateBefore = userc.getEndDate();
-                        Date startdates = dateBefore;
-                        Calendar c1 = Calendar.getInstance();
-                        c1.setTime(startdates);
-                        c1.add(Calendar.MONTH, (pr.getDuration()));
-                        TimeZone tz = c1.getTimeZone();
-                        // Getting zone id
-                        ZoneId zoneId = tz.toZoneId();
-                        // conversion
-                        LocalDateTime localDateTime = LocalDateTime.ofInstant(c1.toInstant(), zoneId);
-                        String z = localDateTime.toString();
-                        String[] time = z.split("T");
-                        Date edates = Date.valueOf(time[0]);
-                        userc.setStartDate(startdates);
-                        userc.setEndDate(edates);
-                        if (status == 1) {
-                            userc.setRegistration_status(true);
-                        } else {
-                            userc.setRegistration_status(false);
-                        }
-                        userc.setCreateBy(usersale);
-                        userc.setUpdateBy(usersale);
-                        ucdb.updateUcDetail2(userc,Integer.parseInt(ucid));
-                    
+                    // update
+                    System.out.println("222update");
+                    userc.setCourse(c);
+                    userc.setStartDate(starDate);
+                    userc.setEndDate(endDate);
+                    Status st2 = new Status();
+                    if (sta.equalsIgnoreCase("Success")) {
+                        st2.setId(3);
+                    } else if (sta.equalsIgnoreCase("Submitted")) {
+                        st2.setId(5);
+                    } else {
+                        st2.setId(4);
+                    }
+                    userc.setRegistration_status(st2);
+                    userc.setPricePackage(pr);
+                    userc.setUpdateBy(usersale);
+                    ucdb.updateUcDetail2(userc, Integer.parseInt(ucid));
+
                 }
 
             } else {
@@ -179,79 +171,79 @@ public class updateRegisDetailController extends HttpServlet {
                 ucx.setStartDate(starDate);
                 ucx.setEndDate(endDate);
                 ucx.setPricePackage(pr);
-                if (status == 1) {
-                    ucx.setRegistration_status(true);
-                } else {
-                    ucx.setRegistration_status(false);
-                }
+                Status st2 = new Status();
+                    if (sta.equalsIgnoreCase("success")) {
+                        st2.setId(3);
+                    } else if (sta.equalsIgnoreCase("submitted")) {
+                        st2.setId(5);
+                    } else {
+                        st2.setId(4);
+                    }
+                    uc.setRegistration_status(st2);
                 ucx.setCreateBy(usersale);
                 ucx.setUpdateBy(usersale);
                 ucdb.insertUcDetail(ucx);
             }
 
-           
         }
         request.setAttribute("ucid", ucid);
         UserCourseDBContext ucdbc = new UserCourseDBContext();
-         UserCourse uc = ucdbc.geUCourses(Integer.parseInt(ucid));
+        UserCourse uc = ucdbc.geUCourses(Integer.parseInt(ucid));
         request.setAttribute("cid", uc.getCourse().getCourseId());
         request.getSession().setAttribute("successful", "successful");
         response.sendRedirect("RegistrationDetails?ucid="+ucid);
     }
 
-   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String cid = request.getParameter("cid");
-        
-        
-        
+
         String ucid = (String) request.getSession().getAttribute("ucid");
         request.setAttribute("ucid", ucid);
-        
-        UserCourseDBContext ucdbc = new UserCourseDBContext();
-            UserCourse uc = ucdbc.geUCourses(Integer.parseInt(ucid));
-            
-            UserDBContext udbc = new UserDBContext();
-            User create = new User();
-             create = udbc.getUserById(uc.getCreateBy().getId());
 
-            String p = request.getParameter("pid");
-            int pid = 1;
-            if (p != null && p.trim().length() > 0) {
-                pid = Integer.parseInt(p);
-            }
-            // get pid
-            PricePackageDBContext pdb = new PricePackageDBContext();
-            PricePackage pr = pdb.getPackage(pid);
-            request.setAttribute("pr", pr);
-            Date startdate = uc.getStartDate();
-            Date endate = uc.getEndDate();
-             LocalDate a = java.time.LocalDate.now();
-            request.getSession().setAttribute("a", a);
-            request.setAttribute("date", startdate);
-            request.setAttribute("pid", pid);
-            request.setAttribute("enddate", endate);
-             CourseDBContext cdb = new CourseDBContext();
-                int x = Integer.parseInt(cid);
-            Course Course = cdb.getSubjectById(x);
-            User user = uc.getUser();
-            request.setAttribute("uc", uc);
-            request.setAttribute("user", user);
-            request.setAttribute("create", create);
-            request.setAttribute("Course", Course);
+        UserCourseDBContext ucdbc = new UserCourseDBContext();
+        UserCourse uc = ucdbc.geUCourses(Integer.parseInt(ucid));
+
+        UserDBContext udbc = new UserDBContext();
+        User create = new User();
+        create = udbc.getUserById(uc.getCreateBy().getId());
+
+        String p = request.getParameter("pid");
+        int pid = 1;
+        if (p != null && p.trim().length() > 0) {
+            pid = Integer.parseInt(p);
+        }
+        // get pid
+        PricePackageDBContext pdb = new PricePackageDBContext();
+        PricePackage pr = pdb.getPackage(pid);
+        request.setAttribute("pr", pr);
+        Date startdate = uc.getStartDate();
+        Date endate = uc.getEndDate();
+        LocalDate a = java.time.LocalDate.now();
+        request.getSession().setAttribute("a", a);
+        request.setAttribute("date", startdate);
+        request.setAttribute("pid", pid);
+        request.setAttribute("enddate", endate);
+        CourseDBContext cdb = new CourseDBContext();
+        int x = Integer.parseInt(cid);
+        Course Course = cdb.getSubjectById(x);
+        User user = uc.getUser();
+        request.setAttribute("uc", uc);
+        request.setAttribute("user", user);
+        request.setAttribute("create", create);
+        request.setAttribute("Course", Course);
         request.getRequestDispatcher("view/admin/RegistrationDetails.jsp").forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-       
+
     }
-     String content(String a, String password) {
+
+    String content(String a, String password) {
         String ct = "<!DOCTYPE html>\n"
                 + "<html>\n"
                 + "    <head>\n"

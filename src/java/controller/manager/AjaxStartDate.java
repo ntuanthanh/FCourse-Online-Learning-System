@@ -25,10 +25,6 @@ import model.PricePackage;
  */
 public class AjaxStartDate extends HttpServlet {
 
-
-
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,12 +50,15 @@ public class AjaxStartDate extends HttpServlet {
         Date dates = Date.valueOf(time[0]);
         SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
         String endate = dt1.format(dates);
-        if(pr.getDuration()>0){
-            response.getWriter().print(endate);
-        }else{
+        if (pr.getDuration() > 0) {
+            response.getWriter().print("<b>End date:</b>&nbsp; \n"
+                    + "                                        <span > "+endate+"\n"
+                    + "                                            <input name=\"edate\" value=\""+endate+"\" hidden=\"\">\n"
+                    + "                                        </span>");
+        } else {
             response.getWriter().print("Unlimited time");
         }
-        
+
     }
 
     /**

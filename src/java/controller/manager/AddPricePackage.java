@@ -73,6 +73,9 @@ public class AddPricePackage extends BaseAuthController {
         }
         PricePackageDBContext pricePackageDB = new PricePackageDBContext(); 
         pricePackageDB.updatePricePackageByCid(course);
+        // sau khi update thì hiện thông báo 
+        // Lưu message bằng session, hiện thị trong thì xóa nó đi 
+        request.getSession().setAttribute("addPricePackage_mess", "addPricePackage_mess");
         response.sendRedirect("../../admin/pricepackage/add?cid="+cid);
     }
 

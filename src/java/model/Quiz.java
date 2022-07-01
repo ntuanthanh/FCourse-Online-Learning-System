@@ -5,19 +5,22 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author thand
  */
 public class Quiz {
     private int id;
-    private String Descripsion;
-    private int Duration;
-    private String Name;
-    private float PassRate;
+    private String description;
+    private int duration;
+    private String name;
+    private float passRate;
     private Course course;
+    private QuizType quizType;
+    private ArrayList<Question> questions;
     private int QuizLevelId;
-    private int QuizTypeId;
 
     public int getId() {
         return id;
@@ -27,36 +30,36 @@ public class Quiz {
         this.id = id;
     }
 
-    public String getDescripsion() {
-        return Descripsion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripsion(String Descripsion) {
-        this.Descripsion = Descripsion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getDuration() {
-        return Duration;
+        return duration;
     }
 
-    public void setDuration(int Duration) {
-        this.Duration = Duration;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float getPassRate() {
-        return PassRate;
+        return passRate;
     }
 
-    public void setPassRate(float PassRate) {
-        this.PassRate = PassRate;
+    public void setPassRate(float passRate) {
+        this.passRate = passRate;
     }
 
     public Course getCourse() {
@@ -67,6 +70,22 @@ public class Quiz {
         this.course = course;
     }
 
+    public QuizType getQuizType() {
+        return quizType;
+    }
+
+    public void setQuizType(QuizType quizType) {
+        this.quizType = quizType;
+    }
+
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
+    }
+
     public int getQuizLevelId() {
         return QuizLevelId;
     }
@@ -75,13 +94,6 @@ public class Quiz {
         this.QuizLevelId = QuizLevelId;
     }
 
-    public int getQuizTypeId() {
-        return QuizTypeId;
-    }
-
-    public void setQuizTypeId(int QuizTypeId) {
-        this.QuizTypeId = QuizTypeId;
-    }
-    
+      
     
 }

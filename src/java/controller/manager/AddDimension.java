@@ -78,6 +78,9 @@ public class AddDimension extends BaseAuthController {
         }
        DimensionDBContext dimensionDB = new DimensionDBContext();
        dimensionDB.updateDimensionByCid(course);
+       // sau khi update thì hiện thông báo 
+       // Lưu message bằng session, hiện thị trong thì xóa nó đi 
+       request.getSession().setAttribute("addDimension_mess", "addDimension_mess");
        response.sendRedirect("../../admin/dimension/add?cid="+cid);
     }
 

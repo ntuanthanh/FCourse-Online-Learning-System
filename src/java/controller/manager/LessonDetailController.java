@@ -116,9 +116,9 @@ public class LessonDetailController extends HttpServlet {
                         order, selecttype);
             }
         }
-        request.getSession().setAttribute("successful", "successful");
+        request.getSession().setAttribute("Lesson_successful", "Lesson_successful");
         
-        String url = "subject/lesson?cid=" + cid;
+        String url = "LessonDetail?cid=" + cid;
         response.sendRedirect(url);
     }
 
