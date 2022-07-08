@@ -8,6 +8,7 @@ package controller.user;
 import dal.BlogDBContext;
 import dal.CategoryDBContext;
 import dal.CourseDBContext;
+import dal.ParentCategoryDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.Blog;
 import model.Category;
 import model.Course;
+import model.ParentCategory;
 
 /**
  *
@@ -66,7 +68,7 @@ public class BlogListController extends HttpServlet {
 
         CategoryDBContext cadb = new CategoryDBContext();
 
-        ArrayList<Category> cates = cadb.getAllCategory();
+        ArrayList<Category> cates = cadb.getCategorys();
         String title = request.getParameter("title");
         String[] cid_raw = request.getParameterValues("cateId");
         int[] cid = null;
@@ -90,6 +92,11 @@ public class BlogListController extends HttpServlet {
         int count = bdb.CountBlogList(cid, title, pageIndex, pageSize);
         int totalPage = (count % pageSize == 0) ? (count / pageSize) : (count / pageSize) + 1;
 
+        ParentCategoryDBContext padb = new ParentCategoryDBContext();
+        ArrayList<ParentCategory> pCates = padb.getParentCategory();
+        
+        //get categories
+        
         String url = "list?";
         String url_param = request.getQueryString(); //get parametter 
         if (url_param != null && url.length() > 0) {
@@ -102,21 +109,23 @@ public class BlogListController extends HttpServlet {
             }
             url += (url_param);
         }
-        boolean[] cidCheck = new boolean[cates.size()];
+        int []cidCheck = new int[cates.size()];
         for (int i = 0; i < cidCheck.length; i++) {
-            cidCheck[i] = ischeck(cates.get(i).getCategoryID(), cid); //finding category having check
+            cidCheck[i] = findcid(cates.get(i).getCategoryID(), cid); //finding category having check
         }
         CourseDBContext cdb = new CourseDBContext();
 
-        ArrayList<Course> coursesSlider = cdb.getCourseForSlider();
+      
         request.setAttribute("cidcheck",cidCheck);
-        request.setAttribute("coursesSlider", coursesSlider);
+        request.setAttribute("pCates", pCates);
+        request.setAttribute("title", title);
+        
+        
         request.setAttribute("url", url);
         request.setAttribute("totalpage", totalPage);
         request.setAttribute("pageindex", pageIndex);
-        request.setAttribute("categories", cates);
+        request.setAttribute("cates", cates);
         request.setAttribute("blogs", blogs);
-        
         
         request.getRequestDispatcher("../view/bloglist.jsp").forward(request, response);
 
@@ -157,5 +166,15 @@ public class BlogListController extends HttpServlet {
             }
         }
         return false;
+    }
+     int findcid(int id, int []x){
+        //is id in cids?  
+        if (x == null) return -1;
+        for (int i = 0; i < x.length; i++) {
+            if (id==x[i]){
+                return x[i];
+            }
+        }
+        return -1;
     }
 }

@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 18, 2022, 1:39:22 PM
+    Author     : tuann
+*/
+/*add moi hoan toan tuannghia*/
+.da-slide{
+	position: relative;
+}
+.da-slide h2,
+.da-slide p,
+.da-slide .da-link,
+.da-slide .da-img{
+	position: absolute;
+	opacity: 1;
+	left: 10%;
+}
+.da-slide .da-img{
+	left: 60%;
+}
+.da-dots,
+.da-arrows{
+	display: none;
+}
+

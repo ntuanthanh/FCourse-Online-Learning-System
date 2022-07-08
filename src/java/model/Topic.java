@@ -12,7 +12,7 @@ package model;
 public class Topic {
     private int id;
     private int topicOrder;
-    private String TopicName;
+    private String topicName;
     private String description;
 
     public Topic() {
@@ -35,12 +35,14 @@ public class Topic {
     }
 
     public String getTopicName() {
-        return TopicName;
+        return topicName;
     }
 
-    public void setTopicName(String TopicName) {
-        this.TopicName = TopicName;
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
     }
+
+   
 
     public String getDescription() {
         return description;

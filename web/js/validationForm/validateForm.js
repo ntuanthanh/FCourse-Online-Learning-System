@@ -90,6 +90,69 @@ function validateResetPassword(){
                }
             }
         });
-}  
+}
+function validateEditPricePackage(){
+    $('#validate-form-edit-pricepackage').validate({
+           rules:{
+               pname: {
+                   required:true,
+               },
+               duration: {
+                   required:true,
+                   number : true,
+                   min : 0,
+               },
+               listprice:{
+                   required:true,
+                   number : true,
+                   min : 0
+               },
+               saleprice:{
+                   required:true,
+                   number : true,
+                   min : 0
+               }
+           },
+           messages:{
+              pname: {
+                   required:"Enter the price package name - Don't leave it empty"
+               },
+               duration: {
+                   required: "Enter the duration ( month ) - Don't leave it empty",
+                   number : "Just enter the number",
+                   min : "Month must 1 ( number month )",
+               },
+               listprice:{
+                   required : "Enter the list price ($) - Don't leave it empty" ,
+                   number : "Just enter the number",
+                   min : "Price must >= 0$"
+               },
+               saleprice:{
+                   required : "Enter the sale price ($) - Don't leave it empty" ,
+                   number : "Just enter the number",
+                   min : "Price must >= 0$"
+               }
+            }
+   });    
+}
 
-
+function validateEditDimension(){
+    $('#validate-form-edit-dimension').validate({
+           rules:{
+               dname: {
+                   required:true,
+               },
+               description: {
+                   required:true,
+               }
+           },
+           messages:{
+              dname: {
+                   required:"Enter the dimension name - Don't leave it empty"
+               },
+               description: {
+                   required: "Enter the description - Don't leave it empty",               
+               }
+            }
+   });    
+}

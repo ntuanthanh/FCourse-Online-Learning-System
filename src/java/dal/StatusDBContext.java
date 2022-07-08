@@ -35,4 +35,27 @@ public class StatusDBContext extends DBContext{
         }
         return statuses;
     }
+    public Status getStatus(int sid)
+    {
+        
+        try {
+            
+            String sql ="select sid, sname from status where sid=?\n" ;
+            
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, sid);
+            
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                Status s = new Status();
+                s.setId(rs.getInt("sid"));
+                s.setName(rs.getString("sname"));
+                
+                return s;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StatusDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

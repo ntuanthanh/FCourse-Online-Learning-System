@@ -75,7 +75,7 @@
                 <c:if test="${requestScope.err != null || requestScope.err != ""}">
                    <p>${requestScope.err}</p>
                 </c:if>
-                <a class="back" href="${pageContext.request.contextPath}/home">Home</a>
+<!--                <a class="back" href="${pageContext.request.contextPath}/home">Home</a>-->
             </div>
         </section>
     </body>

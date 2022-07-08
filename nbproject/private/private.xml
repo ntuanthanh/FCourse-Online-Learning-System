@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
         <file>
             <url>src/java/dal/UserDBContext.java</url>
             <bookmark id="1">
                 <name/>
-                <line>37</line>
+                <line>38</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/java/controller/manager/AdminSubjectDetailController.java</url>
+            <bookmark id="2">
+                <name/>
+                <line>103</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/controller/user/EditProfileController.java</file>
-            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/dal/UserDBContext.java</file>
-            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/controller/authorization/LoginController.java</file>
-            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/controller/user/HomeController.java</file>
-            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/src/java/controller/user/UserProfileController.java</file>
-            <file>file:/C:/Users/pv/Desktop/OnlineLearning/summer2022-se1616-g4/web/view/user/profile_user.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

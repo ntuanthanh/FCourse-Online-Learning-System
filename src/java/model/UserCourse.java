@@ -18,8 +18,26 @@ public class UserCourse {
     private Date startDate;
     private Date endDate;
     private PricePackage pricePackage;
-    private boolean registration_status;
+    private Status registration_status;
+    private User createBy; 
+    private User updateBy; 
 
+    public User getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(User createBy) {
+        this.createBy = createBy;
+    }
+
+    public User getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(User updateBy) {
+        this.updateBy = updateBy;
+    }
+    
     public UserCourse() {
     }
 
@@ -71,13 +89,15 @@ public class UserCourse {
         this.pricePackage = pricePackage;
     }
 
-    public boolean isRegistration_status() {
+    public Status getRegistration_status() {
         return registration_status;
     }
 
-    public void setRegistration_status(boolean registration_status) {
+    public void setRegistration_status(Status registration_status) {
         this.registration_status = registration_status;
     }
+
+   
     
     
 }

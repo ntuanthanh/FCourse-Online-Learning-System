@@ -9,76 +9,166 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/98df298cac.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/blogdetail.css"/>
-    <title>Blog Detail|Edu-FCourse</title>
+
+	<!-- META ============================================= -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	
+	<!-- DESCRIPTION -->
+	<meta name="description" content="EduChamp : Education HTML Template" />
+	
+	<!-- OG -->
+	<meta property="og:title" content="EduChamp : Education HTML Template" />
+	<meta property="og:description" content="EduChamp : Education HTML Template" />
+	<meta property="og:image" content="" />
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- FAVICONS ICON ============================================= -->
+	<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- PAGE TITLE HERE ============================================= -->
+	<title>EduChamp : Education HTML Template </title>
+	
+	<!-- MOBILE SPECIFIC ============================================= -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.min.js"></script>
+	<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+	
+	<!-- All PLUGINS CSS ============================================= -->
+        
+        <link href="../assets/css/assets.css" rel="stylesheet" type="text/css"/>
+        <!-- TYPOGRAPHY ============================================= -->
+        <link href="../assets/css/typography.css" rel="stylesheet" type="text/css"/>
+
+        <!-- SHORTCODES ============================================= -->
+        <link href="../assets/css/shortcodes/shortcodes.css" rel="stylesheet" type="text/css"/>
+
+        <!-- STYLESHEETS ============================================= -->
+        <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
+        <link class="skin" rel="stylesheet" type="text/css" href="../assets/css/color/color-1.css">
+	<!-- BLOGDETAIL ============================================= -->
+        <link href="../css/blogdetail.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
-    <!-- Header side -->
-    <jsp:include page="base/header.jsp"/>
-    <!-- Content side -->
-    <div class="content">       
-        <div class="image-detail"><img src="../images/blogdetail/blogdetail.png" alt="" ></div>
-        <div class="grid">
-            <div class="row">
-                <div class="col-md-8 right" >
-                    <div class="thurmbnail">
-                        <img src="../images/blogdetail/${requestScope.blog.thumbnail}">
-                    </div>
-                    <div class="info">
-                        <div class="day"><a>${requestScope.blog.category.value} | </a><i class="fa-solid fa-calendar-days"></i> ${requestScope.blog.createdate}</div>
-                        <div class="poster">Author: ${requestScope.blog.user.fullName}</div>
-                    </div>
-                    <div class="details">
-                        <h1>${requestScope.blog.title}
-                        </h1>
-                        <p>${requestScope.blog.content}</p>
-                    </div>
-                    <div class="space"></div>
-                </div>
-                <div class="col-md-4 left" >
-                    <div class="box-search">
-                        <form action="list" method="GET" class="search-box" >
-                            <input name="title" type="text" placeholder="Enter Searching..." required>
-                            <button type="submit" class="search-icon" ><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
-                    <div class="sider-post">
-                        <h3>Categories Posts</h3>
-                        <div class="post-category">
-                            <c:forEach items="${requestScope.categories}" var="c">
-                                <p class="category-items"><a  href="list?cateId=${c.categoryID}">${c.value}</a></p>
-                            </c:forEach>
-                            
-                        </div>
-                    </div>
-                    <div class="sider-post">
-                        <h3>Recent Post</h3>
-                        <c:forEach items="${requestScope.blogs}" var="b">
-                            <a href="/summer2022-se1616-g4/blog/detail?bid=${b.id}">
-                                <div class="post">
-                                    <img src="../images/blogdetail/${b.thumbnail}" alt="" >
-                                    <div class="text-post">
-                                        <h5 style="margin-bottom: 0px; font-weight: bold; font-size: 15px">${b.title}</h5>
-                                        <p>${b.brief}</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </c:forEach>
-                        
-                    </div>
-                </div>
-            </div>
-      </div>
+<body id="bg">
+<div class="page-wraper">
+
+    <!-- Header Top ==== -->
+    <jsp:include page="../view/base/header_t.jsp" />
+    <!-- header END ==== -->
+    <!-- Content -->
+    <div class="page-content bg-white">
+        <!-- inner page banner -->
+        
+		<!-- Breadcrumb row -->
+		<div class="breadcrumb-row" >
+			
+		</div>
+		<!-- Breadcrumb row END -->
+        <div class="content-block">
+			<div class="section-area section-sp1">
+				<div class="container">
+					<div class="row">
+						<!-- Left part start -->
+						<div class="col-lg-8 col-xl-8">
+							<!-- blog start -->
+							<div class="recent-news blog-lg">
+								<div class="action-box blog-lg">
+                                                                    <img src="../images/blogdetail/${requestScope.blog.thumbnail}" alt=""/>
+								</div>
+								<div class="info-bx">
+									<ul class="media-post">
+                                                                            <li><a href="#"><i class="fa fa-calendar"></i>${requestScope.blog.createdate} |</a></li>
+                                                                            <li><a href="#"><i class="fa fa-user"></i>${requestScope.blog.user.fullName}</a></li>
+									</ul>
+									<h5 class="post-title"><a href="#">${requestScope.blog.title}</a></h5>
+                                                                        <p>${requestScope.blog.content}</p>
+									<div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
+								</div>
+							</div>
+							
+							<!-- blog END -->
+						</div>
+						<!-- Left part END -->
+						<!-- Side bar start -->
+						<div class="col-lg-4 col-xl-4">
+							<aside  class="side-bar sticky-top">
+								<div class="widget">
+									<h6 class="widget-title">Search</h6>
+									<div class="search-bx style-1">
+										<form role="search" method="post">
+											<div class="input-group">
+												<input name="text" class="form-control" placeholder="Enter your keywords..." type="text">
+												<span class="input-group-btn">
+													<button type="submit" class="fa fa-search text-primary"></button>
+												</span> 
+											</div>
+										</form>
+									</div>
+								</div>
+                                                                <div class="widget recent-posts-entry">
+									<h6 class="widget-title"> Recent Post</h6>
+                                                                        <c:forEach items="${requestScope.blogs}" var="b">
+                                                                            <div class="widget-post-bx">
+                                                                                    <div class="widget-post clearfix">
+                                                                                            <div class="ttr-post-media"> 
+                                                                                                <img src="../images/blogdetail/${b.thumbnail}" width="200" height="143" alt=""/>
+                                                                                            </div>
+                                                                                            <div class="ttr-post-info">
+                                                                                                    <div class="ttr-post-header">
+                                                                                                        <h6 class="post-title"><a href="../blog/detail?bid=${b.id}">${b.title}</a></h6>
+                                                                                                            
+                                                                                                    </div>
+                                                                                                    <ul class="media-post">
+                                                                                                            <li><a href="#"><i class="fa fa-calendar"></i>${b.createdate}</a></li>
+                                                                                                            <li><a href="#"><i class="fa fa-user"></i>${b.user.fullName}</a></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                    </div>
+                                                                            </div>    
+                                                                        </c:forEach>
+									
+								</div>
+								
+							</aside>
+						</div>
+						<!-- Side bar END -->
+					</div>
+				</div>
+			</div>
+        </div>
     </div>
-    <!-- footer side -->
-    <jsp:include page="../view/base/footer.jsp" /> 
+    <!-- Content END-->
+    <!-- footer side --> 
+    <jsp:include page="base/footer_t.jsp" /> 
+    <!-- scroll top button -->
+    <button class="back-to-top fa fa-chevron-up" ></button>
+</div>
+<!-- External JavaScripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+<script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+<script src="assets/vendors/counter/waypoints-min.js"></script>
+<script src="assets/vendors/counter/counterup.min.js"></script>
+<script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+<script src="assets/vendors/masonry/masonry.js"></script>
+<script src="assets/vendors/masonry/filter.js"></script>
+<script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+<script src="assets/js/functions.js"></script>
+<script src="assets/js/contact.js"></script>
+<script src='assets/vendors/switcher/switcher.js'></script>
 </body>
+
 </html>

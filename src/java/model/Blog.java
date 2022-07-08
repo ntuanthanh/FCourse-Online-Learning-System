@@ -18,6 +18,27 @@ public class Blog {
     private String thumbnail;
     private String title;
     private int categoryId;
+    private boolean feature;
+    private Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+    
+
+    public boolean isFeature() {
+        return feature;
+    }
+
+    public void setFeature(boolean feature) {
+        this.feature = feature;
+    }
+    
+    
 
     public Date getCreatedate() {
         return createdate;
@@ -54,6 +75,8 @@ public class Blog {
     public void setContent(String content) {
         this.content = content;
     }
+    
+    
 
     
 
