@@ -65,7 +65,11 @@ Show the list of users' registrations
 - The list can be sorted by id, email, registration time, subject, package, total cost, status, valid from, valid to
 ![image](https://user-images.githubusercontent.com/99120557/178031815-e9866958-0f90-477d-b950-65b9506e0345.png)
 ![image](https://user-images.githubusercontent.com/99120557/178032291-a4bb387f-0077-4083-a8ea-25553e1a0726.png)
-## 7. Lesson View ( In Progressing )
+## 7. Lesson View ( In Progressing ) ( Reference font end by Coursera - https://www.coursera.org/ )
 * Requirement: 
 Allow customer to access the course lessons for his/her studying
+![image](https://user-images.githubusercontent.com/99120557/180927142-3f95a427-5556-4b67-917b-39cff921411b.png)
+![image](https://user-images.githubusercontent.com/99120557/180927210-9dee4d95-f11b-4654-8655-f4d7781304e6.png)
+![image](https://user-images.githubusercontent.com/99120557/180927331-bbb39090-b49c-429a-87cd-80154208f933.png)
+![image](https://user-images.githubusercontent.com/99120557/180927444-0abf6cbd-bc79-440a-8c6a-0779b12908e9.png)
 
