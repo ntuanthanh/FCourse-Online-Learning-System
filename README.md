@@ -12,6 +12,7 @@
    ### * Role/Main Tasks : Member/Backend( Must complete all requirements assigned ( backend and fontend of Requirement )  )
    ### * Languages programing, libraries and frameworks : 
   - Java, JavaScript, Html, Css, Boostrap, Jquery, Ajax
+  ### * Link Video Description : https://www.youtube.com/watch?v=nbfL0xl7JkM&t=243s 
 # My features are assigned: 
 ## 1. User Profile
  * Requirement: This is a pop-up screen which allows the user to edit his/her profile information, including the registered ones & the avatar image. 
